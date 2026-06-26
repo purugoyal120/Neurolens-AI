@@ -16,7 +16,34 @@ Daltonization) to everyone. NeuroLens instead:
    - **Meaning replacement** — attach icons/patterns/text so meaning survives
      even if the color shift isn't perfect (✅ / ⚠ / ❌ instead of 🟢 / 🟡 / 🔴)
 
+## 🚀 How to Run Locally (For Judges & Reviewers)
+
+This repository follows industry-standard Git best practices. Temporary files like `node_modules`, Python `venv`, and SQLite databases are excluded via `.gitignore` for security and cleanliness.
+
+To run the project locally on your machine, follow these two quick steps:
+
+### 1. Start the FastAPI Backend
+```bash
+cd backend
+python -m venv venv
+# On Windows: .\venv\Scripts\activate | On Mac/Linux: source venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+*(The backend runs on `http://localhost:8000` with pre-configured SQLite schemas and audit logs).*
+
+### 2. Start the Vite React Web App
+```bash
+cd apps/vision-test-web
+npm install
+npm run dev
+```
+*(The UI runs on `http://localhost:5173` or `5174`).*
+
+---
+
 ## Monorepo layout
+
 
 ```
 neurolens-ai/
