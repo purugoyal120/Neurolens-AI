@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NeuroLens AI Excel Taskpane</title>
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            padding: 20px; 
+            background-color: #0F172A; 
+            color: #F8FAFC; 
+            margin: 0;
+        }
+        .header {
+            border-bottom: 1px solid #334155;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: #1E293B;
+            border: 1px solid #3B82F6;
+            color: #60A5FA;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #10B981;
+            border-radius: 50%;
+            margin-right: 6px;
+            box-shadow: 0 0 8px #10B981;
+        }
+        h2 { 
+            font-size: 24px; 
+            font-weight: 800; 
+            margin: 0 0 6px 0; 
+            color: #FFFFFF; 
+            background: linear-gradient(to right, #93C5FD, #C7D2FE, #FFFFFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p.subtitle { 
+            color: #94A3B8; 
+            font-size: 13px; 
+            line-height: 1.5;
+            margin: 0; 
+        }
+        .card {
+            background-color: #1E293B;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .card-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #94A3B8;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+        }
+        .value-highlight {
+            font-size: 18px;
+            font-weight: 800;
+            color: #60A5FA;
+            margin-bottom: 4px;
+        }
+        .sub-value {
+            font-size: 12px;
+            color: #10B981;
+            font-weight: 600;
+        }
+        .philosophy-box {
+            background-color: #020617;
+            border: 1px solid #10B981;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 12px;
+            color: #E2E8F0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .philosophy-title {
+            color: #34D399;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+        button { 
+            background: linear-gradient(135deg, #2563EB, #4F46E5); 
+            color: white; 
+            border: none; 
+            padding: 14px 20px; 
+            font-size: 15px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-weight: 700; 
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            transition: all 0.2s;
+        }
+        button:hover { 
+            background: linear-gradient(135deg, #1D4ED8, #4338CA); 
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+        button:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        .log-section {
+            margin-top: 24px;
+        }
+        .log-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #CBD5E1;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .log-box {
+            background-color: #090D16;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 12px;
+            max-height: 240px;
+            overflow-y: auto;
+            font-size: 12px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            color: #38BDF8;
+            line-height: 1.6;
+        }
+        .log-item {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #1E293B;
+        }
+        .log-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .log-meaning {
+            color: #34D399;
+            font-weight: bold;
+            display: block;
+            margin-top: 2px;
+        }
+        .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="tag">
+            <span class="dot"></span>
+            <span id="syncStatus">Connected to Web Report</span>
+        </div>
+        <h2>NeuroLens Excel</h2>
+        <p class="subtitle">Personalized Perception Engine for Spreadsheets</p>
+    </div>
+
+    <div class="card">
+        <div class="card-title">User Perception Profile</div>
+        <div id="deficiencyName" class="value-highlight">Deuteranomaly (Green-Weak)</div>
+        <div id="accuracySeverity" class="sub-value">85% Accuracy | Moderate Severity</div>
+    </div>
+
+    <div class="philosophy-box">
+        <div class="philosophy-title">🌿 Never Dependent on Color Alone</div>
+        "NeuroLens automatically shifts confusing spreadsheet fills to accessible shades AND injects explicit meaning labels (like [Active Growth] 📈 or [Critical Alert] ⚠) directly into the cells."
+    </div>
+
+    <button id="runTransform">Analyze & Transform Sheet</button>
+
+    <div class="log-section">
+        <div class="log-title">
+            <span>Live Transformation Log</span>
+            <span id="transformCount" style="color: #10B981;">0 adapted</span>
+        </div>
+        <div id="logBox" class="log-box">
+            <div class="log-item" style="color: #94A3B8;">Ready to analyze spreadsheet cells... Click above to start.</div>
+        </div>
+    </div>
+
+    <script src="taskpane.js?v=2026"></script>
+</body>
+</html>

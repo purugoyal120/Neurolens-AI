@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroLens Extension Test Page</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; background: #f8f9fa; }
+    h1 { margin-bottom: 30px; }
+    .card-container { display: flex; gap: 20px; }
+    .card {
+      padding: 20px;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      width: 150px;
+      text-align: center;
+      border: 4px solid transparent;
+    }
+    .success { background-color: #2ecc40; border-color: #1e8449; }
+    .warning { background-color: #f1c40f; border-color: #d4ac0d; }
+    .error { background-color: #e74c3c; border-color: #b03a2e; }
+    
+    .demo-text { margin-top: 40px; font-size: 18px; }
+    .text-red { color: red; font-weight: bold; }
+    .text-green { color: green; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>NeuroLens Test Page</h1>
+  <p>If the extension is loaded and enabled, the colors and text below should dynamically transform based on the default red-green profile!</p>
+  
+  <div class="card-container">
+    <div class="card success">
+      Success
+    </div>
+    <div class="card warning">
+      Warning
+    </div>
+    <div class="card error">
+      Error
+    </div>
+  </div>
+
+  <div class="demo-text">
+    Here is some <span class="text-red">red text</span> and some <span class="text-green">green text</span>.
+  </div>
+</body>
+</html>

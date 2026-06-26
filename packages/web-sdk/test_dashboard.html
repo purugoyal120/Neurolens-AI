@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroLens JS SDK Demo</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; background: #f8f9fa; }
+    .card { padding: 20px; border-radius: 8px; color: white; font-weight: bold; width: 250px; text-align: center; margin-bottom: 20px; }
+    .success { background-color: #2ecc40; }
+    .error { background-color: #e74c3c; }
+    .warning { background-color: #f1c40f; }
+  </style>
+</head>
+<body>
+  <h1>NeuroLens JS SDK Demo</h1>
+  <p>This is a simulated dashboard. Click Enable to initialize the NeuroLens Web SDK.</p>
+  <button id="enableBtn" style="padding: 10px 20px; font-size: 16px; margin-bottom: 30px;">Enable NeuroLens</button>
+  
+  <div class="card success">Revenue gain this month</div>
+  <div class="card error">System failure detected</div>
+  <div class="card warning">Nearing limit on storage</div>
+
+  <!-- Use ES modules for the demo -->
+  <script type="module">
+    import { NeuroLens } from './src/index.js';
+    
+    // Initialize SDK connected to local FastAPI ML backend
+    const lens = new NeuroLens({
+      apiUrl: "http://localhost:8000/api",
+      userId: "hackathon_demo_user",
+      profile: { deficiency_type: "red-green", severity: "moderate" } // Fallback
+    });
+
+    document.getElementById('enableBtn').addEventListener('click', async () => {
+      if (lens.isActive) {
+        lens.disable();
+        document.getElementById('enableBtn').textContent = "Enable NeuroLens";
+      } else {
+        await lens.enable();
+        document.getElementById('enableBtn').textContent = "Disable NeuroLens";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "neurolens-excel",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "office-addin-debugging start manifest.xml desktop"
+  },
+  "dependencies": {
+    "office-addin-debugging": "^6.1.1"
+  }
+}

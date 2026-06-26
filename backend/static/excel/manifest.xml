@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp 
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:type="TaskPaneApp">
+  <Id>6e54a52a-b0e5-46e1-b0b9-7148315921c5</Id>
+  <Version>1.0.0.3</Version>
+  <ProviderName>NeuroLens AI</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="NeuroLens AI"/>
+  <Description DefaultValue="Personalized accessibility layer for color-blind users in Excel."/>
+  <IconUrl DefaultValue="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" />
+  <HighResolutionIconUrl DefaultValue="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" />
+  <SupportUrl DefaultValue="http://localhost:8000/excel"/>
+  <AppDomains>
+    <AppDomain>http://localhost:8000</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Workbook" />
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="http://localhost:8000/excel/taskpane.html" />
+  </DefaultSettings>
+  <Permissions>ReadWriteDocument</Permissions>
+</OfficeApp>

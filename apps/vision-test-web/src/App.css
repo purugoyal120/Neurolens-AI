@@ -1,0 +1,192 @@
+/* --- NeuroLens AI Premium Application Styling --- */
+
+.app-container {
+  min-height: 100vh;
+  background-color: #030712;
+  color: #F8FAFC;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* --- Dynamic Living Background Orbs --- */
+.ambient-orb-top {
+  position: absolute;
+  top: -15%;
+  left: 10%;
+  width: 70vw;
+  height: 70vw;
+  max-width: 950px;
+  max-height: 950px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(99, 102, 241, 0.05) 45%, transparent 75%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  animation: pulseOrbTop 12s ease-in-out infinite alternate;
+}
+
+.ambient-orb-bottom {
+  position: absolute;
+  bottom: -10%;
+  right: 10%;
+  width: 65vw;
+  height: 65vw;
+  max-width: 900px;
+  max-height: 900px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(14, 165, 233, 0.04) 50%, transparent 80%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  animation: pulseOrbBottom 14s ease-in-out infinite alternate;
+}
+
+@keyframes pulseOrbTop {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.7; }
+  100% { transform: scale(1.1) translate(30px, 20px); opacity: 1; }
+}
+
+@keyframes pulseOrbBottom {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.7; }
+  100% { transform: scale(1.15) translate(-20px, -30px); opacity: 1; }
+}
+
+/* Premium Main Containers */
+.main-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+}
+
+/* --- Next-Gen Glassmorphic Hover Cards --- */
+.action-card {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.75rem;
+  padding: 2.5rem;
+  box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.action-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.8), rgba(16, 185, 129, 0.8), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.action-card:hover {
+  background: rgba(15, 23, 42, 0.85);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 22px 45px -10px rgba(0, 0, 0, 0.45), 0 0 32px rgba(59, 130, 246, 0.15);
+  transform: translateY(-5px) scale(1.005);
+}
+
+.action-card:hover::before {
+  opacity: 1;
+}
+
+/* --- Neon Pulse Badges --- */
+.badge-telemetry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 9999px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #93C5FD;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+  transition: all 0.3s ease;
+}
+
+.badge-telemetry:hover {
+  background: rgba(59, 130, 246, 0.25);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+}
+
+.badge-telemetry-emerald {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #6EE7B7;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+  transition: all 0.3s ease;
+}
+
+.badge-telemetry-emerald:hover {
+  background: rgba(16, 185, 129, 0.25);
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
+}
+
+/* --- Gorgeous Premium Elevate Cards --- */
+.hover-elevate {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hover-elevate:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4), 0 0 20px rgba(99, 102, 241, 0.15);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* --- Grid & Log Tables --- */
+.log-box {
+  background: rgba(2, 6, 23, 0.9);
+  border: 1px solid rgba(30, 41, 59, 0.9);
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.log-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+  color: #CBD5E1;
+  transition: all 0.2s ease;
+}
+
+.log-item:last-child {
+  border-bottom: none;
+}
+
+.log-item:hover {
+  color: #FFFFFF;
+  transform: translateX(4px);
+}

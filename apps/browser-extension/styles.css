@@ -1,0 +1,6 @@
+/* NeuroLens specific styles injected into the page */
+.neurolens-context-icon {
+  margin-right: 4px;
+  font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+  font-style: normal;
+}

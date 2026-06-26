@@ -1,0 +1,80 @@
+color_hex,text,element_type,parent_context,semantic_label
+#2ECC40,Good,badge,,success
+#28A745,Success,status,,success
+#27AE60,Passed,badge,Build Pipeline,success
+#22C55E,Active,chip,,success
+#2ECC40,Completed,,Task List,success
+#28A745,Approved,badge,Document Review,success
+#27AE60,Healthy,status,System Status,success
+#2ECC40,On Track,,Project Dashboard,success
+,Good,badge,,success
+,Success,,,success
+,Passed,,Build Pipeline,success
+,Verified,badge,,success
+,Resolved,,Support Ticket,success
+#2ECC40,,badge,,success
+#28A745,,status,,success
+#F39C12,Warning,badge,,warning
+#FFC107,Pending,status,,warning
+#E67E22,Needs Review,,Document Queue,warning
+#F59E0B,At Risk,badge,Project Health,warning
+#FFA500,Caution,,,warning
+#F39C12,Degraded,status,System Status,warning
+,Warning,,,warning
+,Pending,badge,,warning
+,Needs Review,,,warning
+,Expiring Soon,,License,warning
+,Delayed,,Shipment,warning
+#F39C12,,badge,,warning
+#FFC107,,status,,warning
+#E74C3C,Critical,badge,,error
+#DC3545,Error,status,,error
+#FF0000,Failed,,Build Pipeline,error
+#C0392B,Rejected,badge,Document Review,error
+#EF4444,Down,status,System Status,error
+#E74C3C,Blocked,,Task List,error
+,Critical,,,error
+,Error,,,error
+,Failed,,Build Pipeline,error
+,Invalid,badge,,error
+,Overdue,,Invoice,error
+,Denied,,Access Request,error
+#E74C3C,,badge,,error
+#DC3545,,status,,error
+#3498DB,Info,badge,,info
+#17A2B8,Note,status,,info
+#2980B9,In Progress,,Task List,info
+#3B82F6,Scheduled,badge,Calendar,info
+,Info,,,info
+,Note,,,info
+,In Progress,,,info
+,Draft,badge,Document,info
+#3498DB,,badge,,info
+#95A5A6,,,,neutral
+#7F8C8D,,,,neutral
+#9B59B6,,,,neutral
+,,,,neutral
+#95A5A6,Unknown,status,,neutral
+,Unknown,,,neutral
+#2ECC40,Revenue Gain,,Quarterly Revenue,success
+#E74C3C,Revenue Loss,,Quarterly Revenue,error
+,Revenue Gain,,,success
+,Revenue Loss,,,error
+#2ECC40,Profit Increased,,Financial Summary,success
+#E74C3C,Sales Declined,,Financial Summary,error
+,Earnings Grew,,,success
+,Margin Shortfall,,,error
+#95A5A6,Critical,badge,,error
+#2ECC40,Failed,,,error
+#F39C12,Good,,,success
+#E74C3C,On Track,,,success
+#9B59B6,Premium,badge,,neutral
+#E67E22,Pending,status,,warning
+#28A745,Compliant,badge,Audit,success
+#DC3545,Non-Compliant,badge,Audit,error
+,Outdated,,Software Version,warning
+,Up To Date,,Software Version,success
+#3498DB,Processing,status,,info
+#22C55E,Verified,badge,Identity Check,success
+#F59E0B,Unstable,status,System Health,warning
+#EF4444,Offline,status,System Health,error
