@@ -19,16 +19,16 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ current, total, timeRe
   return (
     <div className="w-full max-w-2xl mx-auto mb-8">
       <div className="flex justify-between items-end mb-2">
-        <div className="text-sm font-medium text-slate-300">
+        <div className="text-sm font-bold text-[#4a4455]">
           Question {current + 1} of {total}
         </div>
-        <div className={`text-sm font-bold ${isLowTime ? 'text-red-400 animate-pulse' : 'text-slate-300'}`}>
+        <div className={`text-sm font-bold ${isLowTime ? 'text-[#ba1a1a] animate-pulse' : 'text-[#4a4455]'}`}>
           ⏱ {formatTime(timeRemaining)}
         </div>
       </div>
-      <div className="h-3 w-full bg-slate-800 rounded-full overflow-hidden">
+      <div className="h-3 w-full bg-[#eae6f0] rounded-full overflow-hidden border border-[#ccc3d8]">
         <div
-          className="h-full bg-blue-500 rounded-full transition-all duration-300 ease-in-out"
+          className="h-full bg-[#8a4cfc] rounded-full transition-all duration-300 ease-in-out"
           style={{ width: `${percentage}%` }}
         />
       </div>

@@ -40,7 +40,7 @@ async function transformSheet() {
 
     btn.disabled = true;
     btn.innerHTML = `<span class="spinner"></span> Analyzing Excel Sheet...`;
-    logBox.innerHTML = `<div class="log-item" style="color: #94A3B8;">🟢 Scanning active worksheet cells in real-time...</div>`;
+    logBox.innerHTML = `<div class="log-item" style="color: #4a4455;">🟢 Scanning active worksheet cells in real-time...</div>`;
 
     try {
         await Excel.run(async (context) => {
@@ -50,7 +50,7 @@ async function transformSheet() {
             await context.sync();
 
             if (!range.values || range.values.length === 0) {
-                logBox.innerHTML = `<div class="log-item" style="color: #94A3B8;">✅ Sheet is empty. No cells to transform.</div>`;
+                logBox.innerHTML = `<div class="log-item" style="color: #4a4455;">✅ Sheet is empty. No cells to transform.</div>`;
                 return;
             }
 
@@ -112,13 +112,13 @@ async function transformSheet() {
                     console.error("Dashboard sync error", e); 
                 }
             } else {
-                logBox.innerHTML = `<div class="log-item" style="color: #94A3B8;">✅ Scan complete. No confusing color fills detected for ${userProfile.deficiency_type} profile.</div>`;
+                logBox.innerHTML = `<div class="log-item" style="color: #4a4455;">✅ Scan complete. No confusing color fills detected for ${userProfile.deficiency_type} profile.</div>`;
             }
         });
     } catch (error) {
         console.error("Excel transform error:", error);
         let errorMsg = error instanceof Error ? error.message : JSON.stringify(error);
-        logBox.innerHTML = `<div class="log-item" style="color: #F43F5E;">❌ Error during transformation: ${errorMsg}</div>`;
+        logBox.innerHTML = `<div class="log-item" style="color: #ba1a1a;">❌ Error during transformation: ${errorMsg}</div>`;
     } finally {
         btn.disabled = false;
         btn.innerText = "Analyze & Transform Sheet";

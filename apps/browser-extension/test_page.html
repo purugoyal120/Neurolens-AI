@@ -2,47 +2,283 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NeuroLens Extension Test Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuroLens Live Enterprise Simulator - Hackathon Test Page</title>
   <style>
-    body { font-family: sans-serif; padding: 40px; background: #f8f9fa; }
-    h1 { margin-bottom: 30px; }
-    .card-container { display: flex; gap: 20px; }
-    .card {
-      padding: 20px;
-      border-radius: 8px;
-      color: white;
-      font-weight: bold;
-      width: 150px;
-      text-align: center;
-      border: 4px solid transparent;
+    :root {
+      --bg-base: #0f172a;
+      --card-bg: #1e293b;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
     }
-    .success { background-color: #2ecc40; border-color: #1e8449; }
-    .warning { background-color: #f1c40f; border-color: #d4ac0d; }
-    .error { background-color: #e74c3c; border-color: #b03a2e; }
-    
-    .demo-text { margin-top: 40px; font-size: 18px; }
-    .text-red { color: red; font-weight: bold; }
-    .text-green { color: green; font-weight: bold; }
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      margin: 0;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid #3b82f6;
+      color: #60a5fa;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 42px;
+      font-weight: 900;
+      margin: 0 0 16px 0;
+      background: linear-gradient(to right, #93c5fd, #c7d2fe, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.03em;
+    }
+    .subtitle {
+      font-size: 18px;
+      color: var(--text-sub);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .tip-card {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid #10b981;
+      border-radius: 20px;
+      padding: 24px 32px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .tip-icon {
+      font-size: 36px;
+      background: rgba(16, 185, 129, 0.1);
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .tip-content h3 {
+      margin: 0 0 6px 0;
+      color: #34d399;
+      font-size: 20px;
+    }
+    .tip-content p {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 15px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #60a5fa;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 16px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    .item-row:last-child {
+      margin-bottom: 0;
+    }
+    .item-label {
+      font-weight: 600;
+      font-size: 15px;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .status-badge {
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    /* Original Problematic Colors (will be dynamically transformed by extension) */
+    .bg-problem-red { background-color: #e74c3c; color: white; }
+    .bg-problem-green { background-color: #2ecc40; color: white; }
+    .bg-problem-yellow { background-color: #f1c40f; color: #0f172a; }
+    .bg-problem-brown { background-color: #8b5e3c; color: white; }
+
+    .text-problem-red { color: #e74c3c; font-weight: bold; }
+    .text-problem-green { color: #2ecc40; font-weight: bold; }
+
+    .color-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-red { background-color: #e74c3c; box-shadow: 0 0 10px #e74c3c; }
+    .dot-green { background-color: #2ecc40; box-shadow: 0 0 10px #2ecc40; }
+    .dot-yellow { background-color: #f1c40f; box-shadow: 0 0 10px #f1c40f; }
+
+    .footer {
+      text-align: center;
+      padding-top: 40px;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-sub);
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
-  <h1>NeuroLens Test Page</h1>
-  <p>If the extension is loaded and enabled, the colors and text below should dynamically transform based on the default red-green profile!</p>
-  
-  <div class="card-container">
-    <div class="card success">
-      Success
+  <div class="container">
+    <div class="header">
+      <div class="badge">🌐 NeuroLens AI Hackathon Live Demo Simulator</div>
+      <h1>Test NeuroLens Extension Real-Time Adaptation</h1>
+      <p class="subtitle">Experience exactly how NeuroLens instantly replaces confusing status dots and colors with accessible palettes and explicit meaning tags.</p>
     </div>
-    <div class="card warning">
-      Warning
-    </div>
-    <div class="card error">
-      Error
-    </div>
-  </div>
 
-  <div class="demo-text">
-    Here is some <span class="text-red">red text</span> and some <span class="text-green">green text</span>.
+    <div class="tip-card">
+      <div class="tip-icon">💡</div>
+      <div class="tip-content">
+        <h3>How to test this live during the presentation:</h3>
+        <p>1. Open the <b>NeuroLens extension popup</b> from your browser toolbar.<br>
+           2. Toggle the <b>"Enable NeuroLens Live"</b> switch ON and OFF.<br>
+           3. Watch the problematic red/green badges and dots below instantly transform into High-Contrast Blue/Vibrant Amber with attached meaning labels (e.g. <code>[CRITICAL ALERT]</code> or <code>[SUCCESSFUL]</code>) without a hard page reload!</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- MOCK 1: Salesforce CRM Analytics -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span>📊</span> Salesforce Revenue Console</div>
+          <span style="color: #64748b; font-size: 13px;">Q3 Dashboard</span>
+        </div>
+        <div class="item-row">
+          <div class="item-label"><span class="color-dot dot-green"></span> Enterprise Contracts</div>
+          <div class="status-badge bg-problem-green">Growth Success</div>
+        </div>
+        <div class="item-row">
+          <div class="item-label"><span class="color-dot dot-red"></span> APAC Region Churn</div>
+          <div class="status-badge bg-problem-red">Critical Loss</div>
+        </div>
+        <div class="item-row">
+          <div class="item-label"><span class="color-dot dot-yellow"></span> Q4 Pipeline Estimate</div>
+          <div class="status-badge bg-problem-yellow">Caution Review</div>
+        </div>
+      </div>
+
+      <!-- MOCK 2: Crypto & Stock Trading View -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span>📈</span> Stock & Crypto Trading View</div>
+          <span style="color: #64748b; font-size: 13px;">Live Order Book</span>
+        </div>
+        <div class="item-row">
+          <div class="item-label"><span class="color-dot dot-green"></span> BTC/USDT Long Position</div>
+          <div class="status-badge bg-problem-green">Active Bullish</div>
+        </div>
+        <div class="item-row">
+          <div class="item-label"><span class="color-dot dot-red"></span> ETH/USDT Short Order</div>
+          <div class="status-badge bg-problem-red">Stop Danger</div>
+        </div>
+        <div class="item-row">
+          <div class="item-label"><span class="color-dot dot-green"></span> SOL/USDT Spot Buy</div>
+          <div class="status-badge bg-problem-green">Success Complete</div>
+        </div>
+      </div>
+
+      <!-- MOCK 3: DevOps Server Monitoring -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span>⚡</span> AWS Server Health Console</div>
+          <span style="color: #64748b; font-size: 13px;">us-east-1 Cluster</span>
+        </div>
+        <div class="item-row">
+          <div class="item-label"><span class="color-dot dot-red"></span> Authentication Gateway</div>
+          <div class="status-badge bg-problem-red">Server Error</div>
+        </div>
+        <div class="item-row">
+          <div class="item-label"><span class="color-dot dot-green"></span> Main Database Replica</div>
+          <div class="status-badge bg-problem-green">Operational Success</div>
+        </div>
+        <div class="item-row">
+          <div class="item-label"><span class="color-dot dot-yellow"></span> Redis Cache Memory</div>
+          <div class="status-badge bg-problem-yellow">Warning Limit</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOCK 4: Inline Text Document Simulation -->
+    <div class="card" style="margin-bottom: 50px;">
+      <div class="card-header">
+        <div class="card-title"><span>📝</span> Enterprise Spreadsheet Status Simulation</div>
+        <span style="color: #64748b; font-size: 13px;">Raw Cell Content</span>
+      </div>
+      <p style="font-size: 16px; line-height: 1.8; color: #cbd5e1;">
+        In typical enterprise tools, users often encounter text styled directly with confusing colors, such as <span class="text-problem-red">Error: Budget Deficit Exceeded</span> or <span class="text-problem-green">Success: Milestone Phase 1 Done</span>. When NeuroLens is active, it detects these exact phrases, shifts the font colors to high-contrast accessible variants, and automatically inserts inline meaning badges directly adjacent to the text!
+      </p>
+    </div>
+
+    <div class="footer">
+      NeuroLens AI Personalized Accessibility Engine • Built for Human-Centric UI Adaptation
+    </div>
   </div>
 </body>
 </html>

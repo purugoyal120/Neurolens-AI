@@ -18,6 +18,7 @@ interface VisionTestContextType extends VisionTestState {
   submitAnswer: (questionId: string, optionId: string, timeTakenMs: number) => void;
   retreatQuestion: () => void;
   finishTest: () => Promise<void>;
+  resetTest: () => Promise<void>;
 }
 
 const VisionTestContext = createContext<VisionTestContextType | undefined>(undefined);
@@ -30,8 +31,14 @@ export const useVisionTest = () => {
   return context;
 };
 
-// Default backend URL, configurable via env
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+// Dynamic backend URL resolver supporting local dev servers, mobile hotspots, and public tunnels (localtunnel/ngrok)
+const getApiBase = () => {
+  if (window.location.port === '5173') {
+    return `http://${window.location.hostname}:8000/api`;
+  }
+  return `${window.location.origin}/api`;
+};
+const API_URL = import.meta.env.VITE_API_URL || getApiBase();
 
 export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [state, setState] = useState<VisionTestState>({
@@ -41,8 +48,8 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
     answers: [],
     result: null,
     error: null,
-    timeRemaining: 120, // 2 minutes default
-    userId: "hackathon_demo_user", // Fixed user ID for hackathon cross-platform sync
+    timeRemaining: 120,
+    userId: "hackathon_demo_user",
   });
 
   // Timer logic
@@ -53,7 +60,6 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
         setState((prev) => {
           if (prev.timeRemaining <= 1) {
             clearInterval(timer);
-            // Auto finish when timer runs out
             setTimeout(() => finishTest(), 0);
             return { ...prev, timeRemaining: 0 };
           }
@@ -65,31 +71,33 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
   }, [state.status, state.timeRemaining]);
 
   const startTest = async (userId?: string) => {
-    setState((prev) => ({ ...prev, status: 'loading', error: null, userId: userId || prev.userId }));
+    const nextState = { status: 'loading' as const, error: null, userId: userId || state.userId };
+    setState((prev) => ({ ...prev, ...nextState }));
+
     try {
-      const response = await fetch(`${API_URL}/vision-test/start`, {
-        method: 'POST',
-      });
+      const response = await fetch(`${API_URL}/vision-test/start`, { method: 'POST' });
       if (!response.ok) throw new Error('Failed to start test');
       const config: VisionTestConfig = await response.json();
       
-      setState((prev) => ({
-        ...prev,
-        status: 'testing',
+      const activeState = {
+        status: 'testing' as const,
         config,
         currentQuestionIndex: 0,
         answers: [],
         timeRemaining: config.time_limit_seconds || 120,
-      }));
+      };
+      setState((prev) => ({ ...prev, ...activeState }));
     } catch (err) {
-      setState((prev) => ({ ...prev, status: 'error', error: err instanceof Error ? err.message : 'Unknown error' }));
+      const errState = { status: 'error' as const, error: err instanceof Error ? err.message : 'Unknown error' };
+      setState((prev) => ({ ...prev, ...errState }));
     }
   };
 
   const submitAnswer = (questionId: string, optionId: string, timeTakenMs: number) => {
     setState((prev) => {
+      if (!prev.config || prev.status === 'submitting') return prev;
+
       const newAnswers = [...prev.answers];
-      // Update if already answered this question
       const existingIdx = newAnswers.findIndex((a) => a.question_id === questionId);
       if (existingIdx >= 0) {
         newAnswers[existingIdx] = { question_id: questionId, selected_option_id: optionId, response_time_ms: timeTakenMs };
@@ -98,6 +106,39 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
       }
 
       const nextIndex = prev.currentQuestionIndex + 1;
+
+      // Automatically submit when the last question is answered to prevent state batching race conditions
+      if (nextIndex >= prev.config.questions.length) {
+        const submitData = async (answersToSubmit: UserAnswer[], testId: string, uid: string) => {
+          try {
+            const response = await fetch(`${API_URL}/vision-test/submit`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                user_id: uid,
+                test_id: testId,
+                answers: answersToSubmit,
+              }),
+            });
+            
+            if (!response.ok) throw new Error('Failed to submit test results');
+            const result: SubmitVisionTestOut = await response.json();
+            
+            setState((s) => ({ ...s, status: 'completed', result }));
+          } catch (err) {
+            setState((s) => ({ ...s, status: 'error', error: err instanceof Error ? err.message : 'Submit failed' }));
+          }
+        };
+
+        submitData(newAnswers, prev.config.test_id, prev.userId);
+        return {
+          ...prev,
+          answers: newAnswers,
+          currentQuestionIndex: nextIndex,
+          status: 'submitting',
+        };
+      }
+
       return {
         ...prev,
         answers: newAnswers,
@@ -107,44 +148,27 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
   };
 
   const retreatQuestion = () => {
-    setState((prev) => ({
-      ...prev,
-      currentQuestionIndex: Math.max(0, prev.currentQuestionIndex - 1),
-    }));
+    setState((prev) => {
+      const nextIndex = Math.max(0, prev.currentQuestionIndex - 1);
+      return { ...prev, currentQuestionIndex: nextIndex };
+    });
   };
 
   const finishTest = async () => {
-    // Current state might be stale in a callback, use functional update for safety but we need the latest state
-    setState((prev) => {
-      if (prev.status === 'submitting') return prev; // prevent double submit
-      
-      // We must run async task, so we set status first
-      const submitData = async (answersToSubmit: UserAnswer[], testId: string, uid: string) => {
-        try {
-          const response = await fetch(`${API_URL}/vision-test/submit`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              user_id: uid,
-              test_id: testId,
-              answers: answersToSubmit,
-            }),
-          });
-          
-          if (!response.ok) throw new Error('Failed to submit test results');
-          const result: SubmitVisionTestOut = await response.json();
-          
-          setState((s) => ({ ...s, status: 'completed', result }));
-        } catch (err) {
-          setState((s) => ({ ...s, status: 'error', error: err instanceof Error ? err.message : 'Submit failed' }));
-        }
-      };
+    // Handled automatically inside submitAnswer to prevent race conditions and duplicate API calls
+  };
 
-      if (prev.config) {
-        submitData(prev.answers, prev.config.test_id, prev.userId);
-      }
-      return { ...prev, status: 'submitting' };
-    });
+  const resetTest = async () => {
+    const idleState = {
+      status: 'idle' as const,
+      config: null,
+      currentQuestionIndex: 0,
+      answers: [],
+      result: null,
+      error: null,
+      timeRemaining: 120,
+    };
+    setState((prev) => ({ ...prev, ...idleState }));
   };
 
   return (
@@ -155,7 +179,8 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
         submitAnswer,
         retreatQuestion,
         finishTest,
-      }}
+        resetTest,
+      } as any}
     >
       {children}
     </VisionTestContext.Provider>

@@ -145,3 +145,22 @@ chrome.storage.local.get(['enabled', 'visionProfile'], (result) => {
     observer.observe(document.body, { childList: true, subtree: true });
   }
 });
+
+// Listen for dynamic toggle/profile updates from popup
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (namespace === 'local') {
+    if (changes.enabled !== undefined) {
+      isActive = changes.enabled.newValue !== false;
+    }
+    if (changes.visionProfile !== undefined) {
+      currentProfile = changes.visionProfile.newValue || currentProfile;
+    }
+    if (isActive) {
+      applyNeuroLens();
+      observer.observe(document.body, { childList: true, subtree: true });
+    } else {
+      observer.disconnect();
+      processElement(document.body); // Reverts to original styles
+    }
+  }
+});

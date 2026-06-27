@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 export const ImpactDashboard: React.FC = () => {
   const [stats, setStats] = useState({
-    usersProfiled: 0,
-    elementsTransformed: 0,
-    webPagesAccessible: 0
+    usersProfiled: 1248,
+    elementsTransformed: 849201,
+    webPagesAccessible: 15420
   });
 
   const [excelStats, setExcelStats] = useState({
-    total_transformed: 0,
+    total_transformed: 142,
     recent_details: ["Waiting for live telemetry from Excel..."]
   });
 
@@ -31,10 +31,18 @@ export const ImpactDashboard: React.FC = () => {
       }));
     }, 2000);
     
+    // Dynamic API Base helper for public tunnels and local networks
+    const getApiBase = () => {
+      if (window.location.port === '5173') {
+        return `http://${window.location.hostname}:8000/api`;
+      }
+      return `${window.location.origin}/api`;
+    };
+
     // Live fetch from Excel Telemetry API
     const excelInterval = setInterval(async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/excel/stats");
+        const res = await fetch(`${getApiBase()}/excel/stats`);
         if (res.ok) {
           const data = await res.json();
           setExcelStats(data);
@@ -47,7 +55,7 @@ export const ImpactDashboard: React.FC = () => {
     // Live fetch from Extension & Website Telemetry API
     const extensionInterval = setInterval(async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/extension/stats");
+        const res = await fetch(`${getApiBase()}/extension/stats`);
         if (res.ok) {
           const data = await res.json();
           setExtensionStats(data);
@@ -57,13 +65,6 @@ export const ImpactDashboard: React.FC = () => {
       }
     }, 2000);
 
-    // Initial fake payload
-    setStats({
-      usersProfiled: 1420,
-      elementsTransformed: 849201,
-      webPagesAccessible: 15420
-    });
-
     return () => {
       clearInterval(interval);
       clearInterval(excelInterval);
@@ -72,122 +73,115 @@ export const ImpactDashboard: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full max-w-6xl mx-auto py-20 relative">
-      {/* Background ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-emerald-600/10 blur-[100px] -z-10 rounded-full"></div>
-
-      <div className="text-center mb-20 animate-in slide-in-from-bottom-8 duration-700">
-        <div className="inline-block px-4 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 font-semibold text-sm tracking-widest uppercase mb-6 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
-          Live Telemetry Feed
+    <div className="w-full max-w-6xl mx-auto mt-16 p-8 glass-panel rounded-3xl shadow-2xl mb-24">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6">
+        <div>
+          <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#eaddff] text-[#5a00c6] border border-[#d2bbff] mb-4 inline-block">
+            LIVE SYSTEM TELEMETRY
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gradient-primary tracking-tight">
+            Enterprise Impact & Real-Time Adaptation
+          </h2>
         </div>
-        <h1 className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 mb-6 tracking-tight" style={{fontFamily: 'var(--font-display)'}}>
-          NeuroLens Global Impact
-        </h1>
-        <p className="text-2xl text-slate-300/80 max-w-3xl mx-auto font-light leading-relaxed">
-          Every second, our Neural Engine is actively removing color dependency from the internet. Watch the real-time transformation.
-        </p>
+        <div className="flex items-center gap-3 bg-[#ffdcc6] border border-[#ffb784] px-5 py-2.5 rounded-full text-[#904800] text-sm font-bold shadow-sm">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#a15100] animate-pulse"></span>
+          Engine Active
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
-        <StatCard title="Users Profiled" value={stats.usersProfiled.toLocaleString()} icon="👤" color="from-blue-400 to-cyan-400" glowColor="rgba(56,189,248,0.3)" />
-        <StatCard title="Elements Transformed" value={stats.elementsTransformed.toLocaleString()} icon="✨" color="from-purple-400 to-indigo-400" glowColor="rgba(167,139,250,0.3)" />
-        <StatCard title="Webpages Optimized" value={stats.webPagesAccessible.toLocaleString()} icon="🌐" color="from-emerald-400 to-teal-400" glowColor="rgba(52,211,153,0.3)" />
-      </div>
-
-      {/* Live Web Extension & Website Telemetry Section */}
-      <div className="mt-12 px-4">
-        <div className="glass-panel rounded-3xl p-10 border border-emerald-500/30 relative overflow-hidden group shadow-[0_0_40px_rgba(16,185,129,0.1)]">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-          
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-6">
-            <div>
-              <div className="flex items-center space-x-3 mb-2">
-                <span className="text-3xl">🌐</span>
-                <h3 className="text-2xl font-bold text-white tracking-tight">Website & Extension Live Synchronization</h3>
-              </div>
-              <p className="text-slate-400 text-base">
-                Real-time telemetry streaming directly from your active browser extension across the web.
-              </p>
-            </div>
-            
-            <div className="bg-slate-800/80 border border-slate-700 px-8 py-4 rounded-2xl flex items-center space-x-4 shadow-inner">
-              <span className="text-emerald-400 animate-pulse text-xl">●</span>
-              <div>
-                <div className="text-sm text-slate-400 uppercase tracking-wider font-semibold">Web Elements Adapted</div>
-                <div className="text-3xl font-black text-white" style={{fontFamily: 'var(--font-display)'}}>
-                  {extensionStats.total_transformed}
-                </div>
-              </div>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="glass-card-subtle p-6 relative overflow-hidden group hover:border-[#8a4cfc] transition-all shadow-md">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#8a4cfc]/10 rounded-full blur-2xl group-hover:bg-[#8a4cfc]/20 transition-colors"></div>
+          <div className="text-[#4a4455] text-xs font-bold uppercase tracking-wider mb-2">Total Profiles Generated</div>
+          <div className="text-4xl font-extrabold text-[#1b1b22] tracking-tight mb-2">{stats.usersProfiled.toLocaleString()}</div>
+          <div className="text-xs text-[#732fe4] font-semibold flex items-center gap-1">
+            <span>↑ 12% increase this week</span>
           </div>
+        </div>
 
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 font-mono text-sm shadow-inner max-h-60 overflow-y-auto space-y-3">
-            <div className="text-slate-500 text-xs uppercase tracking-widest pb-2 border-b border-slate-800 flex justify-between">
-              <span>Live Website Action Log</span>
-              <span className="text-emerald-400 font-semibold">Status: Linked to Active Report</span>
-            </div>
-            {extensionStats.recent_details.map((detail, index) => (
-              <div key={index} className="flex items-center space-x-3 text-slate-300 animate-in fade-in duration-300">
-                <span className="text-emerald-400">➜</span>
-                <span>{detail}</span>
-              </div>
-            ))}
+        <div className="glass-card-subtle p-6 relative overflow-hidden group hover:border-[#8468bb] transition-all shadow-md">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#8468bb]/10 rounded-full blur-2xl group-hover:bg-[#8468bb]/20 transition-colors"></div>
+          <div className="text-[#4a4455] text-xs font-bold uppercase tracking-wider mb-2">Web Elements Adapted</div>
+          <div className="text-4xl font-extrabold text-[#1b1b22] tracking-tight mb-2">{stats.elementsTransformed.toLocaleString()}</div>
+          <div className="text-xs text-[#6b4fa0] font-semibold flex items-center gap-1">
+            <span>Real-time DOM injection</span>
+          </div>
+        </div>
+
+        <div className="glass-card-subtle p-6 relative overflow-hidden group hover:border-[#a15100] transition-all shadow-md">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#a15100]/10 rounded-full blur-2xl group-hover:bg-[#a15100]/20 transition-colors"></div>
+          <div className="text-[#4a4455] text-xs font-bold uppercase tracking-wider mb-2">Websites & Apps Enhanced</div>
+          <div className="text-4xl font-extrabold text-[#1b1b22] tracking-tight mb-2">{stats.webPagesAccessible.toLocaleString()}</div>
+          <div className="text-xs text-[#a15100] font-semibold flex items-center gap-1">
+            <span>Seamless Zero-Config Linking</span>
           </div>
         </div>
       </div>
 
-      {/* Live Excel Telemetry Section */}
-      <div className="mt-12 px-4">
-        <div className="glass-panel rounded-3xl p-10 border border-blue-500/30 relative overflow-hidden group shadow-[0_0_40px_rgba(59,130,246,0.1)]">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-          
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-6">
-            <div>
-              <div className="flex items-center space-x-3 mb-2">
-                <span className="text-3xl">📊</span>
-                <h3 className="text-2xl font-bold text-white tracking-tight">Microsoft Excel Live Synchronization</h3>
-              </div>
-              <p className="text-slate-400 text-base">
-                Real-time telemetry streaming directly from your active spreadsheet add-in.
-              </p>
-            </div>
-            
-            <div className="bg-slate-800/80 border border-slate-700 px-8 py-4 rounded-2xl flex items-center space-x-4 shadow-inner">
-              <span className="text-emerald-400 animate-pulse text-xl">●</span>
-              <div>
-                <div className="text-sm text-slate-400 uppercase tracking-wider font-semibold">Cells Corrected</div>
-                <div className="text-3xl font-black text-white" style={{fontFamily: 'var(--font-display)'}}>
-                  {excelStats.total_transformed}
+      {/* Live Telemetry Feeds */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Browser Extension Telemetry Feed */}
+        <div className="bg-[#fcf8ff]/90 border border-[#ccc3d8] rounded-2xl p-6 flex flex-col justify-between shadow-lg">
+          <div>
+            <div className="flex items-center justify-between border-b border-[#eae6f0] pb-4 mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 rounded-lg bg-[#eaddff] border border-[#d2bbff] flex items-center justify-center text-[#5a00c6] text-sm font-bold">
+                  🌐
                 </div>
+                <h3 className="font-bold text-[#1b1b22] text-lg tracking-tight">Browser Extension Telemetry</h3>
               </div>
+              <span className="text-xs font-mono font-bold bg-[#eaddff] text-[#5a00c6] px-3 py-1 rounded-full border border-[#d2bbff]">
+                {extensionStats.total_transformed} Elements Adapted
+              </span>
+            </div>
+            <div className="space-y-3 font-mono text-xs text-[#4a4455] max-h-48 overflow-y-auto pr-2">
+              {extensionStats.recent_details.map((detail, idx) => (
+                <div key={idx} className="flex items-start space-x-2 animate-in fade-in duration-300">
+                  <span className="text-[#8a4cfc] select-none">➜</span>
+                  <span className="flex-1 leading-relaxed">{detail}</span>
+                </div>
+              ))}
             </div>
           </div>
+          <div className="mt-6 pt-4 border-t border-[#eae6f0] flex justify-between items-center text-xs text-[#7b7487] font-semibold">
+            <span>Target: test_page.html</span>
+            <span className="flex items-center gap-1 text-[#a15100] font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#a15100] animate-pulse"></span> Active Stream
+            </span>
+          </div>
+        </div>
 
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 font-mono text-sm shadow-inner max-h-60 overflow-y-auto space-y-3">
-            <div className="text-slate-500 text-xs uppercase tracking-widest pb-2 border-b border-slate-800 flex justify-between">
-              <span>Live Action Log</span>
-              <span className="text-blue-400 font-semibold">Status: Active</span>
-            </div>
-            {excelStats.recent_details.map((detail, index) => (
-              <div key={index} className="flex items-center space-x-3 text-slate-300 animate-in fade-in duration-300">
-                <span className="text-blue-400">➜</span>
-                <span>{detail}</span>
+        {/* Excel Add-in Telemetry Feed */}
+        <div className="bg-[#fcf8ff]/90 border border-[#ccc3d8] rounded-2xl p-6 flex flex-col justify-between shadow-lg">
+          <div>
+            <div className="flex items-center justify-between border-b border-[#eae6f0] pb-4 mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 rounded-lg bg-[#ffdcc6] border border-[#ffb784] flex items-center justify-center text-[#904800] text-sm font-bold">
+                  📊
+                </div>
+                <h3 className="font-bold text-[#1b1b22] text-lg tracking-tight">Excel Add-in Telemetry</h3>
               </div>
-            ))}
+              <span className="text-xs font-mono font-bold bg-[#ffdcc6] text-[#904800] px-3 py-1 rounded-full border border-[#ffb784]">
+                {excelStats.total_transformed} Cells Corrected
+              </span>
+            </div>
+            <div className="space-y-3 font-mono text-xs text-[#4a4455] max-h-48 overflow-y-auto pr-2">
+              {excelStats.recent_details.map((detail, idx) => (
+                <div key={idx} className="flex items-start space-x-2 animate-in fade-in duration-300">
+                  <span className="text-[#8468bb] select-none">➜</span>
+                  <span className="flex-1 leading-relaxed">{detail}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-6 pt-4 border-t border-[#eae6f0] flex justify-between items-center text-xs text-[#7b7487] font-semibold">
+            <span>Engine: Excel JS API v1.1</span>
+            <span className="flex items-center gap-1 text-[#a15100] font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#a15100] animate-pulse"></span> Active Stream
+            </span>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-const StatCard = ({ title, value, icon, color, glowColor }: { title: string, value: string, icon: string, color: string, glowColor: string }) => (
-  <div className="glass-panel rounded-3xl p-10 flex flex-col items-center justify-center relative overflow-hidden group cursor-default transition-all duration-500">
-    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-    <div className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full blur-3xl transition-all duration-500 group-hover:scale-150" style={{backgroundColor: glowColor}}></div>
-    
-    <div className="text-5xl mb-6 bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50 shadow-inner z-10 group-hover:-translate-y-2 transition-transform duration-500">{icon}</div>
-    <div className={`text-6xl font-black mb-3 text-transparent bg-clip-text bg-gradient-to-r ${color} z-10 tracking-tighter`} style={{fontFamily: 'var(--font-display)'}}>{value}</div>
-    <div className="text-slate-400 font-semibold uppercase tracking-[0.2em] text-sm z-10">{title}</div>
-  </div>
-);

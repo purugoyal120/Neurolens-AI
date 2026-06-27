@@ -31,3 +31,24 @@ def get_vision_profile(user_id: str, db: Session = Depends(get_db)) -> VisionPro
     if profile is None:
         raise HTTPException(status_code=404, detail="No vision profile found for this user. Take the test first.")
     return profile
+
+
+# Global hackathon demo state sync across all devices
+demo_state = {
+    "status": "idle",
+    "config": None,
+    "currentQuestionIndex": 0,
+    "answers": [],
+    "result": None,
+    "timeRemaining": 120
+}
+
+@router.get("/demo/state")
+def get_demo_state() -> dict:
+    return demo_state
+
+@router.post("/demo/state")
+def update_demo_state(new_state: dict) -> dict:
+    global demo_state
+    demo_state.update(new_state)
+    return demo_state

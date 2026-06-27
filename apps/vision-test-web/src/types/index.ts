@@ -65,6 +65,18 @@ export interface VisionProfile {
   ai_explanation?: string;
   created_at: string;
   updated_at: string;
+  percent_accuracy?: number;
+  deficiency_name?: string;
+  clinical_diagnosis?: string;
+  color_confusion_status?: string;
+  meaning_based_transformations?: Array<{
+    target_type: string;
+    appended_label: string;
+    safe_hex: string;
+  }>;
+  risk_areas?: string[];
+  personal_impact?: any;
+  [key: string]: any;
 }
 
 export interface ScoreSummary {

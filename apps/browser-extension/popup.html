@@ -7,69 +7,76 @@
     body { 
       width: 320px; 
       padding: 20px; 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      background-color: #0F172A; 
-      color: #F8FAFC; 
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      background-color: #fcf8ff; 
+      color: #1b1b22; 
       margin: 0; 
     }
     .header {
-      border-bottom: 1px solid #334155;
+      border-bottom: 1px solid #ccc3d8;
       padding-bottom: 14px;
       margin-bottom: 18px;
     }
     .tag {
       display: inline-flex;
       align-items: center;
-      background-color: #1E293B;
-      border: 1px solid #3B82F6;
-      color: #60A5FA;
-      padding: 4px 10px;
+      background-color: #eaddff;
+      border: 1px solid #d2bbff;
+      color: #5a00c6;
+      padding: 6px 12px;
       border-radius: 9999px;
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 12px;
+      box-shadow: 0 2px 4px rgba(112, 43, 226, 0.1);
     }
     .dot {
       width: 8px;
       height: 8px;
-      background-color: #10B981;
+      background-color: #a15100;
       border-radius: 50%;
-      margin-right: 6px;
-      box-shadow: 0 0 8px #10B981;
+      margin-right: 8px;
+      box-shadow: 0 0 8px #a15100;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+      100% { opacity: 1; transform: scale(1); }
     }
     .dot-locked {
-      background-color: #EF4444;
-      box-shadow: 0 0 8px #EF4444;
+      background-color: #ba1a1a;
+      box-shadow: 0 0 8px #ba1a1a;
+      animation: none;
     }
     h2 { 
       font-size: 22px; 
       font-weight: 800; 
       margin: 0 0 4px 0; 
-      color: #FFFFFF; 
-      background: linear-gradient(to right, #93C5FD, #C7D2FE, #FFFFFF);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #702be2; 
+      letter-spacing: -0.02em;
     }
     p.subtitle { 
-      color: #94A3B8; 
+      color: #4a4455; 
       font-size: 13px; 
       line-height: 1.5;
       margin: 0; 
+      font-weight: 500;
     }
     .card {
-      background-color: #1E293B;
-      border: 1px solid #334155;
-      border-radius: 12px;
+      background-color: #f6f2fc;
+      border: 1px solid #ccc3d8;
+      border-radius: 16px;
       padding: 16px;
       margin-bottom: 18px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(138, 76, 252, 0.05);
     }
     .card-title {
       font-size: 11px;
       font-weight: 700;
-      color: #94A3B8;
+      color: #6b4fa0;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-bottom: 10px;
@@ -77,79 +84,86 @@
     .value-highlight {
       font-size: 17px;
       font-weight: 800;
-      color: #60A5FA;
-      margin-bottom: 4px;
+      color: #702be2;
+      margin-bottom: 6px;
     }
     .sub-value {
       font-size: 12px;
-      color: #10B981;
-      font-weight: 600;
+      color: #a15100;
+      font-weight: 700;
     }
     .toggle-container { 
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
       padding: 14px 16px; 
-      background: #1E293B; 
-      border: 1px solid #334155;
-      border-radius: 12px; 
+      background: #f6f2fc; 
+      border: 1px solid #ccc3d8;
+      border-radius: 16px; 
       margin-bottom: 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
     .switch { position: relative; display: inline-block; width: 44px; height: 26px; }
     .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .4s; border-radius: 26px; }
-    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-    input:checked + .slider { background-color: #3B82F6; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc3d8; transition: .4s; border-radius: 26px; }
+    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    input:checked + .slider { background-color: #8a4cfc; }
     input:checked + .slider:before { transform: translateX(18px); }
     .locked-state, .unlocked-state { display: none; }
     
     .btn { 
       display: block; 
       width: 100%; 
-      padding: 12px; 
-      background: linear-gradient(135deg, #2563EB, #4F46E5); 
+      padding: 14px 12px; 
+      background: #8a4cfc; 
       color: white; 
       border: none; 
-      border-radius: 10px; 
+      border-radius: 9999px; 
       cursor: pointer; 
       font-weight: 700; 
       font-size: 14px;
       text-align: center; 
       text-decoration: none; 
       box-sizing: border-box; 
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-      transition: all 0.2s;
+      box-shadow: 0 4px 15px rgba(138, 76, 252, 0.3);
+      transition: all 0.2s ease-in-out;
     }
     .btn:hover { 
-      background: linear-gradient(135deg, #1D4ED8, #4338CA); 
-      transform: translateY(-1px);
+      background: #702be2; 
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(112, 43, 226, 0.4);
     }
     .btn-secondary {
-      background: #1E293B; 
-      border: 1px solid #334155; 
-      color: #E2E8F0;
+      background: #fcf8ff; 
+      border: 1px solid #ccc3d8; 
+      color: #4a4455;
       box-shadow: none;
       margin-top: 10px;
     }
     .btn-secondary:hover {
-      background: #2D3748;
+      background: #eaddff;
+      color: #702be2;
+      border-color: #8a4cfc;
+      box-shadow: 0 2px 8px rgba(112, 43, 226, 0.15);
     }
     .philosophy-box {
-      background-color: #020617;
-      border: 1px solid #10B981;
-      border-radius: 12px;
-      padding: 14px;
+      background-color: #fcf8ff;
+      border: 1px solid #8a4cfc;
+      border-radius: 16px;
+      padding: 16px;
       font-size: 12px;
-      color: #E2E8F0;
+      color: #1b1b22;
       line-height: 1.6;
       margin-bottom: 18px;
+      box-shadow: 0 4px 12px rgba(138, 76, 252, 0.08);
     }
     .philosophy-title {
-      color: #34D399;
-      font-weight: 700;
-      margin-bottom: 4px;
+      color: #702be2;
+      font-weight: 800;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
+      font-size: 13px;
     }
   </style>
 </head>
@@ -165,8 +179,8 @@
   
   <!-- LOCKED STATE: Shown until user takes the test -->
   <div id="lockedState" class="locked-state">
-    <div class="philosophy-box" style="border-color: #EF4444;">
-      <div class="philosophy-title" style="color: #F87171;">🔒 Extension Disabled Until Test Complete</div>
+    <div class="philosophy-box" style="border-color: #ba1a1a;">
+      <div class="philosophy-title" style="color: #ba1a1a;">🔒 Extension Disabled Until Test Complete</div>
       "NeuroLens AI adapts websites to people, rather than adapting people to websites. Until you complete your personal vision test, the extension remains locked to prevent applying incorrect generic color shifts."
     </div>
     <a href="http://localhost:5173" target="_blank" class="btn">Take Diagnostic Test</a>
@@ -176,7 +190,7 @@
   <!-- UNLOCKED STATE: Active once profile is fetched -->
   <div id="unlockedState" class="unlocked-state">
     <div class="toggle-container">
-      <span style="font-weight: 600; font-size: 15px;">Enable NeuroLens Live</span>
+      <span style="font-weight: 700; font-size: 15px;">Enable NeuroLens Live</span>
       <label class="switch">
         <input type="checkbox" id="enableToggle">
         <span class="slider"></span>
@@ -200,3 +214,4 @@
   <script src="popup.js"></script>
 </body>
 </html>
+
