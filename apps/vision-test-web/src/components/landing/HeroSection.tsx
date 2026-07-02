@@ -27,7 +27,7 @@ export const HeroSection: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-6xl md:text-8xl font-extrabold text-slate-900 tracking-tight mb-8 leading-tight max-w-5xl mx-auto"
         >
-          Beyond Colours. <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">Beyond Barriers.</span>
+          Beyond Colours, <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">Beyond Barriers.</span>
         </motion.h1>
 
         <motion.p 
