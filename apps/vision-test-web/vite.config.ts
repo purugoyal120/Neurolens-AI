@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: './',
   build: {
-    outDir: '../../backend/static/app',
+    outDir: process.env.VERCEL ? 'dist' : '../../backend/static/app',
     emptyOutDir: true,
   },
   server: {
