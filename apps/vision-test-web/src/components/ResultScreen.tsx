@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useVisionTest } from '../context/VisionTestContext';
 import { useToast } from '../context/ToastContext';
-
+import { useNavigate } from 'react-router-dom';
+import { ChevronRight } from 'lucide-react';
 // Dynamic backend URL resolver supporting local dev servers, mobile hotspots, and public tunnels (localtunnel/ngrok)
 const getApiBase = () => {
   if (window.location.port === '5173') {
@@ -90,6 +91,7 @@ const RenderAiMessage: React.FC<{ text: string }> = ({ text }) => {
 export const ResultScreen: React.FC = () => {
   const { result, resetTest } = useVisionTest();
   const { addToast } = useToast();
+  const navigate = useNavigate();
 
   // Interactive Assistant State
   const [aiPrompt, setAiPrompt] = useState('');
@@ -707,6 +709,16 @@ export const ResultScreen: React.FC = () => {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* CTA Button to proceed to register */}
+      <div className="flex justify-center mt-12 pb-8">
+        <button 
+          onClick={() => navigate('/register', { state: { profile: deficiencyType } })}
+          className="px-10 py-5 bg-[#10b981] hover:bg-[#047857] text-white font-extrabold text-xl rounded-full flex items-center gap-3 shadow-xl shadow-[#10b981]/30 transition-all hover:scale-105"
+        >
+          Save Profile & Create Account <ChevronRight className="w-6 h-6" />
+        </button>
       </div>
 
       {/* Footer Action */}

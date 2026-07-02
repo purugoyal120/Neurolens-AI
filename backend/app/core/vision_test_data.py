@@ -169,55 +169,6 @@ QUESTIONS: list[Question] = [
         ],
         correct_option_id="q7_b",
     ),
-    Question(
-        id="q8",
-        index=8,
-        axis=QuestionAxis.MIXED,
-        difficulty=Difficulty.INTERMEDIATE,
-        prompt="This warm shade is often confused with red or brown. What do you see?",
-        stimulus_hex="#D35400",  # burnt orange
-        stimulus_category="orange",
-        options=[
-            _opt("q8_a", "Red", "#C0392B", "red"),
-            _opt("q8_b", "Brown", "#8B5E3C", "brown"),
-            _opt("q8_c", "Orange", "#D35400", "orange"),
-            _opt("q8_d", "Green", "#27AE60", "green"),
-        ],
-        correct_option_id="q8_c",
-    ),
-    # --- Q9-10: Real-world scenarios (Excel/dashboard colors) ---
-    Question(
-        id="q9",
-        index=9,
-        axis=QuestionAxis.REAL_WORLD,
-        difficulty=Difficulty.REAL_WORLD,
-        prompt="In a financial spreadsheet, this alert color usually signifies:",
-        stimulus_hex="#C0392B",
-        stimulus_category="red",
-        options=[
-            _opt("q9_a", "Good / On track", "#2ECC40", "green"),
-            _opt("q9_b", "Critical / Over budget", "#C0392B", "red"),
-            _opt("q9_c", "Needs review", "#F1C40F", "yellow"),
-            _opt("q9_d", "Not started", "#95A5A6", "gray"),
-        ],
-        correct_option_id="q9_b",
-    ),
-    Question(
-        id="q10",
-        index=10,
-        axis=QuestionAxis.REAL_WORLD,
-        difficulty=Difficulty.REAL_WORLD,
-        prompt="On an enterprise monitoring dashboard, this status light represents:",
-        stimulus_hex="#27AE60",
-        stimulus_category="green",
-        options=[
-            _opt("q10_a", "Critical / Failing", "#E74C3C", "red"),
-            _opt("q10_b", "Healthy / Passing", "#27AE60", "green"),
-            _opt("q10_c", "Warning", "#F39C12", "orange"),
-            _opt("q10_d", "Unknown / No data", "#95A5A6", "gray"),
-        ],
-        correct_option_id="q10_b",
-    ),
 ]
 
 
@@ -248,5 +199,5 @@ def classify_confusion(stimulus_category: str, chosen_category: str) -> str | No
     return None
 
 
-TEST_VERSION = "simple-v1.1"
-TIME_LIMIT_SECONDS = 120
+TEST_VERSION = "simple-v1.2"
+TIME_LIMIT_SECONDS = 60

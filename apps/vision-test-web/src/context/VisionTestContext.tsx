@@ -107,23 +107,16 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
 
       const nextIndex = prev.currentQuestionIndex + 1;
 
-      // Automatically submit when the last question is answered to prevent state batching race conditions
       if (nextIndex >= prev.config.questions.length) {
         const submitData = async (answersToSubmit: UserAnswer[], testId: string, uid: string) => {
           try {
             const response = await fetch(`${API_URL}/vision-test/submit`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                user_id: uid,
-                test_id: testId,
-                answers: answersToSubmit,
-              }),
+              body: JSON.stringify({ user_id: uid, test_id: testId, answers: answersToSubmit }),
             });
-            
             if (!response.ok) throw new Error('Failed to submit test results');
             const result: SubmitVisionTestOut = await response.json();
-            
             setState((s) => ({ ...s, status: 'completed', result }));
           } catch (err) {
             setState((s) => ({ ...s, status: 'error', error: err instanceof Error ? err.message : 'Submit failed' }));
@@ -155,7 +148,27 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
   };
 
   const finishTest = async () => {
-    // Handled automatically inside submitAnswer to prevent race conditions and duplicate API calls
+    setState((prev) => {
+      if (!prev.config || prev.status === 'submitting' || prev.status === 'completed') return prev;
+      
+      const submitData = async (answersToSubmit: UserAnswer[], testId: string, uid: string) => {
+        try {
+          const response = await fetch(`${API_URL}/vision-test/submit`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: uid, test_id: testId, answers: answersToSubmit }),
+          });
+          if (!response.ok) throw new Error('Failed to submit test results');
+          const result: SubmitVisionTestOut = await response.json();
+          setState((s) => ({ ...s, status: 'completed', result }));
+        } catch (err) {
+          setState((s) => ({ ...s, status: 'error', error: err instanceof Error ? err.message : 'Submit failed' }));
+        }
+      };
+
+      submitData(prev.answers, prev.config.test_id, prev.userId);
+      return { ...prev, status: 'submitting' };
+    });
   };
 
   const resetTest = async () => {
