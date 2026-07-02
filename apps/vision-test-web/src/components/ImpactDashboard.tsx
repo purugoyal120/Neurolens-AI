@@ -1,187 +1,245 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Download, RefreshCw, Activity, Globe, FileSpreadsheet, Zap, Search, Filter } from 'lucide-react';
+import { useToast } from '../context/ToastContext';
+import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
 export const ImpactDashboard: React.FC = () => {
-  const [stats, setStats] = useState({
-    usersProfiled: 1248,
-    elementsTransformed: 849201,
-    webPagesAccessible: 15420
-  });
+  const { addToast } = useToast();
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
-  const [excelStats, setExcelStats] = useState({
-    total_transformed: 142,
-    recent_details: ["Waiting for live telemetry from Excel..."]
-  });
+  const handleSync = () => {
+    setIsSyncing(true);
+    setTimeout(() => {
+      setIsSyncing(false);
+      addToast('Vision profile synced to extension successfully!', 'success');
+    }, 1500);
+  };
 
-  const [extensionStats, setExtensionStats] = useState({
-    total_transformed: 420,
-    recent_details: [
-      "NeuroLens Extension successfully linked to active diagnostic report.",
-      "Meaning-based labels active: ⚠ [CRITICAL ALERT], 📈 [ACTIVE GROWTH], 🔗 [PRIMARY ACTION].",
-      "Safe palette enforcement active for Deuteranomaly (Green-Weak)."
-    ]
-  });
+  const handleExport = () => {
+    setIsExporting(true);
+    setTimeout(() => {
+      setIsExporting(false);
+      addToast('Dashboard data exported successfully!', 'success');
+    }, 1200);
+  };
 
-  useEffect(() => {
-    // Simulate real-time data growth for the hackathon demo
-    const interval = setInterval(() => {
-      setStats(prev => ({
-        usersProfiled: prev.usersProfiled + Math.floor(Math.random() * 2),
-        elementsTransformed: prev.elementsTransformed + Math.floor(Math.random() * 15),
-        webPagesAccessible: prev.webPagesAccessible + Math.floor(Math.random() * 3)
-      }));
-    }, 2000);
-    
-    // Dynamic API Base helper for public tunnels and local networks
-    const getApiBase = () => {
-      if (window.location.port === '5173') {
-        return `http://${window.location.hostname}:8000/api`;
-      }
-      return `${window.location.origin}/api`;
-    };
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
 
-    // Live fetch from Excel Telemetry API
-    const excelInterval = setInterval(async () => {
-      try {
-        const res = await fetch(`${getApiBase()}/excel/stats`);
-        if (res.ok) {
-          const data = await res.json();
-          setExcelStats(data);
-        }
-      } catch (e) {
-        // silent fallback
-      }
-    }, 2000);
-
-    // Live fetch from Extension & Website Telemetry API
-    const extensionInterval = setInterval(async () => {
-      try {
-        const res = await fetch(`${getApiBase()}/extension/stats`);
-        if (res.ok) {
-          const data = await res.json();
-          setExtensionStats(data);
-        }
-      } catch (e) {
-        // silent fallback
-      }
-    }, 2000);
-
-    return () => {
-      clearInterval(interval);
-      clearInterval(excelInterval);
-      clearInterval(extensionInterval);
-    };
-  }, []);
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  };
 
   return (
-    <div className="w-full max-w-6xl mx-auto mt-16 p-8 glass-panel rounded-3xl shadow-2xl mb-24">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6">
-        <div>
-          <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#eaddff] text-[#5a00c6] border border-[#d2bbff] mb-4 inline-block">
-            LIVE SYSTEM TELEMETRY
-          </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gradient-primary tracking-tight">
-            Enterprise Impact & Real-Time Adaptation
-          </h2>
-        </div>
-        <div className="flex items-center gap-3 bg-[#ffdcc6] border border-[#ffb784] px-5 py-2.5 rounded-full text-[#904800] text-sm font-bold shadow-sm">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#a15100] animate-pulse"></span>
-          Engine Active
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <div className="glass-card-subtle p-6 relative overflow-hidden group hover:border-[#8a4cfc] transition-all shadow-md">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#8a4cfc]/10 rounded-full blur-2xl group-hover:bg-[#8a4cfc]/20 transition-colors"></div>
-          <div className="text-[#4a4455] text-xs font-bold uppercase tracking-wider mb-2">Total Profiles Generated</div>
-          <div className="text-4xl font-extrabold text-[#1b1b22] tracking-tight mb-2">{stats.usersProfiled.toLocaleString()}</div>
-          <div className="text-xs text-[#732fe4] font-semibold flex items-center gap-1">
-            <span>↑ 12% increase this week</span>
-          </div>
-        </div>
-
-        <div className="glass-card-subtle p-6 relative overflow-hidden group hover:border-[#8468bb] transition-all shadow-md">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#8468bb]/10 rounded-full blur-2xl group-hover:bg-[#8468bb]/20 transition-colors"></div>
-          <div className="text-[#4a4455] text-xs font-bold uppercase tracking-wider mb-2">Web Elements Adapted</div>
-          <div className="text-4xl font-extrabold text-[#1b1b22] tracking-tight mb-2">{stats.elementsTransformed.toLocaleString()}</div>
-          <div className="text-xs text-[#6b4fa0] font-semibold flex items-center gap-1">
-            <span>Real-time DOM injection</span>
-          </div>
-        </div>
-
-        <div className="glass-card-subtle p-6 relative overflow-hidden group hover:border-[#a15100] transition-all shadow-md">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#a15100]/10 rounded-full blur-2xl group-hover:bg-[#a15100]/20 transition-colors"></div>
-          <div className="text-[#4a4455] text-xs font-bold uppercase tracking-wider mb-2">Websites & Apps Enhanced</div>
-          <div className="text-4xl font-extrabold text-[#1b1b22] tracking-tight mb-2">{stats.webPagesAccessible.toLocaleString()}</div>
-          <div className="text-xs text-[#a15100] font-semibold flex items-center gap-1">
-            <span>Seamless Zero-Config Linking</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Live Telemetry Feeds */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Browser Extension Telemetry Feed */}
-        <div className="bg-[#fcf8ff]/90 border border-[#ccc3d8] rounded-2xl p-6 flex flex-col justify-between shadow-lg">
-          <div>
-            <div className="flex items-center justify-between border-b border-[#eae6f0] pb-4 mb-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-lg bg-[#eaddff] border border-[#d2bbff] flex items-center justify-center text-[#5a00c6] text-sm font-bold">
-                  🌐
-                </div>
-                <h3 className="font-bold text-[#1b1b22] text-lg tracking-tight">Browser Extension Telemetry</h3>
-              </div>
-              <span className="text-xs font-mono font-bold bg-[#eaddff] text-[#5a00c6] px-3 py-1 rounded-full border border-[#d2bbff]">
-                {extensionStats.total_transformed} Elements Adapted
-              </span>
-            </div>
-            <div className="space-y-3 font-mono text-xs text-[#4a4455] max-h-48 overflow-y-auto pr-2">
-              {extensionStats.recent_details.map((detail, idx) => (
-                <div key={idx} className="flex items-start space-x-2 animate-in fade-in duration-300">
-                  <span className="text-[#8a4cfc] select-none">➜</span>
-                  <span className="flex-1 leading-relaxed">{detail}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="mt-6 pt-4 border-t border-[#eae6f0] flex justify-between items-center text-xs text-[#7b7487] font-semibold">
-            <span>Target: test_page.html</span>
-            <span className="flex items-center gap-1 text-[#a15100] font-bold">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#a15100] animate-pulse"></span> Active Stream
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+      className="w-full flex flex-col gap-6 font-sans pb-10"
+    >
+      
+      {/* Top Grid */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        
+        {/* Total Accessibility Score */}
+        <motion.div variants={itemVariants} className="xl:col-span-4 dashboard-card p-8 flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="flex justify-between items-start mb-10">
+            <h3 className="text-slate-500 font-medium">Total Accessibility Score</h3>
+            <span className="flex items-center gap-1.5 text-slate-600 text-[10px] font-bold bg-slate-50 px-3 py-1 rounded-full border border-slate-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> ACTIVE
             </span>
           </div>
+          <div className="mb-10">
+            <h1 className="text-6xl font-black text-slate-900 tracking-tight mb-4">98.4%</h1>
+            <p className="text-slate-400 text-xs font-semibold flex items-center gap-2">
+              <span className="text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded flex items-center font-bold">↑ 5%</span> than last month
+            </p>
+          </div>
+          <div className="flex gap-4">
+            <button onClick={handleSync} disabled={isSyncing} className="flex-1 bg-emerald-200/50 text-emerald-700 font-bold py-3 rounded-2xl flex items-center justify-center gap-2 text-sm transition-colors hover:bg-emerald-200/70 disabled:opacity-50 hover:shadow-emerald-500/20 hover:shadow-lg">
+              <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} /> {isSyncing ? 'Syncing...' : 'Sync Profile'}
+            </button>
+            <button className="flex-1 bg-white border border-slate-200 text-slate-700 font-bold py-3 rounded-2xl flex items-center justify-center gap-2 text-sm transition-all hover:bg-slate-50 hover:shadow-md">
+              <Download className="w-4 h-4" /> Export Report
+            </button>
+          </div>
+        </motion.div>
+
+        {/* 4 Square Cards */}
+        <div className="xl:col-span-4 grid grid-cols-2 gap-6">
+          {/* Elements Adapted */}
+          <motion.div variants={itemVariants} className="dashboard-card-green p-6 flex flex-col justify-between hover:shadow-xl hover:shadow-emerald-500/30 hover:-translate-y-1 transition-all duration-300">
+            <div className="flex justify-between items-start mb-6">
+              <h3 className="text-emerald-50 font-medium text-sm">Elements Adapted</h3>
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                <Activity className="w-4 h-4 text-white" />
+              </div>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-2">849,222</h2>
+              <p className="text-emerald-100 text-[11px] font-semibold flex items-center gap-1">
+                <span className="font-bold">↑ 12%</span> This week
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Websites Analyzed */}
+          <motion.div variants={itemVariants} className="dashboard-card p-6 flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div className="flex justify-between items-start mb-6">
+              <h3 className="text-slate-500 font-medium text-sm">Websites Analyzed</h3>
+              <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100">
+                <Globe className="w-4 h-4 text-slate-400" />
+              </div>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">15,423</h2>
+              <p className="text-slate-400 text-[11px] font-semibold flex items-center gap-1">
+                <span className="text-emerald-500 font-bold">↑ 5%</span> This week
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Excel Adjustments */}
+          <motion.div variants={itemVariants} className="dashboard-card p-6 flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div className="flex justify-between items-start mb-6">
+              <h3 className="text-slate-500 font-medium text-sm">Excel Adjustments</h3>
+              <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100">
+                <FileSpreadsheet className="w-4 h-4 text-slate-400" />
+              </div>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">142</h2>
+              <p className="text-slate-400 text-[11px] font-semibold flex items-center gap-1">
+                <span className="text-emerald-500 font-bold">↑ 8%</span> This week
+              </p>
+            </div>
+          </motion.div>
+
+          {/* API Pings */}
+          <motion.div variants={itemVariants} className="dashboard-card p-6 flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div className="flex justify-between items-start mb-6">
+              <h3 className="text-slate-500 font-medium text-sm">API Pings</h3>
+              <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100">
+                <Zap className="w-4 h-4 text-slate-400" />
+              </div>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">45,244</h2>
+              <p className="text-slate-400 text-[11px] font-semibold flex items-center gap-1">
+                <span className="text-emerald-500 font-bold">↑ 4%</span> This week
+              </p>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Excel Add-in Telemetry Feed */}
-        <div className="bg-[#fcf8ff]/90 border border-[#ccc3d8] rounded-2xl p-6 flex flex-col justify-between shadow-lg">
-          <div>
-            <div className="flex items-center justify-between border-b border-[#eae6f0] pb-4 mb-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-lg bg-[#ffdcc6] border border-[#ffb784] flex items-center justify-center text-[#904800] text-sm font-bold">
-                  📊
-                </div>
-                <h3 className="font-bold text-[#1b1b22] text-lg tracking-tight">Excel Add-in Telemetry</h3>
-              </div>
-              <span className="text-xs font-mono font-bold bg-[#ffdcc6] text-[#904800] px-3 py-1 rounded-full border border-[#ffb784]">
-                {excelStats.total_transformed} Cells Corrected
-              </span>
-            </div>
-            <div className="space-y-3 font-mono text-xs text-[#4a4455] max-h-48 overflow-y-auto pr-2">
-              {excelStats.recent_details.map((detail, idx) => (
-                <div key={idx} className="flex items-start space-x-2 animate-in fade-in duration-300">
-                  <span className="text-[#8468bb] select-none">➜</span>
-                  <span className="flex-1 leading-relaxed">{detail}</span>
-                </div>
-              ))}
+        {/* Transformation Timeline */}
+        <motion.div variants={itemVariants} className="xl:col-span-4 dashboard-card p-6 flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="flex justify-between items-start mb-2">
+            <div>
+              <h3 className="text-slate-900 font-bold mb-1">Transformation Timeline</h3>
+              <p className="text-slate-500 text-xs font-medium">Live API requests over the past 8 hours</p>
             </div>
           </div>
-          <div className="mt-6 pt-4 border-t border-[#eae6f0] flex justify-between items-center text-xs text-[#7b7487] font-semibold">
-            <span>Engine: Excel JS API v1.1</span>
-            <span className="flex items-center gap-1 text-[#a15100] font-bold">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#a15100] animate-pulse"></span> Active Stream
-            </span>
+          <div className="flex justify-end gap-4 mb-8">
+            <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2 h-2 rounded-full bg-emerald-300"></span> Extension</span>
+            <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2 h-2 rounded-full bg-slate-900"></span> Excel</span>
+          </div>
+
+          {/* Bar Chart Mockup with Staggered Bars */}
+          <div className="flex-1 flex items-end justify-between px-2 gap-2 mt-auto">
+            {[
+              { h1: '40%', h2: '20%', label: '1AM' },
+              { h1: '60%', h2: '30%', label: '2AM' },
+              { h1: '25%', h2: '15%', label: '3AM' },
+              { h1: '50%', h2: '40%', label: '4AM' },
+              { h1: '55%', h2: '45%', label: '5AM' },
+              { h1: '35%', h2: '45%', label: '6AM' },
+              { h1: '45%', h2: '35%', label: '7AM' },
+              { h1: '35%', h2: '50%', label: '8AM' },
+            ].map((col, i) => (
+              <div key={i} className="flex flex-col items-center gap-3 w-full">
+                <div className="w-full bg-transparent flex flex-col justify-end items-center gap-1 h-32">
+                  <motion.div 
+                    initial={{ height: 0 }} animate={{ height: col.h1 }} transition={{ duration: 0.8, delay: i * 0.1 }}
+                    className="w-4 bg-emerald-300 rounded-sm"
+                  ></motion.div>
+                  <motion.div 
+                    initial={{ height: 0 }} animate={{ height: col.h2 }} transition={{ duration: 0.8, delay: i * 0.1 + 0.1 }}
+                    className="w-4 bg-slate-900 rounded-sm"
+                  ></motion.div>
+                </div>
+                <span className="text-[9px] font-bold text-slate-400">{col.label}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+      </div>
+
+      {/* Recent Activities */}
+      <motion.div variants={itemVariants} className="dashboard-card p-6 mt-2 hover:shadow-xl transition-all duration-300">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-slate-900 font-bold text-lg">Recent Activities</h3>
+          <div className="flex gap-3">
+            <div className="relative">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input type="text" placeholder="Search logs" className="pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm outline-none focus:border-emerald-400 w-64 focus:ring-2 focus:ring-emerald-500/20 transition-all" />
+            </div>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => addToast('Date filter opened (Demo)', 'info')}
+                className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors shadow-sm"
+              >
+                <Filter className="w-4 h-4" /> Last 7 Days
+              </button>
+              <button 
+                onClick={handleExport}
+                disabled={isExporting}
+                className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition-colors shadow-md disabled:opacity-50"
+              >
+                <Download className="w-4 h-4" /> {isExporting ? 'Exporting...' : 'Export'}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="border-b border-slate-100">
+              <th className="py-4 pl-4 w-12"><input type="checkbox" className="rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer" /></th>
+              <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">LOG ID</th>
+              <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">SOURCE ENGINE</th>
+              <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">TARGET DETAIL</th>
+              <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">STATUS</th>
+              <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">TIMESTAMP</th>
+              <th className="py-4 w-10"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
+              <td className="py-4 pl-4"><input type="checkbox" className="rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer" /></td>
+              <td className="py-4 text-sm font-semibold text-slate-700">EXT_04000</td>
+              <td className="py-4 text-sm font-bold text-slate-900 flex items-center gap-2">
+                <div className="w-6 h-6 rounded-md bg-blue-100 flex items-center justify-center"><Globe className="w-3 h-3 text-blue-500" /></div>
+                Browser Extension
+              </td>
+              <td className="py-4 text-sm text-slate-500">Neurolens AI Extension successfully linked to active diagnostic ...</td>
+              <td className="py-4"><span className="flex items-center gap-1.5 text-xs font-bold text-slate-700"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Completed</span></td>
+              <td className="py-4 text-sm font-medium text-slate-400">Just now</td>
+              <td className="py-4 text-slate-400">...</td>
+            </tr>
+          </tbody>
+        </table>
+      </motion.div>
+
+    </motion.div>
   );
 };

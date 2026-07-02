@@ -1,121 +1,183 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>NeuroLens Settings</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    
     body { 
-      width: 320px; 
-      padding: 20px; 
-      font-family: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      background-color: #fcf8ff; 
-      color: #1b1b22; 
+      width: 340px; 
+      padding: 0; 
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif; 
+      background-color: #0f172a; /* Deep slate background */
+      color: #f8fafc; 
       margin: 0; 
+      overflow-x: hidden;
     }
+    
+    .container {
+      padding: 24px;
+      position: relative;
+    }
+
+    /* Subtle neon background glow */
+    .bg-glow {
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, rgba(15,23,42,0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .header {
-      border-bottom: 1px solid #ccc3d8;
-      padding-bottom: 14px;
-      margin-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
     }
+
     .tag {
       display: inline-flex;
       align-items: center;
-      background-color: #eaddff;
-      border: 1px solid #d2bbff;
-      color: #5a00c6;
-      padding: 6px 12px;
+      background-color: rgba(16,185,129,0.1);
+      border: 1px solid rgba(16,185,129,0.2);
+      color: #10b981;
+      padding: 6px 14px;
       border-radius: 9999px;
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: 12px;
-      box-shadow: 0 2px 4px rgba(112, 43, 226, 0.1);
+      margin-bottom: 14px;
+      box-shadow: 0 0 12px rgba(16,185,129,0.1);
     }
+    .tag.locked {
+      background-color: rgba(239,68,68,0.1);
+      border-color: rgba(239,68,68,0.2);
+      color: #ef4444;
+      box-shadow: 0 0 12px rgba(239,68,68,0.1);
+    }
+
     .dot {
       width: 8px;
       height: 8px;
-      background-color: #a15100;
+      background-color: #10b981;
       border-radius: 50%;
       margin-right: 8px;
-      box-shadow: 0 0 8px #a15100;
+      box-shadow: 0 0 8px #10b981;
       animation: pulse 2s infinite;
     }
-    @keyframes pulse {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.2); }
-      100% { opacity: 1; transform: scale(1); }
-    }
     .dot-locked {
-      background-color: #ba1a1a;
-      box-shadow: 0 0 8px #ba1a1a;
+      background-color: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
       animation: none;
     }
-    h2 { 
-      font-size: 22px; 
-      font-weight: 800; 
-      margin: 0 0 4px 0; 
-      color: #702be2; 
-      letter-spacing: -0.02em;
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); box-shadow: 0 0 12px #10b981; }
+      100% { opacity: 1; transform: scale(1); }
     }
+
+    h2 { 
+      font-size: 24px; 
+      font-weight: 800; 
+      margin: 0 0 6px 0; 
+      color: #ffffff; 
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
     p.subtitle { 
-      color: #4a4455; 
+      color: #94a3b8; 
       font-size: 13px; 
       line-height: 1.5;
       margin: 0; 
       font-weight: 500;
     }
+
+    /* Glassmorphism Cards */
     .card {
-      background-color: #f6f2fc;
-      border: 1px solid #ccc3d8;
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 18px;
-      box-shadow: 0 4px 10px rgba(138, 76, 252, 0.05);
+      background-color: rgba(30, 41, 59, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 1;
     }
+
     .card-title {
       font-size: 11px;
       font-weight: 700;
-      color: #6b4fa0;
+      color: #10b981;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 10px;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
     }
+
     .value-highlight {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 800;
-      color: #702be2;
+      color: #ffffff;
       margin-bottom: 6px;
     }
+
     .sub-value {
       font-size: 12px;
-      color: #a15100;
-      font-weight: 700;
+      color: #94a3b8;
+      font-weight: 600;
     }
+
+    /* Sleek Toggle */
     .toggle-container { 
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      padding: 14px 16px; 
-      background: #f6f2fc; 
-      border: 1px solid #ccc3d8;
-      border-radius: 16px; 
-      margin-bottom: 18px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      padding: 16px 20px; 
+      background: rgba(30, 41, 59, 0.5); 
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 20px; 
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 1;
     }
-    .switch { position: relative; display: inline-block; width: 44px; height: 26px; }
+
+    .switch { position: relative; display: inline-block; width: 48px; height: 28px; }
     .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc3d8; transition: .4s; border-radius: 26px; }
-    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-    input:checked + .slider { background-color: #8a4cfc; }
-    input:checked + .slider:before { transform: translateX(18px); }
+    .slider { 
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; 
+      background-color: #334155; transition: .4s; border-radius: 28px; 
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .slider:before { 
+      position: absolute; content: ""; height: 20px; width: 20px; 
+      left: 4px; bottom: 3px; background-color: #94a3b8; transition: .4s; 
+      border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.3); 
+    }
+    input:checked + .slider { background-color: #10b981; border-color: #059669; box-shadow: 0 0 10px rgba(16,185,129,0.3); }
+    input:checked + .slider:before { transform: translateX(20px); background-color: #ffffff; }
+
     .locked-state, .unlocked-state { display: none; }
     
+    /* Premium Buttons */
     .btn { 
       display: block; 
       width: 100%; 
-      padding: 14px 12px; 
-      background: #8a4cfc; 
+      padding: 16px 12px; 
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white; 
       border: none; 
       border-radius: 9999px; 
@@ -125,90 +187,114 @@
       text-align: center; 
       text-decoration: none; 
       box-sizing: border-box; 
-      box-shadow: 0 4px 15px rgba(138, 76, 252, 0.3);
-      transition: all 0.2s ease-in-out;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      z-index: 1;
     }
     .btn:hover { 
-      background: #702be2; 
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(112, 43, 226, 0.4);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
     }
+
     .btn-secondary {
-      background: #fcf8ff; 
-      border: 1px solid #ccc3d8; 
-      color: #4a4455;
+      background: transparent; 
+      border: 1px solid rgba(255,255,255,0.1); 
+      color: #cbd5e1;
       box-shadow: none;
-      margin-top: 10px;
+      margin-top: 12px;
     }
     .btn-secondary:hover {
-      background: #eaddff;
-      color: #702be2;
-      border-color: #8a4cfc;
-      box-shadow: 0 2px 8px rgba(112, 43, 226, 0.15);
+      background: rgba(255,255,255,0.05);
+      color: #ffffff;
+      border-color: rgba(255,255,255,0.2);
+      box-shadow: none;
     }
+
     .philosophy-box {
-      background-color: #fcf8ff;
-      border: 1px solid #8a4cfc;
-      border-radius: 16px;
-      padding: 16px;
-      font-size: 12px;
-      color: #1b1b22;
+      background-color: rgba(30, 41, 59, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 18px;
+      font-size: 13px;
+      color: #cbd5e1;
       line-height: 1.6;
-      margin-bottom: 18px;
-      box-shadow: 0 4px 12px rgba(138, 76, 252, 0.08);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .philosophy-box.locked-box {
+      border-color: rgba(239, 68, 68, 0.2);
+      background-color: rgba(239, 68, 68, 0.05);
     }
     .philosophy-title {
-      color: #702be2;
+      color: #10b981;
       font-weight: 800;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
-      font-size: 13px;
+      font-size: 14px;
+    }
+    .philosophy-title.locked-title {
+      color: #ef4444;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div id="statusTag" class="tag">
-      <span id="statusDot" class="dot dot-locked"></span>
-      <span id="statusText">Profile Locked</span>
+  <div class="bg-glow"></div>
+  <div class="container">
+    <div class="header">
+      <div id="statusTag" class="tag locked">
+        <span id="statusDot" class="dot dot-locked"></span>
+        <span id="statusText">Profile Locked</span>
+      </div>
+      <h2>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #10b981;">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        NeuroLens AI
+      </h2>
+      <p class="subtitle">Personalized Web Accessibility Engine</p>
     </div>
-    <h2>👁 NeuroLens AI</h2>
-    <p class="subtitle">Personalized Web Accessibility Engine</p>
-  </div>
-  
-  <!-- LOCKED STATE: Shown until user takes the test -->
-  <div id="lockedState" class="locked-state">
-    <div class="philosophy-box" style="border-color: #ba1a1a;">
-      <div class="philosophy-title" style="color: #ba1a1a;">🔒 Extension Disabled Until Test Complete</div>
-      "NeuroLens AI adapts websites to people, rather than adapting people to websites. Until you complete your personal vision test, the extension remains locked to prevent applying incorrect generic color shifts."
-    </div>
-    <a href="http://localhost:5173" target="_blank" class="btn">Take Diagnostic Test</a>
-    <button id="syncBtn" class="btn btn-secondary">🔄 Refresh / Check For Profile</button>
-  </div>
-
-  <!-- UNLOCKED STATE: Active once profile is fetched -->
-  <div id="unlockedState" class="unlocked-state">
-    <div class="toggle-container">
-      <span style="font-weight: 700; font-size: 15px;">Enable NeuroLens Live</span>
-      <label class="switch">
-        <input type="checkbox" id="enableToggle">
-        <span class="slider"></span>
-      </label>
+    
+    <!-- LOCKED STATE -->
+    <div id="lockedState" class="locked-state">
+      <div class="philosophy-box locked-box">
+        <div class="philosophy-title locked-title">🔒 Extension Disabled</div>
+        "NeuroLens AI adapts websites to you. Until you complete your personal vision test, the extension remains locked to prevent applying incorrect generic color shifts."
+      </div>
+      <a href="http://localhost:5173" target="_blank" class="btn">Take Diagnostic Test</a>
+      <button id="syncBtn" class="btn btn-secondary">🔄 Check For Active Profile</button>
     </div>
 
-    <div class="card">
-      <div class="card-title">Active Perception Report</div>
-      <div id="deficiencyName" class="value-highlight">Deuteranomaly (Green-Weak)</div>
-      <div id="accuracySeverity" class="sub-value">85% Accuracy | Moderate Severity</div>
-    </div>
+    <!-- UNLOCKED STATE -->
+    <div id="unlockedState" class="unlocked-state">
+      <div class="toggle-container">
+        <span style="font-weight: 700; font-size: 15px; color: #ffffff;">Enable NeuroLens</span>
+        <label class="switch">
+          <input type="checkbox" id="enableToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
 
-    <div class="philosophy-box">
-      <div class="philosophy-title">🌿 Meaning-Based Transformation</div>
-      "We found your specific color confusion patterns. NeuroLens is now active on all websites, shifting confusing colors to your recommended safe palette and attaching clear meaning labels (like [Active Growth] 📈 or [Critical Alert] ⚠)."
-    </div>
+      <div class="card">
+        <div class="card-title">Neural Perception Report</div>
+        <div id="deficiencyName" class="value-highlight">Deuteranomaly (Green-Weak)</div>
+        <div id="accuracySeverity" class="sub-value">85% Accuracy | Moderate Severity</div>
+      </div>
 
-    <button id="manualRefreshBtn" class="btn btn-secondary">🔄 Re-sync Report from Web</button>
+      <div class="philosophy-box">
+        <div class="philosophy-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+          Active Transformation
+        </div>
+        "NeuroLens is actively shifting confusing colors to your safe palette and attaching clear meaning labels (like [Active Growth] 📈 or [Critical Alert] ⚠) across all websites."
+      </div>
+
+      <button id="manualRefreshBtn" class="btn btn-secondary">🔄 Sync Latest Test Report</button>
+    </div>
   </div>
 
   <script src="popup.js"></script>

@@ -1,20 +1,53 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import { VisionTestProvider } from './context/VisionTestContext';
-import { TestInterface } from './components/TestInterface';
-import { ImpactDashboard } from './components/ImpactDashboard';
+import { ToastProvider } from './context/ToastContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { DashboardLayout } from './components/layout/DashboardLayout';
+import { OverviewPage } from './pages/dashboard/OverviewPage';
+import { ReportsPage } from './pages/dashboard/ReportsPage';
+import { IntegrationsPage } from './pages/dashboard/IntegrationsPage';
+import { TeamPage } from './pages/dashboard/TeamPage';
+import { SettingsPage } from './pages/dashboard/SettingsPage';
+import { SimulatorPage } from './pages/dashboard/SimulatorPage';
+import { LandingPage } from './pages/LandingPage';
+import { LoginPage } from './pages/auth/LoginPage';
+import { RegisterPage } from './pages/auth/RegisterPage';
+import { DiagnosticTestPage } from './pages/auth/DiagnosticTestPage';
+import { MyReportsPage } from './pages/dashboard/MyReportsPage';
 
-function App() {
+const App = () => {
   return (
-    <div className="min-h-screen bg-[#f3eff9] text-[#1b1b22] font-['Plus_Jakarta_Sans'] flex flex-col items-center p-4 md:p-8 selection:bg-[#8a4cfc]/20 selection:text-[#702be2]">
-      <div className="flex-1 w-full max-w-[1280px] flex items-center justify-center py-12">
-        <VisionTestProvider>
-          <TestInterface />
-        </VisionTestProvider>
-      </div>
-      
-      {/* Hackathon "Wow" Feature */}
-      <ImpactDashboard />
-    </div>
+    <ThemeProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <VisionTestProvider>
+            <BrowserRouter>
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/onboarding" element={<DiagnosticTestPage />} />
+                
+                {/* Dashboard Routes */}
+                <Route path="/dashboard" element={<DashboardLayout><OverviewPage /></DashboardLayout>} />
+                <Route path="/simulator" element={<DashboardLayout><SimulatorPage /></DashboardLayout>} />
+                <Route path="/reports" element={<DashboardLayout><ReportsPage /></DashboardLayout>} />
+                <Route path="/reports-history" element={<DashboardLayout><MyReportsPage /></DashboardLayout>} />
+                <Route path="/integrations" element={<DashboardLayout><IntegrationsPage /></DashboardLayout>} />
+                <Route path="/team" element={<DashboardLayout><TeamPage /></DashboardLayout>} />
+                <Route path="/settings" element={<DashboardLayout><SettingsPage /></DashboardLayout>} />
+                
+                {/* Fallback */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </BrowserRouter>
+          </VisionTestProvider>
+        </AuthProvider>
+      </ToastProvider>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;

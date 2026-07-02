@@ -164,3 +164,46 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
     }
   }
 });
+
+// --- DASHBOARD SYNC INTEGRATION ---
+
+// 1. Inject a marker so the Web Dashboard knows the extension is installed
+const marker = document.createElement('div');
+marker.id = 'neurolens-extension-installed';
+marker.style.display = 'none';
+document.documentElement.appendChild(marker);
+
+// 2. Listen for messages from the Web Dashboard
+window.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'NEUROLENS_SYNC_PROFILE') {
+    const newProfile = event.data.profile;
+    console.log("NeuroLens Extension: Received profile sync from Dashboard ->", newProfile);
+    
+    // Map web profile name to extension profile structure
+    let deficiency_type = "red-green";
+    
+    if (newProfile === 'Protanopia Mode') {
+      deficiency_type = "red-blind";
+    } else if (newProfile === 'Tritanopia Mode') {
+      deficiency_type = "blue-blind";
+    } else if (newProfile === 'Monochromacy Mode') {
+      deficiency_type = "monochromacy";
+    } else if (newProfile === 'Standard Mode') {
+      deficiency_type = "none";
+    }
+
+    const visionProfile = {
+      deficiency_type: deficiency_type,
+      severity: "severe",
+      deficiency_name: newProfile
+    };
+
+    chrome.storage.local.set({ 
+      enabled: deficiency_type !== "none",
+      visionProfile: visionProfile 
+    }, () => {
+      // Send confirmation back to the Web Dashboard
+      window.postMessage({ type: 'NEUROLENS_SYNC_SUCCESS' }, "*");
+    });
+  }
+});

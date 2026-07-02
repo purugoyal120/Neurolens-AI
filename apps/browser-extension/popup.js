@@ -47,11 +47,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       deficiencyNameLabel.textContent = defName;
       accuracySeverityLabel.textContent = `${accuracy}% Accuracy | ${severity} Severity`;
+      
+      const tag = document.getElementById('statusTag');
+      if (tag) tag.className = "tag";
     } else {
       lockedState.style.display = 'block';
       unlockedState.style.display = 'none';
       statusDot.className = "dot dot-locked";
       statusText.innerText = "Profile Locked";
+      
+      const tag = document.getElementById('statusTag');
+      if (tag) tag.className = "tag locked";
     }
   }
 
