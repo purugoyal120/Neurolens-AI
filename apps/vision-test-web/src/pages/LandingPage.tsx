@@ -8,21 +8,21 @@ export const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white font-sans selection:bg-emerald-100 selection:text-emerald-900">
       {/* Simple Top Nav for Landing */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-md">
-              <span className="text-white font-extrabold text-xl">N</span>
+            <div className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+              <span className="text-white font-extrabold text-2xl">N</span>
             </div>
-            <span className="text-xl font-extrabold text-slate-900 tracking-tight">Neurolens AI</span>
+            <span className="text-2xl font-extrabold text-white tracking-tight">Neurolens AI</span>
           </div>
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#demo" className="text-sm font-semibold text-slate-600 hover:text-slate-900">How it Works</a>
-            <a href="#features" className="text-sm font-semibold text-slate-600 hover:text-slate-900">Features</a>
+          <div className="hidden md:flex items-center gap-10">
+            <a href="#demo" className="text-base font-semibold text-slate-300 hover:text-white transition-colors">How it Works</a>
+            <a href="#features" className="text-base font-semibold text-slate-300 hover:text-white transition-colors">Features</a>
           </div>
-          <div className="flex items-center gap-4">
-            <Link to="/login" className="text-sm font-bold text-slate-700 hover:text-slate-900">Sign In</Link>
-            <Link to="/onboarding" className="px-5 py-2.5 bg-slate-900 text-white rounded-full text-sm font-bold hover:bg-slate-800 transition-colors shadow-md">
+          <div className="flex items-center gap-6">
+            <Link to="/login" className="text-base font-bold text-slate-300 hover:text-white transition-colors">Sign In</Link>
+            <Link to="/onboarding" className="px-6 py-3 bg-white text-slate-900 rounded-full text-sm font-bold hover:bg-slate-100 transition-colors shadow-md">
               Get Started
             </Link>
           </div>
