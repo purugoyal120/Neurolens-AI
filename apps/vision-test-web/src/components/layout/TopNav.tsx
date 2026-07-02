@@ -1,14 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Bell, Info, ChevronDown, LogOut, Settings, User, Shield, Eye } from 'lucide-react';
+import { Search, Bell, Info, ChevronDown, LogOut, Settings, User } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useToast } from '../../context/ToastContext';
+
 
 export const TopNav: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, logout, isCaregiverMode, setIsCaregiverMode } = useAuth();
-  const { addToast } = useToast();
+  const { user, logout } = useAuth();
   
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -41,11 +40,7 @@ export const TopNav: React.FC = () => {
     navigate('/login');
   };
 
-  const handleToggleMode = () => {
-    const newMode = !isCaregiverMode;
-    setIsCaregiverMode(newMode);
-    addToast(newMode ? 'Switched to Admin View (Normal Colors)' : 'Switched to Self View (Filters Applied)', 'info');
-  };
+
 
   return (
     <div className="flex items-center justify-between w-full mb-8 pt-4 relative z-50">

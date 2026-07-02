@@ -1,6 +1,6 @@
 import React from 'react';
 import { TopNav } from '../../components/layout/TopNav';
-import { Puzzle, FileSpreadsheet, Key, Copy, CheckCircle2, ArrowRight } from 'lucide-react';
+import { FileSpreadsheet, Key, Copy } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
