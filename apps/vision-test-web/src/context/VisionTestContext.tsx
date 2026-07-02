@@ -31,9 +31,8 @@ export const useVisionTest = () => {
   return context;
 };
 
-// Dynamic backend URL resolver supporting local dev servers, mobile hotspots, and public tunnels (localtunnel/ngrok)
 const getApiBase = () => {
-  if (window.location.port === '5173') {
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port.startsWith('517')) {
     return `http://${window.location.hostname}:8000/api`;
   }
   return `${window.location.origin}/api`;
