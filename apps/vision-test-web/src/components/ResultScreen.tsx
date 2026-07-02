@@ -143,12 +143,12 @@ export const ResultScreen: React.FC = () => {
 
   // Directly display the exact, accurate values from the AI report without any hardcoded frontend overrides or ternary locks
   const deficiency = profile.deficiency_type || (percentAccuracy === 100 ? 'None (Normal Vision)' : 'Custom Vision Profile');
-  const deficiencyType = profile.deficiency_name || profile.clinical_diagnosis || (percentAccuracy === 100 ? 'Normal Color Vision' : 'Personalized AI Diagnosis');
-  const colorConfusionStatus = profile.color_confusion_status || (percentAccuracy === 100 ? 'Flawless Color Discrimination (No Overlap)' : 'Analyzing Color Confusion Status...');
+  const deficiencyType = profile.deficiency_name || profile.clinical_diagnosis || (percentAccuracy === 100 ? 'Normal Colour Vision' : 'Personalized AI Diagnosis');
+  const colorConfusionStatus = profile.color_confusion_status || (percentAccuracy === 100 ? 'Flawless Colour Discrimination (No Overlap)' : 'Analyzing Colour Confusion Status...');
   const severity = profile.severity || (percentAccuracy === 100 ? 'None' : percentAccuracy >= 76 ? 'Mild' : percentAccuracy >= 40 ? 'Moderate' : 'Severe');
 
   // Directly display the exact AI explanation from the report
-  const aiExplanation = profile.ai_explanation || `Based on your test responses, we noticed you experience overlapping contrast with red, green, and earthy brown shades—especially when they appear as tiny indicator dots or status lines. Our core philosophy is simple: you should never have to rely on color alone to make critical decisions. To solve this, Neurolens AI dynamically transforms problematic reds and greens into high-contrast alternatives (like High-Contrast Blue and Vibrant Amber) while immediately attaching clear meaning tags (such as [Critical Alert] or [Successful]). This creates an intuitive, stress-free digital workspace tailored precisely to your eyes.`;
+  const aiExplanation = profile.ai_explanation || `Based on your test responses, we noticed you experience overlapping contrast with red, green, and earthy brown shades—especially when they appear as tiny indicator dots or status lines. Our core philosophy is simple: you should never have to rely on colour alone to make critical decisions. To solve this, Neurolens AI dynamically transforms problematic reds and greens into high-contrast alternatives (like High-Contrast Blue and Vibrant Amber) while immediately attaching clear meaning tags (such as [Critical Alert] or [Successful]). This creates an intuitive, stress-free digital workspace tailored precisely to your eyes.`;
 
   // Directly display the exact meaning-based transformations from the report
   const meaningBasedTransformations = (profile.meaning_based_transformations && profile.meaning_based_transformations.length > 0) ? profile.meaning_based_transformations : [
@@ -156,7 +156,7 @@ export const ResultScreen: React.FC = () => {
       original_color_name: "🔴 Problematic Red (#E74C3C)",
       transformed_color_hex: "#3498DB",
       meaning_label: "Critical Alert / Over Budget [High-Contrast Blue + ⚠]",
-      explanation: "Because red appears muddy or merges with dark backgrounds for you, we transform it to High-Contrast Blue and explicitly append the meaning '[Critical Alert]' so you never rely on color alone."
+      explanation: "Because red appears muddy or merges with dark backgrounds for you, we transform it to High-Contrast Blue and explicitly append the meaning '[Critical Alert]' so you never rely on colour alone."
     },
     {
       original_color_name: "🟢 Problematic Green (#2ECC40)",
@@ -267,7 +267,7 @@ export const ResultScreen: React.FC = () => {
             <span className="text-sm font-bold text-[#047857]">3 Websites (Salesforce, Excel Web, Bloomberg)</span>
           </div>
           <div className="bg-[#ffffff] px-6 py-3.5 rounded-2xl border border-[#e2e8f0] shadow-md hover:border-[#10b981] transition-all">
-            <span className="text-xs text-[#64748b] uppercase block font-bold mb-1 tracking-wider">🎨 Confusing Colors Fixed Today</span>
+            <span className="text-xs text-[#64748b] uppercase block font-bold mb-1 tracking-wider">🎨 Confusing Colours Fixed Today</span>
             <span className="text-sm font-bold text-[#a15100]">{elementsAdapted} Elements Adapted</span>
           </div>
         </div>
@@ -283,7 +283,7 @@ export const ResultScreen: React.FC = () => {
           Your Personal Accessibility Dashboard
         </h1>
         <p className="text-lg md:text-xl text-[#64748b] font-medium max-w-4xl mx-auto leading-relaxed border-b border-[#e2e8f0] pb-10">
-          "We don't just measure how you see color. We use your test results to craft a personal digital lens that instantly adapts any website, spreadsheet, or chart to match your natural perception."
+          "We don't just measure how you see colour. We use your test results to craft a personal digital lens that instantly adapts any website, spreadsheet, or chart to match your natural perception."
         </p>
       </div>
 
@@ -308,7 +308,7 @@ export const ResultScreen: React.FC = () => {
           </span>
         </div>
         <div className="glass-card-subtle p-6 flex flex-col justify-between lg:col-span-1 md:col-span-2 hover-elevate shadow-md">
-          <span className="text-xs font-bold text-[#64748b] uppercase tracking-wider mb-2 block">Color Confusion Status</span>
+          <span className="text-xs font-bold text-[#64748b] uppercase tracking-wider mb-2 block">Colour Confusion Status</span>
           <span className="text-sm font-bold text-[#a15100] leading-snug">{colorConfusionStatus}</span>
         </div>
       </div>
@@ -339,10 +339,10 @@ export const ResultScreen: React.FC = () => {
         <div className="mb-10 border-b border-[#e2e8f0] pb-8">
           <h3 className="text-3xl font-bold text-[#0f172a] mb-3 flex items-center tracking-tight">
             <svg className="w-9 h-9 text-[#10b981] mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
-            Meaning-Based Color Transformations
+            Meaning-Based Colour Transformations
           </h3>
           <p className="text-base md:text-lg text-[#64748b] font-medium">
-            <span className="text-[#a15100] font-bold">Core Philosophy:</span> We refuse to make you dependent on color alone! Whenever a problematic color is identified, we transform it into an accessible shade AND immediately append its explicit meaning label right beside it.
+            <span className="text-[#a15100] font-bold">Core Philosophy:</span> We refuse to make you dependent on colour alone! Whenever a problematic colour is identified, we transform it into an accessible shade AND immediately append its explicit meaning label right beside it.
           </p>
         </div>
 
@@ -352,7 +352,7 @@ export const ResultScreen: React.FC = () => {
               
               {/* Original Color */}
               <div className="w-full lg:w-1/3 bg-[#f8fafc] p-6 rounded-2xl border border-[#e2e8f0] shadow-inner">
-                <span className="text-xs text-[#ba1a1a] font-bold block uppercase mb-3 tracking-wider">Original Problem Color</span>
+                <span className="text-xs text-[#ba1a1a] font-bold block uppercase mb-3 tracking-wider">Original Problem Colour</span>
                 <div className="flex items-center space-x-4">
                   <div 
                     className="w-12 h-12 rounded-xl shadow-md border border-[#e2e8f0] flex-shrink-0" 
@@ -484,7 +484,7 @@ export const ResultScreen: React.FC = () => {
               <svg className="w-8 h-8 text-[#10b981] mr-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
               Interactive Live Playground
             </h3>
-            <p className="text-base text-[#64748b]">See exactly how Neurolens AI dynamically changes confusing colors and adds helpful symbols in real-time:</p>
+            <p className="text-base text-[#64748b]">See exactly how Neurolens AI dynamically changes confusing colours and adds helpful symbols in real-time:</p>
           </div>
           {/* Tabs */}
           <div className="flex flex-wrap gap-2 bg-[#eae6f0] p-2 rounded-full border border-[#e2e8f0] shadow-inner">
@@ -536,7 +536,7 @@ export const ResultScreen: React.FC = () => {
               <span className="text-3xl">💡</span>
               <p className="text-[#0f172a] font-normal leading-relaxed">
                 <span className="text-[#047857] font-bold block mb-1.5 text-sm uppercase tracking-wider">Why this changed for you:</span>
-                "Neurolens AI detected a confusing color dot here. We automatically swapped it for a bright symbol and clear text label because your profile showed difficulty with this specific shade."
+                "Neurolens AI detected a confusing colour dot here. We automatically swapped it for a bright symbol and clear text label because your profile showed difficulty with this specific shade."
               </p>
             </div>
           </div>
@@ -561,7 +561,7 @@ export const ResultScreen: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-in fade-in duration-500">
                 {/* Before Section */}
                 <div className="bg-[#ffffff] p-6 rounded-2xl border border-[#e2e8f0] shadow-sm">
-                  <span className="text-xs text-[#ba1a1a] font-bold block uppercase mb-5 tracking-wider">Before (Color Only)</span>
+                  <span className="text-xs text-[#ba1a1a] font-bold block uppercase mb-5 tracking-wider">Before (Colour Only)</span>
                   {activePlaygroundTab === 'analytics' && (
                     <div className="space-y-4 font-medium text-sm md:text-base text-[#0f172a]">
                       <div className="p-4 bg-[#f8fafc] rounded-xl flex flex-wrap items-center justify-between gap-2 border-l-4 border-green-600 shadow-sm">

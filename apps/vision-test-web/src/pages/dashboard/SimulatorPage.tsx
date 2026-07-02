@@ -161,7 +161,7 @@ export const SimulatorPage: React.FC = () => {
             <div className="glass-panel p-5 rounded-2xl bg-gradient-to-br from-purple-50 to-indigo-50 border-purple-100">
               <h4 className="text-sm font-bold text-purple-900 mb-2">How it works</h4>
               <p className="text-xs text-purple-700/80 leading-relaxed font-medium">
-                The left side shows the image passed through a color-blindness simulation filter. Notice how reds and greens blend together. The right side applies the Neurolens AI Daltonization matrix, shifting problematic frequencies to ensure high contrast.
+                The left side shows the image passed through a colour-blindness simulation filter. Notice how reds and greens blend together. The right side applies the Neurolens AI Daltonization matrix, shifting problematic frequencies to ensure high contrast.
               </p>
             </div>
           </motion.div>
@@ -173,7 +173,7 @@ export const SimulatorPage: React.FC = () => {
               {/* Header Badges */}
               <div className="absolute top-4 left-4 z-20 flex justify-between w-[calc(100%-32px)] pointer-events-none">
                 <span className="bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg">
-                  Simulation (Color-Blind View)
+                  Simulation (Colour-Blind View)
                 </span>
                 <span className="bg-emerald-500/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span> Neurolens AI Fix Applied

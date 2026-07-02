@@ -27,7 +27,7 @@ export const HeroSection: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-6xl md:text-8xl font-extrabold text-slate-900 tracking-tight mb-8 leading-tight max-w-5xl mx-auto"
         >
-          Beyond Colors. <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">Beyond Barriers.</span>
+          Beyond Colours. <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">Beyond Barriers.</span>
         </motion.h1>
 
         <motion.p 
@@ -36,7 +36,7 @@ export const HeroSection: React.FC = () => {
           transition={{ delay: 0.2 }}
           className="text-xl md:text-2xl text-slate-500 mb-12 max-w-3xl mx-auto font-medium leading-relaxed"
         >
-          Neurolens is an intelligent browser engine that instantly translates confusing colors on websites and dashboards into clear, high-contrast visuals tailored to your exact eyes.
+          Neurolens is an intelligent browser engine that instantly translates confusing colours on websites and dashboards into clear, high-contrast visuals tailored to your exact eyes.
         </motion.p>
 
         <motion.div 
@@ -72,8 +72,8 @@ export const HeroSection: React.FC = () => {
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
           {[
-            { icon: Eye, title: "Smart Contrast", desc: "Automatically detects tricky colors on charts or dashboards and shifts them to high-contrast shades.", color: "emerald" },
-            { icon: Zap, title: "Instant Meaning", desc: "We don't just change colors—we add explicit text tags like [Warning] so you never have to guess.", color: "teal" },
+            { icon: Eye, title: "Smart Contrast", desc: "Automatically detects tricky colours on charts or dashboards and shifts them to high-contrast shades.", color: "emerald" },
+            { icon: Zap, title: "Instant Meaning", desc: "We don't just change colours—we add explicit text tags like [Warning] so you never have to guess.", color: "teal" },
             { icon: Shield, title: "Private & Fast", desc: "Runs directly in your browser without tracking your personal data or slowing down your computer.", color: "emerald" }
           ].map((feat, idx) => (
             <motion.div 

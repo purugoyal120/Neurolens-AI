@@ -35,7 +35,7 @@ export const TestInterface: React.FC = () => {
             Neurolens AI Diagnostic
           </h1>
           <p className="text-lg text-slate-500 font-medium leading-relaxed px-4">
-            A highly calibrated 2-minute test to map your unique color perception matrix. 
+            A highly calibrated 2-minute test to map your unique colour perception matrix. 
             This unlocks personalized UI adaptations across all your digital interfaces.
           </p>
         </div>
