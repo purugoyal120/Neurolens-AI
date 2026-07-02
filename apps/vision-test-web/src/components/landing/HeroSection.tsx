@@ -26,7 +26,7 @@ export const HeroSection: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8 leading-tight max-w-5xl mx-auto"
         >
-          Accessibility, <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-600">Beyond Colors.</span>
+          Beyond Colors. <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-600">Beyond Barriers.</span>
         </motion.h1>
 
         <motion.p 
@@ -42,7 +42,7 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-20"
+          className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-12"
         >
           <Link to="/onboarding" className="premium-btn px-10 py-5 text-lg flex items-center gap-2">
             Take Diagnostic Test <ArrowRight className="w-5 h-5" />
@@ -50,6 +50,22 @@ export const HeroSection: React.FC = () => {
           <a href="#demo" className="premium-btn-secondary px-10 py-5 font-bold text-lg flex items-center gap-2">
             See How It Works
           </a>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mb-20 flex flex-col items-center justify-center gap-3 text-slate-500 text-sm font-medium"
+        >
+          <div className="flex -space-x-3 shadow-sm">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden">
+                <img src={`https://i.pravatar.cc/100?img=${i + 20}`} alt="User" className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+          <p>Join 10,000+ professionals browsing with complete clarity.</p>
         </motion.div>
 
         {/* Features Grid */}
