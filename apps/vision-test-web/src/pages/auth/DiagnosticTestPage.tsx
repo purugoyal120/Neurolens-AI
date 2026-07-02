@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, ChevronRight, Activity, ShieldCheck, FileText, Timer } from 'lucide-react';
+import { Eye, ChevronRight, CheckCircle2, Activity, ShieldCheck, FileText, Timer } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 
@@ -18,17 +18,63 @@ export const DiagnosticTestPage: React.FC = () => {
   const [isTimeUp, setIsTimeUp] = useState(false);
 
   const testSteps = [
-    { id: 1, type: 'protanopia', baseColor: '#E53935', targetColor: '#C62828', question: "Click the square with a slightly different color" },
-    { id: 2, type: 'deuteranopia', baseColor: '#43A047', targetColor: '#2E7D32', question: "Click the odd square out" },
-    { id: 3, type: 'tritanopia', baseColor: '#1E88E5', targetColor: '#1565C0', question: "Find the odd color" },
-    { id: 4, type: 'protanopia', baseColor: '#8D6E63', targetColor: '#795548', question: "Click the different shade" },
-    { id: 5, type: 'deuteranopia', baseColor: '#FDD835', targetColor: '#FBC02D', question: "Which one is different?" },
-    { id: 6, type: 'protanopia', baseColor: '#EF5350', targetColor: '#E53935', question: "Almost done, find the odd one" },
-    { id: 7, type: 'deuteranopia', baseColor: '#66BB6A', targetColor: '#4CAF50', question: "Last one, click the odd square" }
+    {
+      id: 1,
+      image: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Ishihara_9.png", 
+      question: "What number do you see in this circle?",
+      options: ["74", "21", "I don't see a number"],
+      correct: "74",
+      type: "protanopia"
+    },
+    {
+      id: 2,
+      image: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Ishihara_11.png", 
+      question: "What number do you see here?",
+      options: ["6", "8", "I don't see a number"],
+      correct: "6",
+      type: "deuteranopia"
+    },
+    {
+      id: 3,
+      image: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Ishihara_23.png", 
+      question: "What number is visible?",
+      options: ["42", "2", "4", "Nothing"],
+      correct: "42",
+      type: "protanopia"
+    },
+    {
+      id: 4,
+      image: "https://upload.wikimedia.org/wikipedia/commons/6/69/Ishihara_1.png", 
+      question: "What number is in the center?",
+      options: ["12", "I don't see a number", "72"],
+      correct: "12",
+      type: "normal"
+    },
+    {
+      id: 5,
+      image: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Ishihara_15.png", 
+      question: "Identify the number",
+      options: ["5", "3", "I don't see a number"],
+      correct: "3",
+      type: "deuteranopia"
+    },
+    {
+      id: 6,
+      image: "https://upload.wikimedia.org/wikipedia/commons/9/91/Ishihara_19.png", 
+      question: "Can you trace the line?",
+      options: ["Yes, continuous", "Broken line", "No line visible"],
+      correct: "Yes, continuous",
+      type: "protanopia"
+    },
+    {
+      id: 7,
+      image: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Ishihara_23.png", 
+      question: "Final check, what do you see?",
+      options: ["42", "2", "4", "Nothing"],
+      correct: "42",
+      type: "deuteranopia"
+    }
   ];
-
-  // Randomize the correct target square for each step (0, 1, 2, or 3)
-  const targetIndex = useMemo(() => Math.floor(Math.random() * 4), [step]);
 
   // Timer Effect
   useEffect(() => {
@@ -66,18 +112,14 @@ export const DiagnosticTestPage: React.FC = () => {
       let accuracy = Math.round((finalScores.normal / 7) * 100);
 
       // Diagnostic Logic based on exact errors
-      if (finalScores.protanopia > 1 && finalScores.protanopia >= finalScores.deuteranopia) {
+      if (finalScores.protanopia > 0 && finalScores.protanopia >= finalScores.deuteranopia) {
         profileName = 'Protanopia Mode';
-        severity = finalScores.protanopia >= 3 ? 'Severe' : 'Moderate';
+        severity = finalScores.protanopia >= 2 ? 'Severe' : 'Moderate';
         description = 'Red-blindness detected. You struggle to differentiate subtle red hues. Neurolens AI will actively shift confusing red tones into high-contrast cyan to help you distinguish them clearly.';
-      } else if (finalScores.deuteranopia > 1) {
+      } else if (finalScores.deuteranopia > 0) {
         profileName = 'Deuteranopia Mode';
-        severity = finalScores.deuteranopia >= 3 ? 'Severe' : 'Moderate';
+        severity = finalScores.deuteranopia >= 2 ? 'Severe' : 'Moderate';
         description = 'Green-blindness detected. You have difficulty separating greens from reds and browns. Neurolens AI will optimize these frequencies to high-contrast amber & blue.';
-      } else if (finalScores.tritanopia > 0) {
-        profileName = 'Tritanopia Mode';
-        severity = 'Moderate';
-        description = 'Blue-blindness detected. You may confuse blue with green or yellow. Neurolens AI will enhance contrast boundaries for these specific spectrums.';
       } else if (accuracy < 30) {
         profileName = 'Monochromacy Mode';
         severity = 'Extreme';
@@ -93,7 +135,7 @@ export const DiagnosticTestPage: React.FC = () => {
         description,
         severity,
         accuracy,
-        answers: ['Color Grid Test Computed'] // Simplified for the new format
+        answers: ['Completed visual plate test']
       };
       
       setResult(reportData);
@@ -101,16 +143,19 @@ export const DiagnosticTestPage: React.FC = () => {
     }, 2500);
   };
 
-  const handleAnswer = (boxIndex: number) => {
+  const handleAnswer = (selectedOption: string) => {
     let newScores = { ...scores };
+    const currentStep = testSteps[step];
     
-    if (boxIndex === targetIndex) {
-      // Correct answer
+    if (selectedOption === currentStep.correct) {
       newScores.normal += 1;
     } else {
-      // Incorrect answer, log the specific deficiency type
-      const deficiencyType = testSteps[step].type as 'protanopia' | 'deuteranopia' | 'tritanopia';
-      newScores[deficiencyType] += 1;
+      // Log the specific deficiency type based on what plate they failed
+      if (currentStep.type === 'protanopia' || currentStep.type === 'deuteranopia') {
+         newScores[currentStep.type] += 1;
+      } else {
+         newScores.protanopia += 1; // fallback
+      }
     }
     
     setScores(newScores);
@@ -163,26 +208,25 @@ export const DiagnosticTestPage: React.FC = () => {
 
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold text-slate-900">{testSteps[step].question}</h2>
-                  <p className="text-slate-500 text-sm mt-2">Identify and click the box that has a slightly different color.</p>
                 </div>
 
-                {/* 4x4 Color Grid */}
                 <div className="flex justify-center mb-10">
-                  <div className="grid grid-cols-2 gap-4 bg-slate-50 p-6 rounded-3xl border border-slate-100 shadow-inner">
-                    {[0, 1, 2, 3].map((boxIndex) => (
-                      <button
-                        key={boxIndex}
-                        onClick={() => handleAnswer(boxIndex)}
-                        style={{
-                          backgroundColor: boxIndex === targetIndex ? testSteps[step].targetColor : testSteps[step].baseColor
-                        }}
-                        className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl shadow-sm hover:scale-105 active:scale-95 transition-transform"
-                        aria-label={`Color box ${boxIndex}`}
-                      />
-                    ))}
+                  <div className="w-64 h-64 rounded-full overflow-hidden shadow-2xl border-4 border-white bg-slate-100 flex items-center justify-center">
+                    <img src={testSteps[step].image} alt={`Ishihara Plate ${step + 1}`} className="w-full h-full object-cover" />
                   </div>
                 </div>
 
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto">
+                  {testSteps[step].options.map(option => (
+                    <button
+                      key={option}
+                      onClick={() => handleAnswer(option)}
+                      className="px-6 py-4 rounded-2xl border-2 border-slate-100 hover:border-emerald-500 hover:bg-emerald-50 text-slate-700 font-bold transition-all text-sm md:text-base shadow-sm hover:shadow-md"
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
               </motion.div>
             )}
 
