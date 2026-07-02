@@ -713,7 +713,17 @@ export const ResultScreen: React.FC = () => {
       {/* CTA Button to proceed to register */}
       <div className="flex justify-center mt-12 pb-8">
         <button 
-          onClick={() => navigate('/register', { state: { profile: deficiencyType } })}
+          onClick={() => navigate('/register', { 
+            state: { 
+              profile: deficiencyType,
+              reportData: {
+                profile: deficiencyType,
+                description: aiExplanation,
+                severity: severity,
+                accuracy: percentAccuracy
+              }
+            } 
+          })}
           className="px-10 py-5 bg-[#10b981] hover:bg-[#047857] text-white font-extrabold text-xl rounded-full flex items-center gap-3 shadow-xl shadow-[#10b981]/30 transition-all hover:scale-105"
         >
           Save Profile & Create Account <ChevronRight className="w-6 h-6" />

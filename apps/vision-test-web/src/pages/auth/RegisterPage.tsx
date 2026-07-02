@@ -7,7 +7,7 @@ export const RegisterPage: React.FC = () => {
   const [name, setName] = useState('Puru Goyal');
   const [email, setEmail] = useState('puru@example.com');
   const [password, setPassword] = useState('password123');
-  const { login } = useAuth();
+  const { login, saveReport } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -15,6 +15,11 @@ export const RegisterPage: React.FC = () => {
     e.preventDefault();
     const profile = location.state?.profile || 'Standard Mode';
     login(email, name, profile);
+    
+    if (location.state?.reportData) {
+      saveReport(location.state.reportData);
+    }
+
     navigate('/dashboard');
   };
 
