@@ -19,28 +19,43 @@ export const SimulatorPage: React.FC = () => {
     website: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200"
   };
 
-  const handleMouseDown = () => setIsDragging(true);
-  const handleMouseUp = () => setIsDragging(false);
+  const handleDragStart = () => setIsDragging(true);
+  const handleDragEnd = () => setIsDragging(false);
 
-  const handleMouseMove = (e: React.MouseEvent | MouseEvent) => {
+  const handleDragMove = (e: MouseEvent | TouchEvent) => {
     if (!isDragging || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+    let clientX;
+    if ('touches' in e) {
+      clientX = e.touches[0].clientX;
+    } else {
+      clientX = (e as MouseEvent).clientX;
+    }
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
     const percent = Math.max(0, Math.min((x / rect.width) * 100, 100));
     setSliderPos(percent);
   };
 
   useEffect(() => {
     if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('mousemove', handleDragMove);
+      window.addEventListener('mouseup', handleDragEnd);
+      window.addEventListener('touchmove', handleDragMove, { passive: true });
+      window.addEventListener('touchend', handleDragEnd);
+      window.addEventListener('touchcancel', handleDragEnd);
     } else {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('mousemove', handleDragMove);
+      window.removeEventListener('mouseup', handleDragEnd);
+      window.removeEventListener('touchmove', handleDragMove);
+      window.removeEventListener('touchend', handleDragEnd);
+      window.removeEventListener('touchcancel', handleDragEnd);
     }
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('mousemove', handleDragMove);
+      window.removeEventListener('mouseup', handleDragEnd);
+      window.removeEventListener('touchmove', handleDragMove);
+      window.removeEventListener('touchend', handleDragEnd);
+      window.removeEventListener('touchcancel', handleDragEnd);
     };
   }, [isDragging]);
 
@@ -169,8 +184,9 @@ export const SimulatorPage: React.FC = () => {
               <div 
                 ref={containerRef}
                 className="relative w-full h-full rounded-xl overflow-hidden cursor-ew-resize flex-1 bg-slate-900"
-                onMouseDown={handleMouseDown}
-                onMouseLeave={handleMouseUp}
+                onMouseDown={handleDragStart}
+                onTouchStart={handleDragStart}
+                onMouseLeave={handleDragEnd}
               >
                 {/* Right Side (Fixed View) */}
                 <img 
