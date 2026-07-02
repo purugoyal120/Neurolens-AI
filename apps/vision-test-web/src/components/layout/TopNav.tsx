@@ -73,19 +73,7 @@ export const TopNav: React.FC = () => {
       {/* Right Actions */}
       <div className="flex items-center gap-4">
         
-        {/* Operator Mode Toggle */}
-        <div 
-          onClick={handleToggleMode}
-          className="bg-white rounded-full px-1.5 py-1.5 flex items-center shadow-sm cursor-pointer border border-transparent hover:border-emerald-100 transition-all select-none"
-          title={isCaregiverMode ? "Admin View (Filters OFF)" : "Self View (Filters ON)"}
-        >
-          <div className={`px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 transition-all ${!isCaregiverMode ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-400 hover:text-slate-600'}`}>
-            <Eye className="w-4 h-4" /> Self
-          </div>
-          <div className={`px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 transition-all ${isCaregiverMode ? 'bg-slate-900 text-white shadow-md' : 'text-slate-400 hover:text-slate-600'}`}>
-            <Shield className="w-4 h-4" /> Admin
-          </div>
-        </div>
+
 
         {/* Actions Pill */}
         <div className="bg-white rounded-full px-5 py-2.5 flex items-center gap-6 shadow-sm">
