@@ -1,7 +1,6 @@
 import React from 'react';
 import { TopNav } from '../../components/layout/TopNav';
 import { ImpactDashboard } from '../../components/ImpactDashboard';
-import { TestInterface } from '../../components/TestInterface';
 
 export const OverviewPage: React.FC = () => {
   return (
@@ -21,14 +20,6 @@ export const OverviewPage: React.FC = () => {
       {/* The telemetry dashboard */}
       <ImpactDashboard />
 
-      {/* Quick Diagnostic Test */}
-      <div className="mb-10 pb-10">
-        <div className="mb-6">
-          <h2 className="text-xl font-bold text-slate-800 mb-1">Quick Diagnostic</h2>
-          <p className="text-slate-500 text-sm">Run a live accessibility check on any URL.</p>
-        </div>
-        <TestInterface />
-      </div>
     </div>
   );
 };

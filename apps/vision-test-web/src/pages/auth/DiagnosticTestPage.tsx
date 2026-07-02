@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, ChevronRight, CheckCircle2, Activity, ShieldCheck, FileText } from 'lucide-react';
+import { Eye, ChevronRight, CheckCircle2, Activity, ShieldCheck, FileText, Timer } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 
@@ -11,6 +11,10 @@ export const DiagnosticTestPage: React.FC = () => {
   const [answers, setAnswers] = useState<string[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<any | null>(null);
+  
+  // 1 Minute Timer
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [isTimeUp, setIsTimeUp] = useState(false);
 
   const testSteps = [
     {
@@ -30,8 +34,97 @@ export const DiagnosticTestPage: React.FC = () => {
       image: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Ishihara_23.png", 
       question: "What number is visible?",
       options: ["42", "2", "4", "Nothing"]
+    },
+    {
+      id: 4,
+      image: "https://upload.wikimedia.org/wikipedia/commons/6/69/Ishihara_1.png", 
+      question: "What number is in the center?",
+      options: ["12", "I don't see a number", "72"]
+    },
+    {
+      id: 5,
+      image: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Ishihara_15.png", 
+      question: "Identify the number",
+      options: ["5", "3", "I don't see a number"]
+    },
+    {
+      id: 6,
+      image: "https://upload.wikimedia.org/wikipedia/commons/9/91/Ishihara_19.png", 
+      question: "Can you trace the line?",
+      options: ["Yes, continuous", "Broken line", "No line visible"]
+    },
+    {
+      id: 7,
+      image: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Ishihara_23.png", 
+      question: "Final check, what do you see?",
+      options: ["42", "2", "4", "Nothing"] // Used 23 again for visual consistency in hackathon
     }
   ];
+
+  // Timer Effect
+  useEffect(() => {
+    if (isAnalyzing || result || isTimeUp) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setIsTimeUp(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isAnalyzing, result, isTimeUp]);
+
+  // Handle auto-submit on time up
+  useEffect(() => {
+    if (isTimeUp && !isAnalyzing && !result) {
+      handleTestComplete(answers);
+    }
+  }, [isTimeUp]);
+
+  const handleTestComplete = (finalAnswers: string[]) => {
+    setIsAnalyzing(true);
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      
+      let profileName = 'Standard Mode';
+      let description = 'Flawless color discrimination. No daltonization required.';
+      let severity = 'None';
+      let accuracy = 100;
+
+      if (finalAnswers.includes("4") || finalAnswers.includes("Broken line") || finalAnswers.includes("21")) {
+        profileName = 'Deuteranopia Mode';
+        description = 'Green-blindness detected. You have difficulty distinguishing greens from reds and browns. Neurolens AI will actively shift these overlapping frequencies to high-contrast Amber & Blue.';
+        severity = 'Moderate';
+        accuracy = 66;
+      } else if (finalAnswers.includes("2") || finalAnswers.includes("3")) {
+        profileName = 'Protanopia Mode';
+        description = 'Red-blindness detected. Reds appear muddy and blend with dark backgrounds. Neurolens AI will brighten reds into Electric Cyan for instant visibility.';
+        severity = 'Severe';
+        accuracy = 33;
+      } else if (finalAnswers.includes("I don't see a number") || finalAnswers.includes("Nothing") || finalAnswers.includes("No line visible")) {
+        profileName = 'Monochromacy Mode';
+        description = 'Complete color-blindness detected. Relying on color alone is dangerous. Neurolens AI will force-apply explicit text labels and shape indicators to every status dot and chart.';
+        severity = 'Extreme';
+        accuracy = 0;
+      }
+
+      const reportData = {
+        profile: profileName,
+        description,
+        severity,
+        accuracy,
+        answers: finalAnswers
+      };
+      
+      setResult(reportData);
+      saveReport(reportData);
+    }, 2500);
+  };
 
   const handleAnswer = (answer: string) => {
     const newAnswers = [...answers, answer];
@@ -40,44 +133,7 @@ export const DiagnosticTestPage: React.FC = () => {
     if (step < testSteps.length - 1) {
       setStep(step + 1);
     } else {
-      setIsAnalyzing(true);
-      setTimeout(() => {
-        setIsAnalyzing(false);
-        
-        // Construct Detailed Medical-Grade Profile
-        let profileName = 'Standard Mode';
-        let description = 'Flawless color discrimination. No daltonization required.';
-        let severity = 'None';
-        let accuracy = 100;
-
-        if (newAnswers.includes("4")) {
-          profileName = 'Deuteranopia Mode';
-          description = 'Green-blindness detected. You have difficulty distinguishing greens from reds and browns. Neurolens AI will actively shift these overlapping frequencies to high-contrast Amber & Blue.';
-          severity = 'Moderate';
-          accuracy = 66;
-        } else if (newAnswers.includes("2") || newAnswers.includes("21")) {
-          profileName = 'Protanopia Mode';
-          description = 'Red-blindness detected. Reds appear muddy and blend with dark backgrounds. Neurolens AI will brighten reds into Electric Cyan for instant visibility.';
-          severity = 'Severe';
-          accuracy = 33;
-        } else if (newAnswers.includes("I don't see a number") || newAnswers.includes("Nothing")) {
-          profileName = 'Monochromacy Mode';
-          description = 'Complete color-blindness detected. Relying on color alone is dangerous. Neurolens AI will force-apply explicit text labels and shape indicators to every status dot and chart.';
-          severity = 'Extreme';
-          accuracy = 0;
-        }
-
-        const reportData = {
-          profile: profileName,
-          description,
-          severity,
-          accuracy,
-          answers: newAnswers
-        };
-        
-        setResult(reportData);
-        saveReport(reportData);
-      }, 2500);
+      handleTestComplete(newAnswers);
     }
   };
 
@@ -109,10 +165,18 @@ export const DiagnosticTestPage: React.FC = () => {
                 exit={{ opacity: 0, x: -20 }}
                 className="p-8 md:p-12 text-center"
               >
-                <div className="mb-8">
-                  <div className="inline-block px-4 py-1.5 bg-slate-100 text-slate-600 font-bold text-xs rounded-full uppercase tracking-wider mb-4">
+                <div className="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+                  <div className="inline-flex items-center px-4 py-1.5 bg-slate-100 text-slate-600 font-bold text-xs rounded-full uppercase tracking-wider">
                     Diagnostic Test • {step + 1} of {testSteps.length}
                   </div>
+                  
+                  {/* Timer Display */}
+                  <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-bold text-sm transition-colors ${timeLeft <= 10 ? 'bg-rose-100 text-rose-600 animate-pulse' : 'bg-amber-100 text-amber-700'}`}>
+                    <Timer className="w-4 h-4" /> 00:{timeLeft.toString().padStart(2, '0')}
+                  </div>
+                </div>
+
+                <div className="mb-8">
                   <h2 className="text-2xl font-bold text-slate-900">{testSteps[step].question}</h2>
                 </div>
 
@@ -127,7 +191,7 @@ export const DiagnosticTestPage: React.FC = () => {
                     <button
                       key={option}
                       onClick={() => handleAnswer(option)}
-                      className="px-6 py-4 rounded-2xl border-2 border-slate-100 hover:border-emerald-500 hover:bg-emerald-50 text-slate-700 font-bold transition-all text-sm md:text-base"
+                      className="px-6 py-4 rounded-2xl border-2 border-slate-100 hover:border-emerald-500 hover:bg-emerald-50 text-slate-700 font-bold transition-all text-sm md:text-base shadow-sm hover:shadow-md"
                     >
                       {option}
                     </button>

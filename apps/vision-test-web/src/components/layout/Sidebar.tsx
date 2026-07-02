@@ -34,9 +34,6 @@ export const Sidebar: React.FC = () => {
           <NavLink to="/dashboard" end className={navClass} title="Dashboard">
             <Home className="w-5 h-5" />
           </NavLink>
-          <NavLink to="/simulator" className={navClass} title="Live Simulator">
-            <SplitSquareHorizontal className="w-5 h-5" />
-          </NavLink>
           <NavLink to="/reports" className={navClass} title="Reports">
             <FileText className="w-5 h-5" />
           </NavLink>
@@ -68,9 +65,6 @@ export const Sidebar: React.FC = () => {
       <div className="md:hidden fixed bottom-0 left-0 w-full h-16 bg-white/80 backdrop-blur-md border-t border-slate-200/50 z-[100] flex justify-around items-center px-2 pb-safe">
         <NavLink to="/dashboard" end className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-emerald-600 bg-emerald-50/50' : 'text-slate-500'}`}>
           <Home className="w-6 h-6" />
-        </NavLink>
-        <NavLink to="/simulator" className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500'}`}>
-          <SplitSquareHorizontal className="w-6 h-6" />
         </NavLink>
         
         {/* Mobile FAB */}

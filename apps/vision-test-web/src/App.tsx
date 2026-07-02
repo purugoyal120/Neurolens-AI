@@ -9,7 +9,6 @@ import { ReportsPage } from './pages/dashboard/ReportsPage';
 import { IntegrationsPage } from './pages/dashboard/IntegrationsPage';
 import { TeamPage } from './pages/dashboard/TeamPage';
 import { SettingsPage } from './pages/dashboard/SettingsPage';
-import { SimulatorPage } from './pages/dashboard/SimulatorPage';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
@@ -32,7 +31,6 @@ const App = () => {
                 
                 {/* Dashboard Routes */}
                 <Route path="/dashboard" element={<DashboardLayout><OverviewPage /></DashboardLayout>} />
-                <Route path="/simulator" element={<DashboardLayout><SimulatorPage /></DashboardLayout>} />
                 <Route path="/reports" element={<DashboardLayout><ReportsPage /></DashboardLayout>} />
                 <Route path="/reports-history" element={<DashboardLayout><MyReportsPage /></DashboardLayout>} />
                 <Route path="/integrations" element={<DashboardLayout><IntegrationsPage /></DashboardLayout>} />
