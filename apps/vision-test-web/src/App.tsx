@@ -14,6 +14,7 @@ import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
 import { DiagnosticTestPage } from './pages/auth/DiagnosticTestPage';
 import { MyReportsPage } from './pages/dashboard/MyReportsPage';
+import { SimulatorPage } from './pages/dashboard/SimulatorPage';
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
                 <Route path="/reports-history" element={<DashboardLayout><MyReportsPage /></DashboardLayout>} />
                 <Route path="/integrations" element={<DashboardLayout><IntegrationsPage /></DashboardLayout>} />
                 <Route path="/team" element={<DashboardLayout><TeamPage /></DashboardLayout>} />
+                <Route path="/simulator" element={<DashboardLayout><SimulatorPage /></DashboardLayout>} />
                 <Route path="/settings" element={<DashboardLayout><SettingsPage /></DashboardLayout>} />
                 
                 {/* Fallback */}

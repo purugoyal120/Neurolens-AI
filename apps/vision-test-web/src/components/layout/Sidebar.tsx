@@ -46,6 +46,9 @@ export const Sidebar: React.FC = () => {
           <NavLink to="/team" className={navClass} title="Team">
             <Users className="w-5 h-5" />
           </NavLink>
+          <NavLink to="/simulator" className={navClass} title="Vision Simulator">
+            <SplitSquareHorizontal className="w-5 h-5" />
+          </NavLink>
           <NavLink to="/settings" className={navClass} title="Settings">
             <Settings className="w-5 h-5" />
           </NavLink>
@@ -76,6 +79,9 @@ export const Sidebar: React.FC = () => {
 
         <NavLink to="/reports" className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500'}`}>
           <FileText className="w-6 h-6" />
+        </NavLink>
+        <NavLink to="/simulator" className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500'}`}>
+          <SplitSquareHorizontal className="w-6 h-6" />
         </NavLink>
         <NavLink to="/settings" className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500'}`}>
           <Settings className="w-6 h-6" />
