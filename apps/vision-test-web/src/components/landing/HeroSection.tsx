@@ -26,7 +26,7 @@ export const HeroSection: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8 leading-tight max-w-5xl mx-auto"
         >
-          Never guess between <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-rose-600">red</span> and <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-emerald-600">green</span> again.
+          Accessibility, <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-600">Beyond Colors.</span>
         </motion.h1>
 
         <motion.p 
