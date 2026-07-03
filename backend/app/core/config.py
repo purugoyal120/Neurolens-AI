@@ -18,6 +18,10 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 60 * 24 * 7 # 7 days
     
     test_version: str = "v1.0"
-    cors_origins: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    cors_origins: list[str] = [
+        "http://localhost:5173", 
+        "http://localhost:3000",
+        "https://neurolens-ai-pink.vercel.app"
+    ]
 
 settings = Settings()
