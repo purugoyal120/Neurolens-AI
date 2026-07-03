@@ -4,7 +4,7 @@ import { FileSpreadsheet, Key, Copy } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { ExtensionSyncCard } from '../../components/dashboard/ExtensionSyncCard';
+import { BookmarkletCard } from '../../components/dashboard/BookmarkletCard';
 
 export const IntegrationsPage: React.FC = () => {
   const { addToast } = useToast();
@@ -45,9 +45,9 @@ export const IntegrationsPage: React.FC = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Browser Extension (Live Sync Component) */}
+          {/* Browser Bookmarklet (MVP Extension) */}
           <motion.div variants={itemVariants}>
-            <ExtensionSyncCard />
+            <BookmarkletCard />
           </motion.div>
 
           {/* Excel Add-in */}
