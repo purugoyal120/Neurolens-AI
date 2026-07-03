@@ -10,6 +10,7 @@ import { IntegrationsPage } from './pages/dashboard/IntegrationsPage';
 import { TeamPage } from './pages/dashboard/TeamPage';
 import { SettingsPage } from './pages/dashboard/SettingsPage';
 import { LandingPage } from './pages/LandingPage';
+import { PricingPage } from './pages/PricingPage';
 import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
 import { DiagnosticTestPage } from './pages/auth/DiagnosticTestPage';
@@ -26,6 +27,7 @@ const App = () => {
               <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<LandingPage />} />
+                <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/onboarding" element={<DiagnosticTestPage />} />

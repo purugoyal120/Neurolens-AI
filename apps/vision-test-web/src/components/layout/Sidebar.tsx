@@ -54,14 +54,24 @@ export const Sidebar: React.FC = () => {
           </NavLink>
         </nav>
 
-        {/* Logout */}
-        <button 
-          onClick={handleLogout}
-          className="w-12 h-12 rounded-full flex items-center justify-center text-slate-500 hover:bg-rose-50 hover:text-rose-600 transition-all mt-auto"
-          title="Logout"
-        >
-          <LogOut className="w-5 h-5" />
-        </button>
+        {/* Upgrade & Logout Group */}
+        <div className="mt-auto flex flex-col items-center gap-4">
+          <Link 
+            to="/pricing"
+            className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-amber-500/20 hover:scale-105 transition-transform"
+            title="Upgrade to Pro"
+          >
+            <span className="font-extrabold text-lg">PRO</span>
+          </Link>
+          
+          <button 
+            onClick={handleLogout}
+            className="w-12 h-12 rounded-full flex items-center justify-center text-slate-500 hover:bg-rose-50 hover:text-rose-600 transition-all"
+            title="Logout"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
+        </div>
       </aside>
 
       {/* --- MOBILE BOTTOM NAVIGATION --- */}

@@ -19,6 +19,7 @@ export const LandingPage: React.FC = () => {
           <div className="hidden md:flex items-center gap-10">
             <a href="#demo" className="text-base font-semibold text-slate-600 hover:text-emerald-600 transition-colors">How it Works</a>
             <a href="#features" className="text-base font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Features</a>
+            <Link to="/pricing" className="text-base font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Pricing</Link>
           </div>
           <div className="flex items-center gap-6">
             <Link to="/login" className="text-base font-bold text-slate-700 hover:text-slate-900 transition-colors">Sign In</Link>
