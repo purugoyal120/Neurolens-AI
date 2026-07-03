@@ -90,42 +90,51 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
       console.warn("Backend unavailable. Using mock test data for demo.");
       // Fallback for Vercel demo
       const mockConfig: VisionTestConfig = {
-        test_id: "mock_test_123",
-        version: "1.0",
-        time_limit_seconds: 120,
+        test_id: "mock_test_full",
+        version: "1.2",
+        time_limit_seconds: 60,
         questions: [
           {
-            id: "q1", index: 0, axis: "protan", difficulty: "medium",
-            prompt: "Select the option that matches the reference color.",
-            stimulus_hex: "#E74C3C",
-            options: [
-              { id: "o1", label: "A", hex: "#E74C3C" },
-              { id: "o2", label: "B", hex: "#D35400" },
-              { id: "o3", label: "C", hex: "#C0392B" }
-            ],
-            correct_option_id: "o1"
+            id: "q1", index: 0, axis: "red_green", difficulty: "basic",
+            prompt: "Which color matches the displayed patch above?", stimulus_hex: "#E74C3C",
+            options: [{ id: "q1_a", label: "Red", hex: "#E74C3C" }, { id: "q1_b", label: "Green", hex: "#2ECC40" }, { id: "q1_c", label: "Orange", hex: "#E67E22" }, { id: "q1_d", label: "Brown", hex: "#8B5E3C" }],
+            correct_option_id: "q1_a"
           },
           {
-            id: "q2", index: 1, axis: "deutan", difficulty: "medium",
-            prompt: "Select the option that matches the reference color.",
-            stimulus_hex: "#2ECC71",
-            options: [
-              { id: "o1", label: "A", hex: "#27AE60" },
-              { id: "o2", label: "B", hex: "#2ECC71" },
-              { id: "o3", label: "C", hex: "#F1C40F" }
-            ],
-            correct_option_id: "o2"
+            id: "q2", index: 1, axis: "red_green", difficulty: "basic",
+            prompt: "Select the exact color category for this status indicator:", stimulus_hex: "#2ECC40",
+            options: [{ id: "q2_a", label: "Red", hex: "#E74C3C" }, { id: "q2_b", label: "Green", hex: "#2ECC40" }, { id: "q2_c", label: "Yellow", hex: "#F1C40F" }, { id: "q2_d", label: "Gray", hex: "#95A5A6" }],
+            correct_option_id: "q2_b"
           },
           {
-            id: "q3", index: 2, axis: "tritan", difficulty: "hard",
-            prompt: "Select the option that matches the reference color.",
-            stimulus_hex: "#3498DB",
-            options: [
-              { id: "o1", label: "A", hex: "#9B59B6" },
-              { id: "o2", label: "B", hex: "#2980B9" },
-              { id: "o3", label: "C", hex: "#3498DB" }
-            ],
-            correct_option_id: "o3"
+            id: "q3", index: 2, axis: "red_green", difficulty: "basic",
+            prompt: "How would you identify this deep shade?", stimulus_hex: "#8B5E3C",
+            options: [{ id: "q3_a", label: "Brown", hex: "#8B5E3C" }, { id: "q3_b", label: "Red", hex: "#C0392B" }, { id: "q3_c", label: "Green", hex: "#27AE60" }, { id: "q3_d", label: "Purple", hex: "#8E44AD" }],
+            correct_option_id: "q3_a"
+          },
+          {
+            id: "q4", index: 3, axis: "blue_yellow", difficulty: "basic",
+            prompt: "Choose the correct primary color tone:", stimulus_hex: "#3498DB",
+            options: [{ id: "q4_a", label: "Yellow", hex: "#F1C40F" }, { id: "q4_b", label: "Blue", hex: "#3498DB" }, { id: "q4_c", label: "Purple", hex: "#8E44AD" }, { id: "q4_d", label: "Gray", hex: "#95A5A6" }],
+            correct_option_id: "q4_b"
+          },
+          {
+            id: "q5", index: 4, axis: "blue_yellow", difficulty: "basic",
+            prompt: "Which hue best describes this bright patch?", stimulus_hex: "#F1C40F",
+            options: [{ id: "q5_a", label: "Blue", hex: "#3498DB" }, { id: "q5_b", label: "Yellow", hex: "#F1C40F" }, { id: "q5_c", label: "Orange", hex: "#E67E22" }, { id: "q5_d", label: "White", hex: "#ECF0F1" }],
+            correct_option_id: "q5_b"
+          },
+          {
+            id: "q6", index: 5, axis: "blue_yellow", difficulty: "basic",
+            prompt: "Identify this deep background color:", stimulus_hex: "#2980B9",
+            options: [{ id: "q6_a", label: "Yellow", hex: "#F4D03F" }, { id: "q6_b", label: "Green", hex: "#27AE60" }, { id: "q6_c", label: "Blue", hex: "#2980B9" }, { id: "q6_d", label: "Purple", hex: "#8E44AD" }],
+            correct_option_id: "q6_c"
+          },
+          {
+            id: "q7", index: 6, axis: "mixed", difficulty: "intermediate",
+            prompt: "This mixed shade sits between green and blue. What does it look like to you?", stimulus_hex: "#16A085",
+            options: [{ id: "q7_a", label: "Blue", hex: "#2980B9" }, { id: "q7_b", label: "Teal/Green", hex: "#16A085" }, { id: "q7_c", label: "Purple", hex: "#8E44AD" }, { id: "q7_d", label: "Gray", hex: "#7F8C8D" }],
+            correct_option_id: "q7_b"
           }
         ]
       };
@@ -271,9 +280,9 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
               updated_at: new Date().toISOString(),
             },
             score_summary: {
-              total_questions: 3,
-              correct_answers: 2,
-              error_rate: 0.33
+              total_questions: 7,
+              correct_answers: 3,
+              error_rate: 0.57
             }
           };
           setState((s) => ({ ...s, status: 'completed', result: mockResult }));
