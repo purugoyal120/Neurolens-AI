@@ -7,6 +7,7 @@ export const RegisterPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState<'patient' | 'doctor'>('patient');
   const { register, saveReport, isLoading, error } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,9 +17,9 @@ export const RegisterPage: React.FC = () => {
     try {
       const profile = location.state?.profile || 'Standard Mode';
       
-      await register(email, password, name, profile);
+      await register(email, password, name, profile, role);
       
-      if (location.state?.reportData) {
+      if (location.state?.reportData && role === 'patient') {
         saveReport(location.state.reportData);
       }
 
@@ -37,6 +38,31 @@ export const RegisterPage: React.FC = () => {
             {error}
           </div>
         )}
+
+        <div className="flex gap-4 mb-4">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input 
+              type="radio" 
+              name="role" 
+              value="patient" 
+              checked={role === 'patient'} 
+              onChange={() => setRole('patient')} 
+              className="text-emerald-500 focus:ring-emerald-500"
+            />
+            <span className="text-sm font-semibold text-slate-700">I am a Patient</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input 
+              type="radio" 
+              name="role" 
+              value="doctor" 
+              checked={role === 'doctor'} 
+              onChange={() => setRole('doctor')} 
+              className="text-emerald-500 focus:ring-emerald-500"
+            />
+            <span className="text-sm font-semibold text-slate-700">I am a Doctor/Clinic</span>
+          </label>
+        </div>
 
         <div>
           <label className="block text-sm font-semibold text-slate-700">Full Name</label>

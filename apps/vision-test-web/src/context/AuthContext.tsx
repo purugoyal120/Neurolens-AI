@@ -4,13 +4,14 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1';
 
 interface AuthContextType {
   user: any;
+  role: string;
   activeProfile: string;
   setActiveProfile: (profile: string) => void;
   isCaregiverMode: boolean;
   setIsCaregiverMode: (mode: boolean) => void;
   addGlobalProfile: (profile: any) => void;
-  login: (email: string, password?: string, name?: string, profile?: string) => Promise<void>;
-  register: (email: string, password?: string, name?: string, profile?: string) => Promise<void>;
+  login: (email: string, password?: string, name?: string, profile?: string, role?: string) => Promise<void>;
+  register: (email: string, password?: string, name?: string, profile?: string, role?: string) => Promise<void>;
   logout: () => void;
   savedReports: any[];
   saveReport: (report: any) => void;
@@ -21,6 +22,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  role: 'patient',
   activeProfile: 'Standard Mode',
   setActiveProfile: () => {},
   isCaregiverMode: true,
@@ -38,6 +40,7 @@ const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<any>(null);
+  const [role, setRole] = useState<string>('patient');
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,6 +65,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } else {
       localStorage.removeItem('token');
       setUser(null);
+      setRole('patient');
     }
   }, [token]);
 
@@ -73,6 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (res.ok) {
         const data = await res.json();
         setUser({ name: data.full_name || 'User', email: data.email });
+        setRole(data.role || 'patient');
       } else {
         setToken(null);
       }
@@ -94,21 +99,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setSavedReports(prev => prev.filter(r => r.id !== id));
   };
   
-  const register = async (email: string, password?: string, name?: string, profile?: string) => {
+  const register = async (email: string, password?: string, name?: string, profile?: string, role?: string) => {
     setIsLoading(true);
     setError(null);
     try {
       const res = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password: password || 'default', full_name: name })
+        body: JSON.stringify({ email, password: password || 'default', full_name: name, role: role || 'patient' })
       });
       if (!res.ok) {
         const errData = await res.json();
         throw new Error(errData.detail || 'Registration failed');
       }
       // After successful registration, log them in
-      await login(email, password, name, profile);
+      await login(email, password, name, profile, role);
     } catch (err: any) {
       setError(err.message);
       throw err;
@@ -117,13 +122,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const login = async (email: string, password?: string, name?: string, profile?: string) => {
+  const login = async (email: string, password?: string, name?: string, profile?: string, userRole?: string) => {
     setIsLoading(true);
     setError(null);
     try {
       // Guest Login logic (no password)
       if (email === 'demo@google.com' || !password) {
         setUser({ name: name || 'Guest User', email });
+        setRole(userRole || 'patient');
         applyProfile(profile);
         setIsLoading(false);
         return;
@@ -148,6 +154,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const data = await res.json();
       setToken(data.access_token);
       applyProfile(profile);
+      // fetchUser will be triggered by token change and set the actual role
 
     } catch (err: any) {
       setError(err.message);
@@ -171,11 +178,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setToken(null);
     setUser(null);
+    setRole('patient');
   };
 
   return (
     <AuthContext.Provider value={{ 
-      user, 
+      user,
+      role,
       activeProfile, 
       setActiveProfile,
       isCaregiverMode,
