@@ -73,6 +73,10 @@ export interface VisionProfile {
     target_type: string;
     appended_label: string;
     safe_hex: string;
+    original_color_name?: string;
+    transformed_color_hex?: string;
+    meaning_label?: string;
+    explanation?: string;
   }>;
   risk_areas?: string[];
   personal_impact?: any;
