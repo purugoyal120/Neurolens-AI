@@ -4,20 +4,36 @@ import { useAuth } from '../../context/AuthContext';
 import { AuthLayout } from '../../components/layout/AuthLayout';
 
 export const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('puru@example.com');
-  const [password, setPassword] = useState('password123');
-  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { login, isLoading, error } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login(email);
+    try {
+      await login(email, password);
+      navigate('/dashboard');
+    } catch (err) {
+      // Error is handled in context and displayed below
+    }
+  };
+
+  const handleGuestLogin = async () => {
+    await login('demo@google.com'); // Trigger guest mode
     navigate('/dashboard');
   };
 
   return (
     <AuthLayout>
       <form className="space-y-6" onSubmit={handleSubmit}>
+        
+        {error && (
+          <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm font-medium">
+            {error}
+          </div>
+        )}
+
         <div>
           <label className="block text-sm font-semibold text-slate-700">Email address</label>
           <div className="mt-2">
@@ -25,6 +41,7 @@ export const LoginPage: React.FC = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
               className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm font-medium transition-colors"
               placeholder="you@example.com"
             />
@@ -38,6 +55,7 @@ export const LoginPage: React.FC = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
               className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm font-medium transition-colors"
               placeholder="••••••••"
             />
@@ -65,9 +83,10 @@ export const LoginPage: React.FC = () => {
         <div>
           <button
             type="submit"
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors"
+            disabled={isLoading}
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors disabled:opacity-50"
           >
-            Sign in
+            {isLoading ? 'Signing in...' : 'Sign in'}
           </button>
         </div>
       </form>
@@ -84,11 +103,10 @@ export const LoginPage: React.FC = () => {
       <div className="mt-6">
         <button
           type="button"
-          onClick={() => { login('demo@google.com'); navigate('/dashboard'); }}
+          onClick={handleGuestLogin}
           className="w-full flex justify-center py-3 px-4 border border-slate-200 rounded-xl shadow-sm bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
         >
-          <img className="h-5 w-5 mr-2" src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
-          Sign in with Google
+          Continue as Guest
         </button>
       </div>
       

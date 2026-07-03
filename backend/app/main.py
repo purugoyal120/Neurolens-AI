@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import profile, vision_test, transform, ml_transform, camera, ai_assistant
+from app.api import profile, vision_test, transform, ml_transform, camera, ai_assistant, auth
 
 from app.core.config import settings
 from app.db.session import init_db
@@ -24,6 +24,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router, prefix=settings.api_v1_prefix)
 app.include_router(profile.router, prefix=settings.api_v1_prefix)
 app.include_router(vision_test.router, prefix="/api")
 app.include_router(transform.router, prefix="/api")
