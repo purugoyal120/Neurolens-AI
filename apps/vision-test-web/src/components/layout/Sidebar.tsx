@@ -34,10 +34,10 @@ export const Sidebar: React.FC = () => {
           <NavLink to="/dashboard" end className={navClass} title="Dashboard">
             <Home className="w-5 h-5" />
           </NavLink>
-          <NavLink to="/reports" className={navClass} title="Reports">
+          <NavLink to="/reports" className={navClass} title="My Reports (History)">
             <FileText className="w-5 h-5" />
           </NavLink>
-          <NavLink to="/reports-history" className={navClass} title="My Reports (History)">
+          <NavLink to="/analytics" className={navClass} title="Enterprise Analytics">
             <FolderOpen className="w-5 h-5" />
           </NavLink>
           <NavLink to="/integrations" className={navClass} title="Integrations">

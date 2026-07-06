@@ -2,51 +2,28 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { MousePointerClick, ShieldCheck, HelpCircle } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
+import { calculateColorMatrix } from '../../utils/visionCore';
 
 export const BookmarkletCard: React.FC = () => {
-  const { activeProfile } = useAuth();
+  const { activeReport } = useAuth();
   const { addToast } = useToast();
   const [showHelp, setShowHelp] = useState(false);
 
-  // Generate the Bookmarklet Code dynamically based on user's Active Profile
-  const getBookmarkletCode = (profile: string) => {
-    let matrix = "1,0,0,0,0 0,1,0,0,0 0,0,1,0,0 0,0,0,1,0"; // Standard (no change)
-    if (profile === 'Protanopia Mode') {
-      matrix = "0.567, 0.433, 0, 0, 0,  0.558, 0.442, 0, 0, 0,  0, 0.242, 0.758, 0, 0,  0, 0, 0, 1, 0";
-    } else if (profile === 'Deuteranopia Mode') {
-      matrix = "0.625, 0.375, 0, 0, 0,  0.7, 0.3, 0, 0, 0,  0, 0.3, 0.7, 0, 0,  0, 0, 0, 1, 0";
-    } else if (profile === 'Tritanopia Mode') {
-      matrix = "0.95, 0.05, 0, 0, 0,  0, 0.433, 0.567, 0, 0,  0, 0.475, 0.525, 0, 0,  0, 0, 0, 1, 0";
-    }
+  // Generate the Bookmarklet Code dynamically based on user's exact diagnostic report
+  const getBookmarkletCode = () => {
+    const matrix = calculateColorMatrix(activeReport);
+    const profileName = activeReport ? activeReport.clinical_diagnosis : "Standard Mode";
 
-    // Minified JavaScript URI
-    const jsCode = `
-      if(document.getElementById('neurolens-filter-container')) {
-        document.getElementById('neurolens-filter-container').remove();
-        document.documentElement.style.filter = '';
-        const oldToast = document.getElementById('nl-toast');
-        if(oldToast) oldToast.remove();
-        return;
-      }
-      const svg = '<svg id="neurolens-filter-container" style="width:0;height:0;position:fixed;z-index:-1;"><defs><filter id="nl-dalton"><feColorMatrix type="matrix" values="${matrix}"/></filter></defs></svg>';
-      document.body.insertAdjacentHTML('beforeend', svg);
-      document.documentElement.style.filter = 'url(#nl-dalton)';
-      
-      const toast = document.createElement('div');
-      toast.id = 'nl-toast';
-      toast.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:white;padding:12px 24px;border-radius:12px;font-family:sans-serif;font-weight:bold;z-index:999999;box-shadow:0 10px 25px -5px rgba(16,185,129,0.4);border:1px solid rgba(255,255,255,0.2);';
-      toast.innerHTML = '✨ Neurolens Active: <b>${profile}</b>';
-      document.body.appendChild(toast);
-      setTimeout(function(){ toast.style.opacity = '0'; toast.style.transition = 'opacity 0.5s'; setTimeout(function(){toast.remove()}, 500); }, 3000);
-    `.replace(/\n/g, '').replace(/\s+/g, ' ');
-
-    return `javascript:(function(){${jsCode}})()`;
+    const rawJs = `javascript:(function(){var s=document.getElementById('nl-style');if(s){s.remove();alert('Neurolens Filter Removed');return;}var svg='<svg xmlns="http://www.w3.org/2000/svg"><filter id="f"><feColorMatrix type="matrix" values="${matrix}"/></filter></svg>';var css='html{-webkit-filter:url("data:image/svg+xml;utf8,'+encodeURIComponent(svg)+'#f")!important;filter:url("data:image/svg+xml;utf8,'+encodeURIComponent(svg)+'#f")!important;}';var sty=document.createElement('style');sty.id='nl-style';sty.innerHTML=css;document.head.appendChild(sty);alert('Neurolens Active: ${profileName}');})()`;
+    return encodeURI(rawJs.replace(/\n/g, '').trim());
   };
 
   const handleCopyCode = () => {
-    navigator.clipboard.writeText(getBookmarkletCode(activeProfile));
+    navigator.clipboard.writeText(getBookmarkletCode());
     addToast('Bookmarklet code copied! You can manually paste it into a new bookmark URL.', 'success');
   };
+
+  const profileDisplay = activeReport ? activeReport.clinical_diagnosis : "No Profile (Standard)";
 
   return (
     <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group h-full flex flex-col">
@@ -72,15 +49,15 @@ export const BookmarkletCard: React.FC = () => {
 
       <div className="bg-slate-50 rounded-2xl p-4 mb-6 border border-slate-100 flex items-center justify-between">
         <div>
-          <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Configured Profile</div>
-          <div className="font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100 inline-block">
-            {activeProfile}
+          <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Diagnostic Profile</div>
+          <div className="font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 inline-block">
+            {profileDisplay}
           </div>
         </div>
-        <div className="h-8 w-[1px] bg-slate-200 mx-2"></div>
-        <div className="text-right flex items-center gap-2">
+        <div className="h-8 w-[1px] bg-slate-200 mx-2 hidden sm:block"></div>
+        <div className="text-right flex items-center gap-2 hidden sm:flex">
           <ShieldCheck className="w-4 h-4 text-emerald-500" />
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Safe Script</span>
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Custom Matrix</span>
         </div>
       </div>
 
@@ -98,7 +75,7 @@ export const BookmarkletCard: React.FC = () => {
           <div className="text-center animate-in fade-in duration-300">
             <div className="mb-4 text-sm font-medium text-slate-500">Drag this button to your bookmarks bar ⬇️</div>
             <a
-              href={getBookmarkletCode(activeProfile)}
+              href={getBookmarkletCode()}
               className="inline-flex items-center gap-2 px-8 py-4 bg-emerald-500 text-white rounded-full font-extrabold text-lg shadow-xl shadow-emerald-500/30 hover:scale-105 transition-transform cursor-grab active:cursor-grabbing hover:bg-emerald-400 border-2 border-white"
               onClick={(e) => {
                 e.preventDefault();
@@ -114,7 +91,7 @@ export const BookmarkletCard: React.FC = () => {
       </div>
       
       <div className="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
-        <span className="text-slate-400 font-medium">Updates automatically when dragged</span>
+        <span className="text-slate-400 font-medium">Auto-synced with test results</span>
         <button onClick={handleCopyCode} className="text-emerald-600 font-bold hover:text-emerald-700 underline">
           Copy Manual Code
         </button>

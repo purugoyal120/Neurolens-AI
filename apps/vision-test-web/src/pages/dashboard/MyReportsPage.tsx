@@ -1,22 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TopNav } from '../../components/layout/TopNav';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { Trash2, FileText, Calendar, ShieldCheck, Search, Download } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { PDFReportTemplate } from '../../components/dashboard/PDFReportTemplate';
+import { generatePDFReport } from '../../utils/pdfGenerator';
 
 export const MyReportsPage: React.FC = () => {
   const { savedReports, deleteReport } = useAuth();
   const { addToast } = useToast();
+  const [activePdfReport, setActivePdfReport] = useState<any>(null);
 
   const handleDelete = (id: string) => {
     deleteReport(id);
     addToast('Report deleted successfully', 'success');
   };
 
+  const handleDownloadPDF = async (report: any) => {
+    addToast('Generating Clinical PDF Report...', 'info');
+    setActivePdfReport(report);
+    
+    // Give React a tick to render the hidden template
+    setTimeout(async () => {
+      try {
+        await generatePDFReport('pdf-report-container', `Neurolens_Report_${report.id}.pdf`);
+        addToast('Report downloaded successfully!', 'success');
+      } catch (err: any) {
+        addToast(`Failed to generate PDF: ${err.message}`, 'error');
+      } finally {
+        setActivePdfReport(null);
+      }
+    }, 150);
+  };
+
   return (
     <div className="flex flex-col h-full relative overflow-y-auto">
       <TopNav />
+      
+      {/* Hidden PDF Template rendered only when downloading */}
+      {activePdfReport && <PDFReportTemplate report={activePdfReport} />}
       
       <div className="px-6 max-w-6xl mx-auto w-full pb-12">
         <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -60,12 +83,7 @@ export const MyReportsPage: React.FC = () => {
                       </div>
                       <div className="flex items-center gap-1">
                         <button 
-                          onClick={() => {
-                            addToast('Generating PDF Report...', 'info');
-                            setTimeout(() => {
-                              addToast('Report.pdf downloaded successfully!', 'success');
-                            }, 1500);
-                          }}
+                          onClick={() => handleDownloadPDF(report)}
                           className="text-slate-400 hover:text-emerald-500 hover:bg-emerald-50 p-2 rounded-full transition-colors flex items-center gap-1 text-xs font-bold"
                           title="Download PDF"
                         >

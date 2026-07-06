@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import type { VisionReport } from '../utils/visionCore';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1';
 
@@ -7,6 +8,8 @@ interface AuthContextType {
   role: string;
   activeProfile: string;
   setActiveProfile: (profile: string) => void;
+  activeReport: VisionReport | null;
+  setActiveReport: (report: VisionReport | null) => void;
   isCaregiverMode: boolean;
   setIsCaregiverMode: (mode: boolean) => void;
   addGlobalProfile: (profile: any) => void;
@@ -25,6 +28,8 @@ const AuthContext = createContext<AuthContextType>({
   role: 'patient',
   activeProfile: 'Standard Mode',
   setActiveProfile: () => {},
+  activeReport: null,
+  setActiveReport: () => {},
   isCaregiverMode: true,
   setIsCaregiverMode: () => {},
   addGlobalProfile: () => {},
@@ -45,8 +50,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [activeProfile, setActiveProfile] = useState('Standard Mode');
+  const [activeProfile, setActiveProfile] = useState(() => localStorage.getItem('neurolens_active_profile') || 'Standard Mode');
+  const [activeReport, setActiveReport] = useState<VisionReport | null>(() => {
+    const r = localStorage.getItem('neurolens_active_report');
+    return r ? JSON.parse(r) : null;
+  });
   const [isCaregiverMode, setIsCaregiverMode] = useState(true);
+
+  useEffect(() => {
+    localStorage.setItem('neurolens_active_profile', activeProfile);
+  }, [activeProfile]);
+
+  useEffect(() => {
+    if (activeReport) {
+      localStorage.setItem('neurolens_active_report', JSON.stringify(activeReport));
+    } else {
+      localStorage.removeItem('neurolens_active_report');
+    }
+  }, [activeReport]);
   
   const [savedReports, setSavedReports] = useState<any[]>(() => {
     const local = localStorage.getItem('neurolens_reports');
@@ -56,20 +77,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     localStorage.setItem('neurolens_reports', JSON.stringify(savedReports));
   }, [savedReports]);
-
-  // Check token on mount and fetch user
-  useEffect(() => {
-    if (token) {
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', role);
-      fetchUser(token);
-    } else {
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
-      setUser(null);
-      setRole('patient');
-    }
-  }, [token, role]);
 
   const fetchUser = async (authToken: string) => {
     try {
@@ -95,6 +102,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     }
   };
+
+  // Check token on mount and fetch user
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
+      fetchUser(token);
+    } else {
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      setUser(null);
+      setRole('patient');
+    }
+  }, [token, role]);
 
   const saveReport = (report: any) => {
     const newReport = {
@@ -202,6 +223,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       role,
       activeProfile, 
       setActiveProfile,
+      activeReport,
+      setActiveReport,
       isCaregiverMode,
       setIsCaregiverMode,
       addGlobalProfile: () => {}, 

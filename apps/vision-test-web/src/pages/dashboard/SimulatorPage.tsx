@@ -4,15 +4,22 @@ import { Settings2, Upload, Maximize2, SplitSquareHorizontal } from 'lucide-reac
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { useToast } from '../../context/ToastContext';
+import { useAuth } from '../../context/AuthContext';
+import { calculateColorMatrix, calculateSimulationMatrix } from '../../utils/visionCore';
 
 export const SimulatorPage: React.FC = () => {
   const { addToast } = useToast();
+  const { activeReport } = useAuth();
   const [sliderPos, setSliderPos] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   
-  const [activeProfile, setActiveProfile] = useState('deuteranopia');
   const [activeImage, setActiveImage] = useState('chart'); // 'chart' or 'website'
+
+  // Dynamic matrices based on universal engine
+  const simMatrix = calculateSimulationMatrix(activeReport);
+  const fixMatrix = calculateColorMatrix(activeReport);
+  const profileName = activeReport ? activeReport.clinical_diagnosis : "Standard Vision";
 
   const images = {
     chart: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200",
@@ -76,16 +83,14 @@ export const SimulatorPage: React.FC = () => {
 
       <TopNav />
       
-      {/* SVG Filters for Simulation */}
+      {/* Dynamic SVG Filters based on visionCore */}
       <svg className="hidden">
         <defs>
-          {/* Simulate Deuteranopia (Green Blind) */}
-          <filter id="sim-deuteranopia">
-            <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0, 0.7, 0.3, 0, 0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0, 1, 0"/>
+          <filter id="sim-matrix">
+            <feColorMatrix type="matrix" values={simMatrix} />
           </filter>
-          {/* Neurolens AI Fix for Deuteranopia (Daltonization shift: green to blue) */}
-          <filter id="fix-deuteranopia">
-            <feColorMatrix type="matrix" values="1, 0, 0, 0, 0, 0, 1, 0.5, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0"/>
+          <filter id="fix-matrix">
+            <feColorMatrix type="matrix" values={fixMatrix} />
           </filter>
         </defs>
       </svg>
@@ -121,21 +126,11 @@ export const SimulatorPage: React.FC = () => {
               </h3>
               
               <div className="space-y-3 mb-6">
-                <label className="block text-[11px] font-bold text-slate-700">Vision Profile</label>
+                <label className="block text-[11px] font-bold text-slate-700">Diagnostic Profile</label>
                 <div className="flex flex-col gap-2">
-                  <button 
-                    onClick={() => setActiveProfile('deuteranopia')}
-                    className={`text-left px-3 py-2 rounded-lg text-xs font-bold transition-all ${activeProfile === 'deuteranopia' ? 'bg-purple-600 text-white shadow-md' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
-                  >
-                    Deuteranopia (Green-Blind)
-                  </button>
-                  <button 
-                    onClick={() => setActiveProfile('protanopia')}
-                    className={`text-left px-3 py-2 rounded-lg text-xs font-bold transition-all ${activeProfile === 'protanopia' ? 'bg-purple-600 text-white shadow-md' : 'bg-slate-50 text-slate-600 hover:bg-slate-100 opacity-50 cursor-not-allowed'}`}
-                    disabled
-                  >
-                    Protanopia (Red-Blind)
-                  </button>
+                  <div className="text-left px-3 py-2 rounded-lg text-xs font-bold transition-all bg-purple-600 text-white shadow-md">
+                    {profileName}
+                  </div>
                 </div>
               </div>
 
@@ -194,7 +189,7 @@ export const SimulatorPage: React.FC = () => {
                   alt="Fixed View"
                   className="absolute inset-0 w-full h-full object-cover select-none"
                   draggable={false}
-                  style={{ filter: 'url(#fix-deuteranopia)' }}
+                  style={{ filter: 'url(#fix-matrix)' }}
                 />
 
                 {/* Left Side (Simulated View) using clip-path */}
@@ -205,7 +200,7 @@ export const SimulatorPage: React.FC = () => {
                   draggable={false}
                   style={{ 
                     clipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
-                    filter: 'url(#sim-deuteranopia) grayscale(20%)' // Added slight grayscale to emphasize muddiness for demo
+                    filter: 'url(#sim-matrix) grayscale(20%)' // Added slight grayscale to emphasize muddiness for demo
                   }}
                 />
 

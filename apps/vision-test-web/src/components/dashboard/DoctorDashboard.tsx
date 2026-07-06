@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { generatePDFReport } from '../../utils/pdfGenerator';
 
 export const DoctorDashboard: React.FC = () => {
-  const {  } = useAuth();
+  // useAuth removed as it was unused
   
   // Dummy patients data for the prototype
   const patients = [

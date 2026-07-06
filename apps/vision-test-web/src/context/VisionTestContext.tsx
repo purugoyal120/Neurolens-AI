@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { VisionTestConfig, UserAnswer, SubmitVisionTestOut } from '../types';
+import { useAuth } from './AuthContext';
 
 interface VisionTestState {
   status: 'idle' | 'loading' | 'testing' | 'submitting' | 'completed' | 'error';
@@ -40,6 +41,7 @@ const getApiBase = () => {
 const API_URL = import.meta.env.VITE_API_URL || getApiBase();
 
 export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { setActiveReport, setActiveProfile, saveReport } = useAuth();
   const [state, setState] = useState<VisionTestState>({
     status: 'idle',
     config: null,
@@ -175,6 +177,24 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
       if (!response.ok) throw new Error('Failed to submit test results');
       const result: SubmitVisionTestOut = await response.json();
       setState((s) => ({ ...s, status: 'completed', result }));
+      
+      // SYNC WITH AUTH CONTEXT
+      if (result && result.profile) {
+        setActiveReport({
+          deficiency_type: result.profile.deficiency_type || 'None',
+          severity: result.profile.severity || 'Unknown',
+          clinical_diagnosis: result.profile.clinical_diagnosis || 'Standard Mode',
+          accuracy: result.profile.percent_accuracy || 0
+        });
+        setActiveProfile(result.profile.clinical_diagnosis || 'Standard Mode');
+        saveReport({
+          profile: result.profile.clinical_diagnosis || 'Standard Mode',
+          severity: result.profile.severity || 'Unknown',
+          accuracy: result.profile.percent_accuracy || 0,
+          description: result.profile.ai_explanation || 'Detailed AI diagnosis generated.',
+          rawProfile: result.profile
+        });
+      }
     } catch (err) {
       console.warn("Backend unavailable. Using mock test results.");
       const mockResult: SubmitVisionTestOut = {
@@ -210,6 +230,22 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
         }
       };
       setState((s) => ({ ...s, status: 'completed', result: mockResult }));
+      
+      // SYNC WITH AUTH CONTEXT
+      setActiveReport({
+        deficiency_type: mockResult.profile.deficiency_type || 'None',
+        severity: mockResult.profile.severity || 'Unknown',
+        clinical_diagnosis: mockResult.profile.clinical_diagnosis || 'Standard Mode',
+        accuracy: mockResult.profile.percent_accuracy || 0
+      });
+      setActiveProfile(mockResult.profile.clinical_diagnosis || 'Standard Mode');
+      saveReport({
+        profile: mockResult.profile.clinical_diagnosis || 'Standard Mode',
+        severity: mockResult.profile.severity || 'Unknown',
+        accuracy: mockResult.profile.percent_accuracy || 0,
+        description: mockResult.profile.ai_explanation || 'Based on your test responses, we noticed overlapping contrast. Neurolens AI dynamically transforms these problematic colors.',
+        rawProfile: mockResult.profile
+      });
     }
   };
 
@@ -237,7 +273,7 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
     });
   };
 
-  const finishTest = async () => {
+  function finishTest() {
     setState((prev) => {
       if (!prev.config || prev.status === 'submitting' || prev.status === 'completed') return prev;
       
@@ -251,6 +287,24 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
           if (!response.ok) throw new Error('Failed to submit test results');
           const result: SubmitVisionTestOut = await response.json();
           setState((s) => ({ ...s, status: 'completed', result }));
+          
+          // SYNC WITH AUTH CONTEXT
+          if (result && result.profile) {
+            setActiveReport({
+              deficiency_type: result.profile.deficiency_type || 'None',
+              severity: result.profile.severity || 'Unknown',
+              clinical_diagnosis: result.profile.clinical_diagnosis || 'Standard Mode',
+              accuracy: result.profile.percent_accuracy || 0
+            });
+            setActiveProfile(result.profile.clinical_diagnosis || 'Standard Mode');
+            saveReport({
+              profile: result.profile.clinical_diagnosis || 'Standard Mode',
+              severity: result.profile.severity || 'Unknown',
+              accuracy: result.profile.percent_accuracy || 0,
+              description: result.profile.ai_explanation || 'Detailed AI diagnosis generated.',
+              rawProfile: result.profile
+            });
+          }
         } catch (err) {
           console.warn("Backend unavailable. Using mock test results.");
           const mockResult: SubmitVisionTestOut = {
@@ -286,6 +340,22 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
             }
           };
           setState((s) => ({ ...s, status: 'completed', result: mockResult }));
+
+          // SYNC WITH AUTH CONTEXT
+          setActiveReport({
+            deficiency_type: mockResult.profile.deficiency_type || 'None',
+            severity: mockResult.profile.severity || 'Unknown',
+            clinical_diagnosis: mockResult.profile.clinical_diagnosis || 'Standard Mode',
+            accuracy: mockResult.profile.percent_accuracy || 0
+          });
+          setActiveProfile(mockResult.profile.clinical_diagnosis || 'Standard Mode');
+          saveReport({
+            profile: mockResult.profile.clinical_diagnosis || 'Standard Mode',
+            severity: mockResult.profile.severity || 'Unknown',
+            accuracy: mockResult.profile.percent_accuracy || 0,
+            description: mockResult.profile.ai_explanation || 'Based on your test responses, we noticed overlapping contrast. Neurolens AI dynamically transforms these problematic colors.',
+            rawProfile: mockResult.profile
+          });
         }
       };
 
