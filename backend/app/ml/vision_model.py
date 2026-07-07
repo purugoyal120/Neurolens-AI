@@ -29,10 +29,8 @@ delegates to RuleBasedScorer and exposes a `use_neural=True` flag for later.
 
 from __future__ import annotations
 
+import random
 from dataclasses import dataclass
-
-import torch
-import torch.nn as nn
 
 from app.core.test_stimuli import CVDType, build_test_battery, Trial, TrialType
 
@@ -275,94 +273,17 @@ class RuleBasedScorer:
 
 
 # ---------------------------------------------------------------------------
-# 2. Trainable neural model — future path, not used in production yet
-# ---------------------------------------------------------------------------
-
-class VisionMapNet(nn.Module):
-    """
-    Small feed-forward net mapping a fixed-length feature vector (derived from
-    test responses: per-trial correctness + normalized response time) to:
-      - cvd_type logits (4 classes: none/protan/deutan/tritan)
-      - severity (regression, 0-1, via sigmoid)
-
-    Input feature vector layout (len = 12 trials * 2 features = 24):
-      [trial_1_correct(0/1), trial_1_rt_norm(0-1), trial_2_correct, trial_2_rt_norm, ...]
-
-    This is deliberately small — the bottleneck for this task is dataset size
-    and label quality (verified diagnoses), not model capacity. A bigger net
-    would just overfit faster on a small calibration dataset.
-    """
-
-    NUM_TRIALS = 12
-    INPUT_DIM = NUM_TRIALS * 2
-    NUM_CVD_CLASSES = 4  # none, protan, deutan, tritan
-
-    def __init__(self, hidden_dim: int = 32):
-        super().__init__()
-        self.shared = nn.Sequential(
-            nn.Linear(self.INPUT_DIM, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),
-            nn.ReLU(),
-        )
-        self.type_head = nn.Linear(hidden_dim, self.NUM_CVD_CLASSES)
-        self.severity_head = nn.Linear(hidden_dim, 1)
-
-    def forward(self, x: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
-        h = self.shared(x)
-        type_logits = self.type_head(h)
-        severity = torch.sigmoid(self.severity_head(h)).squeeze(-1)
-        return type_logits, severity
-
-
-def make_synthetic_training_batch(batch_size: int = 64) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-    """
-    Generates synthetic (not real-user) training examples purely so the
-    VisionMapNet training loop is runnable/testable end-to-end before real
-    labeled data exists. Random ground-truth severity/type, with trial
-    correctness probabilistically consistent with that ground truth
-    (higher severity => more likely to fail red-green trials specifically).
-    Useful for unit-testing the training loop, NOT for producing a model
-    fit for real users.
-    """
-    cvd_labels = torch.randint(0, VisionMapNet.NUM_CVD_CLASSES, (batch_size,))
-    severities = torch.rand(batch_size)
-
-    features = torch.zeros(batch_size, VisionMapNet.INPUT_DIM)
-    for i in range(batch_size):
-        is_cvd = cvd_labels[i].item() != 0
-        sev = severities[i].item() if is_cvd else 0.0
-        for t in range(VisionMapNet.NUM_TRIALS):
-            fail_prob = sev if t < 6 else sev * 0.3  # first 6 trials ~ rg/by discrimination
-            correct = 0.0 if torch.rand(1).item() < fail_prob else 1.0
-            rt_norm = torch.rand(1).item() * (1.5 if correct == 0.0 else 0.7)
-            features[i, t * 2] = correct
-            features[i, t * 2 + 1] = min(rt_norm, 1.0)
-
-    return features, cvd_labels, severities
-
-
-# ---------------------------------------------------------------------------
 # 3. Public interface
 # ---------------------------------------------------------------------------
 
 class VisionModel:
     """
-    Entry point used by services/profile_builder.py. Delegates to the
-    rule-based scorer today. The `use_neural` flag exists so we can swap in
-    VisionMapNet later without changing any caller code, once it's trained
-    on real labeled data and validated against the rule-based scorer.
+    Public interface for scoring vision tests. 
+    (Neural net removed for free-tier compatibility; always uses RuleBasedScorer)
     """
 
     def __init__(self, use_neural: bool = False):
-        self.use_neural = use_neural
-        self.rule_based = RuleBasedScorer()
-        if use_neural:
-            raise NotImplementedError(
-                "VisionMapNet has no trained weights yet — there is no real "
-                "labeled dataset to train on. Falling back silently would "
-                "produce untrustworthy profiles, so this raises instead."
-            )
+        self.scorer = RuleBasedScorer()
 
     def score(self, responses: list[dict]) -> dict:
-        return self.rule_based.score(responses)
+        return self.scorer.score(responses)
