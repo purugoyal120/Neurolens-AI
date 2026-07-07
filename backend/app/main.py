@@ -37,14 +37,5 @@ app.include_router(ai_assistant.router, prefix="/api")
 def health() -> dict:
     return {"status": "ok", "service": settings.app_name}
 
-from fastapi.staticfiles import StaticFiles
-import os
-
-static_dir = os.path.join(os.path.dirname(__file__), "../static")
-
-# Mount SDK and Excel
-app.mount("/sdk", StaticFiles(directory=os.path.join(static_dir, "sdk"), html=True), name="sdk")
-app.mount("/excel", StaticFiles(directory=os.path.join(static_dir, "excel"), html=True), name="excel")
-
-# Mount Web App last to avoid catching API routes
-app.mount("/app", StaticFiles(directory=os.path.join(static_dir, "app"), html=True), name="app")
+# Removed StaticFiles mounts for Vercel compatibility. 
+# The frontend and SDK should be deployed as separate Vercel projects.
