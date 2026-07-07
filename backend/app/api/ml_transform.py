@@ -1,18 +1,8 @@
-import joblib
 import os
 from fastapi import APIRouter
 from pydantic import BaseModel
 
 router = APIRouter(tags=["ml_transform"])
-
-# Load model on startup
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "../ai/semantic_model.joblib")
-model = None
-
-try:
-    model = joblib.load(MODEL_PATH)
-except Exception as e:
-    print(f"Failed to load semantic model: {e}")
 
 class MLSemanticIn(BaseModel):
     text: str
