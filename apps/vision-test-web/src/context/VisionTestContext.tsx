@@ -38,7 +38,9 @@ const getApiBase = () => {
   }
   return `${window.location.origin}/api`;
 };
-const API_URL = import.meta.env.VITE_API_URL || getApiBase();
+
+const BASE_URL = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/api(\/v1)?\/?$/, '') : getApiBase().replace(/\/api$/, '');
+const API_URL = `${BASE_URL}/api`;
 
 export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { setActiveReport, setActiveProfile, saveReport } = useAuth();
