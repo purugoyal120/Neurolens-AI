@@ -222,7 +222,7 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
           const total = prev.config?.questions?.length || 1;
           
           answersToSubmit.forEach(ans => {
-             const q = prev.config?.questions.find(q => q.id === ans.question_id);
+             const q = prev.config?.questions?.find(q => q.id === ans.question_id);
              if (q && q.correct_option_id === ans.selected_option_id) {
                  correct++;
              }
