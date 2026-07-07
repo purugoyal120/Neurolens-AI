@@ -31,5 +31,14 @@ app.include_router(ai_assistant.router, prefix="/api")
 def health() -> dict:
     return {"status": "ok", "service": settings.app_name}
 
+@app.get("/api/init-db")
+def init_database() -> dict:
+    from app.db.session import init_db
+    try:
+        init_db()
+        return {"status": "success", "message": "Tables created successfully"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
 # Removed StaticFiles mounts for Vercel compatibility. 
 # The frontend and SDK should be deployed as separate Vercel projects.
