@@ -219,7 +219,7 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
           
           // Calculate a dynamic score based on user answers so the report looks accurate for the demo!
           let correct = 0;
-          const total = prev.config.questions.length;
+          const total = prev.config?.questions?.length || 1;
           
           answersToSubmit.forEach(ans => {
              const q = prev.config?.questions.find(q => q.id === ans.question_id);
