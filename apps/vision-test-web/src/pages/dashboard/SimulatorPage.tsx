@@ -5,11 +5,13 @@ import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../context/AuthContext';
+import { useNotification } from '../../context/NotificationContext';
 import { calculateColorMatrix, calculateSimulationMatrix } from '../../utils/visionCore';
 
 export const SimulatorPage: React.FC = () => {
   const { addToast } = useToast();
   const { activeReport } = useAuth();
+  const { addNotification } = useNotification();
   const [sliderPos, setSliderPos] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -21,16 +23,27 @@ export const SimulatorPage: React.FC = () => {
   const fixMatrix = calculateColorMatrix(activeReport);
   const profileName = activeReport ? activeReport.clinical_diagnosis : "Standard Vision";
 
-  const images = {
+  const [images, setImages] = useState({
     chart: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200",
-    website: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200"
-  };
+    website: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200",
+    custom: ""
+  });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragStart = () => setIsDragging(true);
   const handleDragEnd = () => setIsDragging(false);
 
   const handleDragMove = (e: MouseEvent | TouchEvent) => {
     if (!isDragging || !containerRef.current) return;
+    updateSliderPosition(e);
+  };
+
+  const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    updateSliderPosition(e.nativeEvent);
+  };
+
+  const updateSliderPosition = (e: MouseEvent | TouchEvent) => {
+    if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     let clientX;
     if ('touches' in e) {
@@ -41,6 +54,22 @@ export const SimulatorPage: React.FC = () => {
     const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
     const percent = Math.max(0, Math.min((x / rect.width) * 100, 100));
     setSliderPos(percent);
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setImages(prev => ({ ...prev, custom: imageUrl }));
+      setActiveImage('custom');
+      addToast('Image uploaded successfully!', 'success');
+      
+      addNotification({
+        title: 'Image Processed',
+        message: `Custom image uploaded and Daltonization filter applied for ${profileName}.`,
+        type: 'success'
+      });
+    }
   };
 
   useEffect(() => {
@@ -109,11 +138,18 @@ export const SimulatorPage: React.FC = () => {
             <p className="text-slate-500 text-sm font-medium">Experience exactly how a user sees your site, and how Neurolens AI fixes it in real-time.</p>
           </div>
           <button 
-            onClick={() => addToast('Upload feature coming soon!', 'info')}
+            onClick={() => fileInputRef.current?.click()}
             className="premium-btn px-4 py-2.5 text-sm flex items-center gap-2"
           >
             <Upload className="w-4 h-4" /> Upload Image
           </button>
+          <input 
+            type="file" 
+            ref={fileInputRef}
+            onChange={handleImageUpload}
+            accept="image/*"
+            className="hidden" 
+          />
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1 min-h-0">
@@ -149,6 +185,14 @@ export const SimulatorPage: React.FC = () => {
                   >
                     Dashboard
                   </button>
+                  {images.custom && (
+                    <button 
+                      onClick={() => setActiveImage('custom')}
+                      className={`flex-1 py-2 text-center rounded-lg text-xs font-bold transition-all ${activeImage === 'custom' ? 'bg-slate-800 text-white shadow-md' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
+                    >
+                      Custom
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -182,6 +226,7 @@ export const SimulatorPage: React.FC = () => {
                 onMouseDown={handleDragStart}
                 onTouchStart={handleDragStart}
                 onMouseLeave={handleDragEnd}
+                onClick={handleContainerClick}
               >
                 {/* Right Side (Fixed View) */}
                 <img 

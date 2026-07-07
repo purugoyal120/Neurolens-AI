@@ -35,7 +35,7 @@ export const MyReportsPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full relative overflow-y-auto">
+    <div className="flex flex-col min-h-full relative">
       <TopNav />
       
       {/* Hidden PDF Template rendered only when downloading */}

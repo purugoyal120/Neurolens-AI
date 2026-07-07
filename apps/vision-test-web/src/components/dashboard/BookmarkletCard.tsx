@@ -65,27 +65,23 @@ export const BookmarkletCard: React.FC = () => {
         {showHelp ? (
           <div className="text-sm text-slate-600 bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 animate-in fade-in zoom-in duration-300 w-full">
             <ol className="list-decimal pl-5 space-y-2 font-medium">
-              <li>Make sure your browser's <b>Bookmarks Bar</b> is visible (Ctrl+Shift+B or Cmd+Shift+B).</li>
-              <li>Click and hold the big green button below.</li>
-              <li>Drag it up to your Bookmarks Bar and drop it.</li>
+              <li>Click the green button below to copy the code.</li>
+              <li>Right-click your Bookmarks Bar and select "Add Page".</li>
+              <li>Name it "Neurolens AI" and paste the copied code into the URL field.</li>
               <li>Open any website (like Wikipedia), and click your new bookmark!</li>
             </ol>
           </div>
         ) : (
           <div className="text-center animate-in fade-in duration-300">
-            <div className="mb-4 text-sm font-medium text-slate-500">Drag this button to your bookmarks bar ⬇️</div>
-            <a
-              href={getBookmarkletCode()}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-emerald-500 text-white rounded-full font-extrabold text-lg shadow-xl shadow-emerald-500/30 hover:scale-105 transition-transform cursor-grab active:cursor-grabbing hover:bg-emerald-400 border-2 border-white"
-              onClick={(e) => {
-                e.preventDefault();
-                addToast("Don't click! Drag this button to your bookmarks bar.", "warning");
-              }}
-              title="Drag me to your bookmarks bar!"
+            <div className="mb-4 text-sm font-medium text-slate-500">Click this button to copy the extension code ⬇️</div>
+            <button
+              className="inline-flex items-center gap-2 px-8 py-4 bg-emerald-500 text-white rounded-full font-extrabold text-lg shadow-xl shadow-emerald-500/30 hover:scale-105 transition-transform hover:bg-emerald-400 border-2 border-white"
+              onClick={handleCopyCode}
+              title="Click to copy code!"
             >
               <MousePointerClick className="w-5 h-5" />
-              Neurolens AI
-            </a>
+              Copy Neurolens Code
+            </button>
           </div>
         )}
       </div>

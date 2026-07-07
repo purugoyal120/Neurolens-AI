@@ -31,7 +31,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
       <Sidebar />
       <div className="flex-1 flex flex-col h-full overflow-hidden relative z-10">
         <main className="flex-1 overflow-y-auto px-10 pb-10">
-          <div className="max-w-[1600px] mx-auto h-full flex flex-col">
+          <div className="max-w-[1600px] mx-auto min-h-full flex flex-col">
             {children}
           </div>
         </main>

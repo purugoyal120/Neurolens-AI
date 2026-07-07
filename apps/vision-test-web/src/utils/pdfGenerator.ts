@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 
 export const generatePDFReport = async (elementId: string, filename: string = 'NeuroLens_Report.pdf') => {
   const element = document.getElementById(elementId);
@@ -9,23 +9,7 @@ export const generatePDFReport = async (elementId: string, filename: string = 'N
   }
 
   try {
-    const canvas = await html2canvas(element, {
-      scale: 2, // Higher resolution
-      useCORS: true,
-      logging: true, // Turn on logging to debug
-      allowTaint: true,
-      onclone: (clonedDoc) => {
-        // Ensure the cloned element is visible for html2canvas
-        const clonedElement = clonedDoc.getElementById(elementId);
-        if (clonedElement) {
-          clonedElement.style.position = 'relative';
-          clonedElement.style.top = '0';
-          clonedElement.style.left = '0';
-        }
-      }
-    });
-    
-    const imgData = canvas.toDataURL('image/png');
+    const imgData = await toPng(element, { pixelRatio: 2 });
     if (imgData === 'data:,') {
       throw new Error('Canvas is empty');
     }
@@ -33,7 +17,7 @@ export const generatePDFReport = async (elementId: string, filename: string = 'N
     // A4 dimensions in mm
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    const pdfHeight = (element.offsetHeight * pdfWidth) / element.offsetWidth;
     
     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
     pdf.save(filename);

@@ -81,3 +81,62 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* --- Dark Mode Global Overrides --- */
+html.dark body {
+  background-color: #020617; /* slate-950 */
+  color: #f8fafc; /* slate-50 */
+}
+
+/* Backgrounds */
+html.dark .bg-white {
+  background-color: #0f172a !important; /* slate-900 */
+}
+html.dark [class*="bg-[#f4f6f8]"] {
+  background-color: #020617 !important; /* slate-950 */
+}
+html.dark .bg-slate-50,
+html.dark .bg-slate-100,
+html.dark .bg-gray-50 {
+  background-color: #1e293b !important; /* slate-800 */
+}
+
+/* Text Colors */
+html.dark .text-slate-900,
+html.dark .text-slate-800,
+html.dark .text-slate-700,
+html.dark .text-gray-900 {
+  color: #f8fafc !important; /* slate-50 */
+}
+html.dark .text-slate-600,
+html.dark .text-slate-500,
+html.dark .text-gray-500 {
+  color: #94a3b8 !important; /* slate-400 */
+}
+
+/* Cards & Glass Panels */
+html.dark .dashboard-card {
+  background: rgba(30, 41, 59, 0.7) !important; /* slate-800 */
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5) !important;
+}
+html.dark .glass-panel {
+  background: rgba(30, 41, 59, 0.6) !important; /* slate-800 */
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Borders */
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-gray-200,
+html.dark .border-slate-300 {
+  border-color: #334155 !important; /* slate-700 */
+}
+
+/* Sidebar & Nav Specific Adjustments */
+html.dark [class*="hover:bg-slate-50"]:hover {
+  background-color: #334155 !important; /* slate-700 */
+}
+html.dark [class*="hover:bg-gray-50"]:hover {
+  background-color: #334155 !important;
+}

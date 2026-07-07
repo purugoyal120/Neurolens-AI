@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Home, FileText, Users, Layers, Settings, LogOut, Eye, SplitSquareHorizontal, FolderOpen } from 'lucide-react';
+import { Home, FileText, Layers, Settings, LogOut, Eye, SplitSquareHorizontal, FolderOpen, Smartphone } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
@@ -43,11 +43,11 @@ export const Sidebar: React.FC = () => {
           <NavLink to="/integrations" className={navClass} title="Integrations">
             <Layers className="w-5 h-5" />
           </NavLink>
-          <NavLink to="/team" className={navClass} title="Team">
-            <Users className="w-5 h-5" />
-          </NavLink>
           <NavLink to="/simulator" className={navClass} title="Vision Simulator">
             <SplitSquareHorizontal className="w-5 h-5" />
+          </NavLink>
+          <NavLink to="/future" className={navClass} title="Future Vision (Mobile/AR)">
+            <Smartphone className="w-5 h-5" />
           </NavLink>
           <NavLink to="/settings" className={navClass} title="Settings">
             <Settings className="w-5 h-5" />

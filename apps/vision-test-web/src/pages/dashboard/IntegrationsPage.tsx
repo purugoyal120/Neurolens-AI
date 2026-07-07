@@ -27,7 +27,7 @@ export const IntegrationsPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full relative overflow-hidden pb-6">
+    <div className="flex flex-col min-h-full relative pb-6">
       {/* Subtle Background Glow */}
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-emerald-400/10 blur-[80px] rounded-full pointer-events-none -z-10 animate-pulse"></div>
       

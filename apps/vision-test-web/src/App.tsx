@@ -3,11 +3,11 @@ import { AuthProvider } from './context/AuthContext';
 import { VisionTestProvider } from './context/VisionTestContext';
 import { ToastProvider } from './context/ToastContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { NotificationProvider } from './context/NotificationContext';
 import { DashboardLayout } from './components/layout/DashboardLayout';
 import { OverviewPage } from './pages/dashboard/OverviewPage';
 import { ReportsPage } from './pages/dashboard/ReportsPage';
 import { IntegrationsPage } from './pages/dashboard/IntegrationsPage';
-import { TeamPage } from './pages/dashboard/TeamPage';
 import { SettingsPage } from './pages/dashboard/SettingsPage';
 import { LandingPage } from './pages/LandingPage';
 import { PricingPage } from './pages/PricingPage';
@@ -16,12 +16,15 @@ import { RegisterPage } from './pages/auth/RegisterPage';
 import { DiagnosticTestPage } from './pages/auth/DiagnosticTestPage';
 import { MyReportsPage } from './pages/dashboard/MyReportsPage';
 import { SimulatorPage } from './pages/dashboard/SimulatorPage';
+import { FutureVisionPage } from './pages/dashboard/FutureVisionPage';
+
 
 const App = () => {
   return (
     <ThemeProvider>
-      <ToastProvider>
-        <AuthProvider>
+      <NotificationProvider>
+        <ToastProvider>
+          <AuthProvider>
           <VisionTestProvider>
             <BrowserRouter>
               <Routes>
@@ -37,8 +40,8 @@ const App = () => {
                 <Route path="/analytics" element={<DashboardLayout><ReportsPage /></DashboardLayout>} />
                 <Route path="/reports" element={<DashboardLayout><MyReportsPage /></DashboardLayout>} />
                 <Route path="/integrations" element={<DashboardLayout><IntegrationsPage /></DashboardLayout>} />
-                <Route path="/team" element={<DashboardLayout><TeamPage /></DashboardLayout>} />
                 <Route path="/simulator" element={<DashboardLayout><SimulatorPage /></DashboardLayout>} />
+                <Route path="/future" element={<DashboardLayout><FutureVisionPage /></DashboardLayout>} />
                 <Route path="/settings" element={<DashboardLayout><SettingsPage /></DashboardLayout>} />
                 
                 {/* Fallback */}
@@ -48,6 +51,7 @@ const App = () => {
           </VisionTestProvider>
         </AuthProvider>
       </ToastProvider>
+      </NotificationProvider>
     </ThemeProvider>
   );
 };

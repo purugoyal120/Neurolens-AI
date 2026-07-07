@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Bell, Info, ChevronDown, LogOut, Settings, User } from 'lucide-react';
+import { Search, Bell, Info, ChevronDown, LogOut, User, Sun, Moon } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
+import { useNotification } from '../../context/NotificationContext';
 
 
 export const TopNav: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { mode, setMode } = useTheme();
+  const { notifications, unreadCount, markAllAsRead } = useNotification();
   
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -15,7 +19,7 @@ export const TopNav: React.FC = () => {
   const profileRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
 
-  const links = ['Overview', 'Simulator', 'Reports', 'Integrations', 'Team', 'Settings'];
+  const links = ['Overview', 'Simulator', 'Reports', 'Integrations', 'Settings'];
 
   // Handle clicking outside to close dropdowns
   useEffect(() => {
@@ -72,6 +76,14 @@ export const TopNav: React.FC = () => {
 
         {/* Actions Pill */}
         <div className="bg-white rounded-full px-5 py-2.5 flex items-center gap-6 shadow-sm">
+          <button 
+            onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')} 
+            className="text-slate-500 hover:text-amber-500 transition-colors"
+            title="Toggle Theme"
+          >
+            {mode === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+
           <button onClick={openSearch} className="text-slate-500 hover:text-emerald-500 transition-colors">
             <Search className="w-5 h-5" />
           </button>
@@ -82,23 +94,38 @@ export const TopNav: React.FC = () => {
               className="text-slate-500 hover:text-emerald-500 transition-colors relative flex items-center"
             >
               <Bell className="w-5 h-5" />
-              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+              {unreadCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
+              )}
             </button>
             
             {showNotifications && (
               <div className="absolute right-0 mt-4 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2">
-                <div className="px-4 py-3 border-b border-slate-100 bg-slate-50">
+                <div className="px-4 py-3 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
                   <h4 className="font-bold text-slate-800">Notifications</h4>
+                  {unreadCount > 0 && (
+                    <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full">{unreadCount} New</span>
+                  )}
                 </div>
                 <div className="max-h-64 overflow-y-auto">
-                  <div className="px-4 py-3 border-b border-slate-50 hover:bg-slate-50 transition-colors cursor-pointer">
-                    <p className="text-sm text-slate-800 font-medium">Vision Profile successfully synced to Extension.</p>
-                    <span className="text-xs text-slate-400">2 minutes ago</span>
-                  </div>
+                  {notifications.length === 0 ? (
+                    <div className="px-4 py-6 text-center text-slate-500 text-sm">
+                      No new notifications.
+                    </div>
+                  ) : (
+                    notifications.map((notif) => (
+                      <div key={notif.id} className={`px-4 py-3 border-b border-slate-50 transition-colors cursor-pointer ${notif.isRead ? 'hover:bg-slate-50' : 'bg-emerald-50/50 hover:bg-emerald-50'}`}>
+                        <p className={`text-sm font-medium ${notif.isRead ? 'text-slate-700' : 'text-slate-900'}`}>{notif.message}</p>
+                        <span className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">{notif.time}</span>
+                      </div>
+                    ))
+                  )}
                 </div>
-                <div className="px-4 py-2 text-center border-t border-slate-100 hover:bg-slate-50 cursor-pointer text-sm text-emerald-600 font-bold transition-colors">
-                  Mark all as read
-                </div>
+                {notifications.length > 0 && (
+                  <button onClick={markAllAsRead} className="w-full px-4 py-2 text-center border-t border-slate-100 hover:bg-slate-50 text-sm text-emerald-600 font-bold transition-colors">
+                    Mark all as read
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -139,9 +166,6 @@ export const TopNav: React.FC = () => {
               <div className="py-2">
                 <button onClick={() => { navigate('/settings'); setShowProfileMenu(false); }} className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2 transition-colors">
                   <User className="w-4 h-4" /> My Profile
-                </button>
-                <button onClick={() => { navigate('/settings'); setShowProfileMenu(false); }} className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2 transition-colors">
-                  <Settings className="w-4 h-4" /> Account Settings
                 </button>
               </div>
               <div className="border-t border-slate-100 py-2">

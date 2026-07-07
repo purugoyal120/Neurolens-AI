@@ -1,6 +1,5 @@
 import React from 'react';
 import { Users, Activity, FileText, Download } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 import { generatePDFReport } from '../../utils/pdfGenerator';
 
 export const DoctorDashboard: React.FC = () => {

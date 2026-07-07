@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { TopNav } from '../../components/layout/TopNav';
-import { Eye, Zap, Save, RefreshCw, ShieldCheck, Lock } from 'lucide-react';
+import { Zap, Save, RefreshCw, ShieldCheck, Lock, Mail } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
+import { useNotification } from '../../context/NotificationContext';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
 export const SettingsPage: React.FC = () => {
   const { addToast } = useToast();
+  const { addNotification } = useNotification();
+  const { user, role, activeReport } = useAuth();
   const [toggles, setToggles] = useState({
     autoAdapt: true,
     daltonizeImages: true,
@@ -25,6 +29,11 @@ export const SettingsPage: React.FC = () => {
     setTimeout(() => {
       setIsSaving(false);
       addToast('Preferences & Security settings saved', 'success');
+      addNotification({
+        title: 'Settings Updated',
+        message: 'Your profile and security preferences have been successfully updated.',
+        type: 'info'
+      });
     }, 800);
   };
 
@@ -46,66 +55,84 @@ export const SettingsPage: React.FC = () => {
       <TopNav />
       
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2 tracking-tight">Vision Profile Settings</h1>
-        <p className="text-slate-500 text-sm font-medium">Calibrate your AI engine parameters and high-security preferences.</p>
+        <h1 className="text-3xl font-bold text-slate-900 mb-2 tracking-tight">My Profile</h1>
+        <p className="text-slate-500 text-sm font-medium">View your details and manage your AI engine parameters & security.</p>
       </div>
 
       <motion.div 
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+        className="max-w-3xl mx-auto w-full space-y-6"
       >
-        {/* Active Profile Summary */}
-        <motion.div variants={itemVariants} className="lg:col-span-1 space-y-6">
-          <div className="dashboard-card p-6 border-t-4 border-emerald-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Active Calibration</h3>
-            
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 shadow-inner">
-                <Eye className="w-8 h-8" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-slate-900">Deuteranopia</h2>
-                <p className="text-sm font-semibold text-emerald-600">Severity: Moderate (64%)</p>
-              </div>
-            </div>
-
-            <div className="space-y-4 mb-6">
-              <div>
-                <div className="flex justify-between text-xs font-bold mb-1">
-                  <span className="text-slate-500">Red Shift</span>
-                  <span className="text-slate-900">+42%</span>
-                </div>
-                <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }} animate={{ width: '42%' }} transition={{ duration: 1, delay: 0.5 }}
-                    className="bg-rose-400 h-1.5 rounded-full" 
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between text-xs font-bold mb-1">
-                  <span className="text-slate-500">Green Compensation</span>
-                  <span className="text-slate-900">+85%</span>
-                </div>
-                <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }} animate={{ width: '85%' }} transition={{ duration: 1, delay: 0.7 }}
-                    className="bg-emerald-400 h-1.5 rounded-full" 
-                  />
-                </div>
-              </div>
-            </div>
-
-            <button className="w-full py-3 bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2">
-              <RefreshCw className="w-4 h-4" /> Recalibrate Profile
-            </button>
-          </div>
-        </motion.div>
-
         {/* Settings Column */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6">
+          
+          {/* Premium Profile Card */}
+          <motion.div variants={itemVariants} className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-white shadow-xl shadow-emerald-900/5 transition-all hover:shadow-2xl hover:shadow-emerald-900/10">
+            {/* Background Decorative Gradients */}
+            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-400"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+            
+            <div className="px-8 pt-20 pb-8 relative z-10">
+              <div className="flex flex-col sm:flex-row items-center sm:items-end gap-6 mb-6">
+                {/* Avatar with Ring */}
+                <div className="relative">
+                  <div className="w-28 h-28 rounded-full bg-white p-1.5 shadow-lg">
+                    <div className="w-full h-full rounded-full bg-gradient-to-br from-emerald-100 to-teal-50 flex items-center justify-center text-emerald-600 border border-emerald-100/50">
+                      <span className="text-4xl font-extrabold tracking-tighter">{user?.name?.charAt(0) || 'U'}</span>
+                    </div>
+                  </div>
+                  <div className="absolute bottom-1 right-1 w-6 h-6 bg-emerald-500 rounded-full border-4 border-white shadow-sm" title="Active"></div>
+                </div>
+
+                <div className="flex-1 text-center sm:text-left">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                      <h2 className="text-3xl font-black text-slate-900 tracking-tight">{user?.name || 'Guest User'}</h2>
+                      <div className="flex items-center justify-center sm:justify-start gap-2 text-slate-500 text-sm mt-1.5 font-medium">
+                        <Mail className="w-4 h-4 text-emerald-500" /> {user?.email || 'user@neurolens.ai'}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-center gap-2 bg-emerald-50 border border-emerald-200/60 px-4 py-2 rounded-2xl shadow-sm">
+                      <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                      <span className="text-emerald-700 text-xs font-bold uppercase tracking-widest">
+                        {role === 'doctor' ? 'Clinician Pro' : 'Pro Plan Active'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Stats / Diagnosis Section */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-8 border-t border-slate-100">
+                <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col justify-center items-center sm:items-start">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Active Diagnosis</div>
+                  <div className="font-extrabold text-slate-800 text-lg flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-amber-500" />
+                    {activeReport?.clinical_diagnosis || 'Standard Vision'}
+                  </div>
+                </div>
+                
+                <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col justify-center items-center sm:items-start">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Severity Level</div>
+                  <div className="font-extrabold text-slate-800 text-lg flex items-center gap-2">
+                    <span className="flex h-2 w-2 rounded-full bg-rose-500"></span>
+                    {activeReport?.severity || 'None Detected'}
+                  </div>
+                </div>
+
+                <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col justify-center items-center sm:items-start">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Simulation Accuracy</div>
+                  <div className="font-extrabold text-emerald-600 text-lg">
+                    {activeReport?.accuracy ? `${activeReport.accuracy}%` : '100%'} Optimal
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <h3 className="text-lg font-bold text-slate-800 pt-4 pb-2 border-b border-slate-200">Account Settings</h3>
           
           {/* Security & Privacy Settings */}
           <motion.div variants={itemVariants} className="dashboard-card p-0 overflow-hidden border border-emerald-100 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_25px_rgba(16,185,129,0.2)] transition-shadow duration-300">

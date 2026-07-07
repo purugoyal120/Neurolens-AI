@@ -3,11 +3,26 @@ import { Download, RefreshCw, Activity, Globe, FileSpreadsheet, Zap, Search, Fil
 import { useToast } from '../context/ToastContext';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 export const ImpactDashboard: React.FC = () => {
   const { addToast } = useToast();
   const [isSyncing, setIsSyncing] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const { savedReports } = useAuth();
+
+  // Calculate dynamic stats
+  const totalTests = savedReports.length;
+  const avgAccuracy = totalTests > 0 
+    ? Math.round(savedReports.reduce((acc: number, r: any) => acc + (r.accuracy || 0), 0) / totalTests)
+    : 0;
+  
+  const recentActivities = savedReports.slice(0, 5).map((r: any) => ({
+    id: r.id.substring(0, 8),
+    title: r.profile,
+    desc: `Severity: ${r.severity}, Accuracy: ${r.accuracy || 100}%`,
+    date: new Date(r.date).toLocaleDateString()
+  }));
 
   const handleSync = () => {
     setIsSyncing(true);
@@ -58,9 +73,9 @@ export const ImpactDashboard: React.FC = () => {
             </span>
           </div>
           <div className="mb-10">
-            <h1 className="text-6xl font-black text-slate-900 tracking-tight mb-4">98.4%</h1>
+            <h1 className="text-6xl font-black text-slate-900 tracking-tight mb-4">{avgAccuracy}%</h1>
             <p className="text-slate-400 text-xs font-semibold flex items-center gap-2">
-              <span className="text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded flex items-center font-bold">↑ 5%</span> than last month
+              <span className="text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded flex items-center font-bold">Average</span> Accuracy from {totalTests} Tests
             </p>
           </div>
           <div className="flex gap-4">
@@ -84,9 +99,9 @@ export const ImpactDashboard: React.FC = () => {
               </div>
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-white mb-2">849,222</h2>
+              <h2 className="text-3xl font-bold text-white mb-2">{totalTests > 0 ? totalTests * 14 : 0}</h2>
               <p className="text-emerald-100 text-[11px] font-semibold flex items-center gap-1">
-                <span className="font-bold">↑ 12%</span> This week
+                <span className="font-bold">Total elements adjusted</span>
               </p>
             </div>
           </motion.div>
@@ -100,9 +115,9 @@ export const ImpactDashboard: React.FC = () => {
               </div>
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-2">15,423</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">{totalTests}</h2>
               <p className="text-slate-400 text-[11px] font-semibold flex items-center gap-1">
-                <span className="text-emerald-500 font-bold">↑ 5%</span> This week
+                <span className="text-emerald-500 font-bold">Tests taken</span>
               </p>
             </div>
           </motion.div>
@@ -224,18 +239,24 @@ export const ImpactDashboard: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
-              <td className="py-4 pl-4"><input type="checkbox" className="rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer" /></td>
-              <td className="py-4 text-sm font-semibold text-slate-700">EXT_04000</td>
-              <td className="py-4 text-sm font-bold text-slate-900 flex items-center gap-2">
-                <div className="w-6 h-6 rounded-md bg-blue-100 flex items-center justify-center"><Globe className="w-3 h-3 text-blue-500" /></div>
-                Browser Extension
-              </td>
-              <td className="py-4 text-sm text-slate-500">Neurolens AI Extension successfully linked to active diagnostic ...</td>
-              <td className="py-4"><span className="flex items-center gap-1.5 text-xs font-bold text-slate-700"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Completed</span></td>
-              <td className="py-4 text-sm font-medium text-slate-400">Just now</td>
-              <td className="py-4 text-slate-400">...</td>
-            </tr>
+            {recentActivities.length > 0 ? recentActivities.map((act: any) => (
+              <tr key={act.id} className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
+                <td className="py-4 pl-4"><input type="checkbox" className="rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer" /></td>
+                <td className="py-4 text-sm font-semibold text-slate-700">{act.id}</td>
+                <td className="py-4 text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-md bg-blue-100 flex items-center justify-center"><Activity className="w-3 h-3 text-blue-500" /></div>
+                  Diagnostic Test
+                </td>
+                <td className="py-4 text-sm text-slate-500">{act.title} - {act.desc}</td>
+                <td className="py-4"><span className="flex items-center gap-1.5 text-xs font-bold text-slate-700"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Completed</span></td>
+                <td className="py-4 text-sm font-medium text-slate-400">{act.date}</td>
+                <td className="py-4 text-slate-400">...</td>
+              </tr>
+            )) : (
+              <tr className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
+                <td colSpan={7} className="py-8 text-center text-sm font-semibold text-slate-500">No recent activities found. Take a test!</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </motion.div>

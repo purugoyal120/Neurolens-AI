@@ -165,99 +165,6 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
       }
 
       const nextIndex = prev.currentQuestionIndex + 1;
-
-      if (nextIndex >= prev.config.questions.length) {
-  const submitData = async (answersToSubmit: UserAnswer[], testId: string, uid: string) => {
-    try {
-      const response = await fetch(`${API_URL}/vision-test/submit`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: uid, test_id: testId, answers: answersToSubmit }),
-      });
-      if (!response.ok) throw new Error('Failed to submit test results');
-      const result: SubmitVisionTestOut = await response.json();
-      setState((s) => ({ ...s, status: 'completed', result }));
-      
-      // SYNC WITH AUTH CONTEXT
-      if (result && result.profile) {
-        setActiveReport({
-          deficiency_type: result.profile.deficiency_type || 'None',
-          severity: result.profile.severity || 'Unknown',
-          clinical_diagnosis: result.profile.clinical_diagnosis || 'Standard Mode',
-          accuracy: result.profile.percent_accuracy || 0
-        });
-        setActiveProfile(result.profile.clinical_diagnosis || 'Standard Mode');
-        saveReport({
-          profile: result.profile.clinical_diagnosis || 'Standard Mode',
-          severity: result.profile.severity || 'Unknown',
-          accuracy: result.profile.percent_accuracy || 0,
-          description: result.profile.ai_explanation || 'Detailed AI diagnosis generated.',
-          rawProfile: result.profile
-        });
-      }
-    } catch (err) {
-      console.warn("Backend unavailable. Using mock test results.");
-      const mockResult: SubmitVisionTestOut = {
-        profile: {
-          user_id: uid,
-          deficiency_type: "deutan",
-          deficiency_name: "Deuteranopia",
-          clinical_diagnosis: "Deuteranopia (Green-Blindness)",
-          severity: "moderate",
-          color_confusion_status: "Green and Brown overlap heavily",
-          percent_accuracy: 66,
-          perception_scores: { red: 80, green: 40, blue: 95, yellow: 90 },
-          ai_explanation: "Based on your test responses, we noticed you experience overlapping contrast with red, green, and earthy brown shades. Neurolens AI dynamically transforms these problematic colors into high-contrast alternatives.",
-          meaning_based_transformations: [
-             {
-               target_type: "Problematic Green",
-               appended_label: "[Successful / On Track 📈]",
-               safe_hex: "#F39C12",
-               original_color_name: "🟢 Problematic Green (#2ECC40)",
-               transformed_color_hex: "#F39C12",
-               meaning_label: "Successful / On Track [Vibrant Amber + 📈]",
-               explanation: "Green easily blends with earthy browns in your vision profile. We shift it to Vibrant Amber and append explicit meaning."
-             }
-          ],
-          recommended_transformations: [],
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-        score_summary: {
-          total_questions: 3,
-          correct_answers: 2,
-          error_rate: 0.33
-        }
-      };
-      setState((s) => ({ ...s, status: 'completed', result: mockResult }));
-      
-      // SYNC WITH AUTH CONTEXT
-      setActiveReport({
-        deficiency_type: mockResult.profile.deficiency_type || 'None',
-        severity: mockResult.profile.severity || 'Unknown',
-        clinical_diagnosis: mockResult.profile.clinical_diagnosis || 'Standard Mode',
-        accuracy: mockResult.profile.percent_accuracy || 0
-      });
-      setActiveProfile(mockResult.profile.clinical_diagnosis || 'Standard Mode');
-      saveReport({
-        profile: mockResult.profile.clinical_diagnosis || 'Standard Mode',
-        severity: mockResult.profile.severity || 'Unknown',
-        accuracy: mockResult.profile.percent_accuracy || 0,
-        description: mockResult.profile.ai_explanation || 'Based on your test responses, we noticed overlapping contrast. Neurolens AI dynamically transforms these problematic colors.',
-        rawProfile: mockResult.profile
-      });
-    }
-  };
-
-        submitData(newAnswers, prev.config.test_id, prev.userId);
-        return {
-          ...prev,
-          answers: newAnswers,
-          currentQuestionIndex: nextIndex,
-          status: 'submitting',
-        };
-      }
-
       return {
         ...prev,
         answers: newAnswers,
@@ -342,20 +249,24 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
           setState((s) => ({ ...s, status: 'completed', result: mockResult }));
 
           // SYNC WITH AUTH CONTEXT
-          setActiveReport({
-            deficiency_type: mockResult.profile.deficiency_type || 'None',
-            severity: mockResult.profile.severity || 'Unknown',
-            clinical_diagnosis: mockResult.profile.clinical_diagnosis || 'Standard Mode',
-            accuracy: mockResult.profile.percent_accuracy || 0
-          });
-          setActiveProfile(mockResult.profile.clinical_diagnosis || 'Standard Mode');
-          saveReport({
-            profile: mockResult.profile.clinical_diagnosis || 'Standard Mode',
-            severity: mockResult.profile.severity || 'Unknown',
-            accuracy: mockResult.profile.percent_accuracy || 0,
-            description: mockResult.profile.ai_explanation || 'Based on your test responses, we noticed overlapping contrast. Neurolens AI dynamically transforms these problematic colors.',
-            rawProfile: mockResult.profile
-          });
+          // We wrap these side effects in a short timeout to run them outside the synchronous setState cycle.
+          // This prevents React Strict Mode from running these side effects twice.
+          setTimeout(() => {
+            setActiveReport({
+              deficiency_type: mockResult.profile.deficiency_type || 'None',
+              severity: mockResult.profile.severity || 'Unknown',
+              clinical_diagnosis: mockResult.profile.clinical_diagnosis || 'Standard Mode',
+              accuracy: mockResult.profile.percent_accuracy || 0
+            });
+            setActiveProfile(mockResult.profile.clinical_diagnosis || 'Standard Mode');
+            saveReport({
+              profile: mockResult.profile.clinical_diagnosis || 'Standard Mode',
+              severity: mockResult.profile.severity || 'Unknown',
+              accuracy: mockResult.profile.percent_accuracy || 0,
+              description: mockResult.profile.ai_explanation || 'Based on your test responses, we noticed overlapping contrast. Neurolens AI dynamically transforms these problematic colors.',
+              rawProfile: mockResult.profile
+            });
+          }, 0);
         }
       };
 

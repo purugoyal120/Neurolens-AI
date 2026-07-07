@@ -9,11 +9,16 @@ interface PDFReportTemplateProps {
 export const PDFReportTemplate: React.FC<PDFReportTemplateProps> = ({ report }) => {
   if (!report) return null;
 
-  const matrix = calculateColorMatrix(report.rawProfile || report);
-  const matrixLines = matrix.split(',  ').map(line => line.trim());
+  let matrixLines = ["1,0,0,0,0 0,1,0,0,0 0,0,1,0,0 0,0,0,1,0"];
+  try {
+    const matrix = calculateColorMatrix(report.rawProfile || report);
+    matrixLines = matrix.split(',  ').map(line => line.trim());
+  } catch(e) {
+    console.error("PDF matrix error:", e);
+  }
 
   return (
-    <div className="fixed top-0 left-0 -z-50 opacity-0 pointer-events-none w-[210mm]">
+    <div className="fixed top-0 pointer-events-none w-[210mm]" style={{ left: '-9999px', opacity: 1 }}>
       {/* A4 Size Container */}
       <div 
         id="pdf-report-container" 
