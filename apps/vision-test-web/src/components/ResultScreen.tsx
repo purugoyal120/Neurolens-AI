@@ -267,7 +267,7 @@ export const ResultScreen: React.FC = () => {
             </button>
             
             <button
-              onClick={() => navigate('/register')}
+              onClick={() => navigate('/register?role=patient')}
               className="flex items-center justify-center gap-2 px-8 py-4 bg-emerald-500 text-white rounded-2xl font-bold hover:bg-emerald-600 transition-all shadow-[0_4px_20px_rgba(16,185,129,0.3)] hover:shadow-[0_4px_25px_rgba(16,185,129,0.4)] hover:-translate-y-0.5 w-full sm:w-auto"
             >
               <ShieldCheck className="w-5 h-5" /> Save Profile

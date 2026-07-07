@@ -13,6 +13,7 @@ import { LandingPage } from './pages/LandingPage';
 import { PricingPage } from './pages/PricingPage';
 import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
+import { RoleSelectionPage } from './pages/auth/RoleSelectionPage';
 import { DiagnosticTestPage } from './pages/auth/DiagnosticTestPage';
 import { MyReportsPage } from './pages/dashboard/MyReportsPage';
 import { SimulatorPage } from './pages/dashboard/SimulatorPage';
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path="/pricing" element={<PricingPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/select-role" element={<RoleSelectionPage />} />
                 <Route path="/onboarding" element={<DiagnosticTestPage />} />
                 
                 {/* Dashboard Routes */}

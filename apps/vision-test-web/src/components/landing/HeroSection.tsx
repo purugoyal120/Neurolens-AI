@@ -45,7 +45,7 @@ export const HeroSection: React.FC = () => {
           transition={{ delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20"
         >
-          <Link to="/register" className="px-10 py-5 bg-emerald-500 text-white rounded-full text-xl font-extrabold hover:bg-emerald-600 hover:scale-105 transition-all shadow-xl shadow-emerald-500/20 flex items-center gap-3">
+          <Link to="/select-role" className="px-10 py-5 bg-emerald-500 text-white rounded-full text-xl font-extrabold hover:bg-emerald-600 hover:scale-105 transition-all shadow-xl shadow-emerald-500/20 flex items-center gap-3">
             Take Diagnostic Test <ArrowRight className="w-6 h-6" />
           </Link>
           <a href="#demo" className="px-10 py-5 bg-white text-slate-800 rounded-full text-xl font-bold hover:bg-slate-50 transition-all border border-slate-200 shadow-sm flex items-center gap-3">
