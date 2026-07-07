@@ -23,7 +23,7 @@ export const LandingPage: React.FC = () => {
           </div>
           <div className="flex items-center gap-6">
             <Link to="/login" className="text-base font-bold text-slate-700 hover:text-slate-900 transition-colors">Sign In</Link>
-            <Link to="/onboarding" className="px-6 py-3 bg-slate-900 text-white rounded-full text-sm font-bold hover:bg-slate-800 transition-colors shadow-md">
+            <Link to="/register" className="px-6 py-3 bg-slate-900 text-white rounded-full text-sm font-bold hover:bg-slate-800 transition-colors shadow-md">
               Get Started
             </Link>
           </div>

@@ -18,7 +18,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, onNext }) 
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto dashboard-card rounded-[32px] shadow-2xl p-10 border border-white/60 relative overflow-hidden">
+    <div className="w-full max-w-3xl mx-auto dashboard-card rounded-[32px] shadow-2xl p-6 md:p-10 border border-white/60 relative overflow-hidden">
       {/* Subtle Background Glow */}
       <div 
         className="absolute inset-0 opacity-10 blur-3xl rounded-[32px] pointer-events-none transition-colors duration-1000"
@@ -35,7 +35,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, onNext }) 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          className="w-56 h-56 rounded-[32px] shadow-inner border-[6px] border-white/80 backdrop-blur-sm relative"
+          className="w-40 h-40 md:w-56 md:h-56 rounded-[32px] shadow-inner border-[6px] border-white/80 backdrop-blur-sm relative"
           style={{ backgroundColor: question.stimulus_hex }}
         >
           {/* Inner ring for depth */}
@@ -62,7 +62,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, onNext }) 
               }, 400);
             }}
             className={`
-              flex items-center p-5 rounded-2xl border-2 transition-all duration-300
+              flex items-center p-4 md:p-5 rounded-2xl border-2 transition-all duration-300
               ${selectedOption === option.id 
                 ? 'border-emerald-500 bg-emerald-50/80 text-emerald-900 shadow-lg shadow-emerald-500/20' 
                 : 'border-slate-200 bg-white/80 hover:border-emerald-400 hover:bg-white text-slate-800 shadow-sm'}
@@ -72,7 +72,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, onNext }) 
               className="w-10 h-10 rounded-full shadow-inner mr-5 border-2 border-white/50"
               style={{ backgroundColor: option.hex }}
             />
-            <span className="text-xl font-bold">{option.label}</span>
+            <span className="text-lg md:text-xl font-bold">{option.label}</span>
           </motion.button>
         ))}
       </div>

@@ -13,7 +13,7 @@ export const TestInterface: React.FC = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-2xl mx-auto dashboard-card rounded-[32px] p-12 text-center relative overflow-hidden shadow-2xl"
+        className="w-full max-w-2xl mx-auto dashboard-card rounded-[32px] p-6 md:p-12 text-center relative overflow-hidden shadow-2xl"
       >
         {/* Glow behind the icon */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-emerald-400/20 blur-[80px] rounded-full -z-10 animate-pulse pointer-events-none"></div>
