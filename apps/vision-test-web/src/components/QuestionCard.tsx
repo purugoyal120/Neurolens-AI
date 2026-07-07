@@ -18,14 +18,14 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, onNext }) 
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto dashboard-card rounded-[32px] shadow-2xl p-6 md:p-10 border border-white/60 relative overflow-hidden">
+    <div className="w-full max-w-3xl mx-auto dashboard-card rounded-2xl md:rounded-[32px] shadow-2xl p-5 md:p-10 border border-white/60 relative overflow-hidden">
       {/* Subtle Background Glow */}
       <div 
         className="absolute inset-0 opacity-10 blur-3xl rounded-[32px] pointer-events-none transition-colors duration-1000"
         style={{ backgroundColor: question.stimulus_hex }}
       />
       
-      <h2 className="text-3xl font-extrabold text-center text-slate-900 mb-8 tracking-tight relative z-10">
+      <h2 className="text-xl md:text-3xl font-extrabold text-center text-slate-900 mb-6 md:mb-8 tracking-tight relative z-10 px-2">
         {question.prompt}
       </h2>
 
@@ -35,7 +35,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, onNext }) 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          className="w-40 h-40 md:w-56 md:h-56 rounded-[32px] shadow-inner border-[6px] border-white/80 backdrop-blur-sm relative"
+          className="w-28 h-28 md:w-56 md:h-56 rounded-2xl md:rounded-[32px] shadow-inner border-[4px] md:border-[6px] border-white/80 backdrop-blur-sm relative"
           style={{ backgroundColor: question.stimulus_hex }}
         >
           {/* Inner ring for depth */}
@@ -44,7 +44,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, onNext }) 
       </div>
 
       {/* Answer Options */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10 relative z-10">
+      <div className="grid grid-cols-2 gap-3 md:gap-5 mb-8 md:mb-10 relative z-10">
         {question.options.map((option, idx) => (
           <motion.button
             key={option.id}
@@ -62,17 +62,17 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, onNext }) 
               }, 400);
             }}
             className={`
-              flex items-center p-4 md:p-5 rounded-2xl border-2 transition-all duration-300
+              flex flex-col md:flex-row items-center justify-center md:justify-start p-3 md:p-5 rounded-2xl border-2 transition-all duration-300
               ${selectedOption === option.id 
                 ? 'border-emerald-500 bg-emerald-50/80 text-emerald-900 shadow-lg shadow-emerald-500/20' 
                 : 'border-slate-200 bg-white/80 hover:border-emerald-400 hover:bg-white text-slate-800 shadow-sm'}
             `}
           >
             <div
-              className="w-10 h-10 rounded-full shadow-inner mr-5 border-2 border-white/50"
+              className="w-8 h-8 md:w-10 md:h-10 rounded-full shadow-inner mb-2 md:mb-0 md:mr-5 border-2 border-white/50"
               style={{ backgroundColor: option.hex }}
             />
-            <span className="text-lg md:text-xl font-bold">{option.label}</span>
+            <span className="text-sm md:text-xl font-bold text-center">{option.label}</span>
           </motion.button>
         ))}
       </div>
@@ -82,13 +82,13 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, onNext }) 
         <button
           onClick={retreatQuestion}
           disabled={currentQuestionIndex === 0}
-          className={`px-8 py-3 rounded-full font-bold transition-all ${
+          className={`px-6 md:px-8 py-2 md:py-3 rounded-full text-sm md:text-base font-bold transition-all ${
             currentQuestionIndex === 0
               ? 'border border-slate-200 text-slate-400 cursor-not-allowed bg-slate-50'
               : 'premium-btn-secondary'
           }`}
         >
-          <span>← Previous</span>
+          <span>← Back</span>
         </button>
       </div>
     </div>
