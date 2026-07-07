@@ -43,17 +43,17 @@ export const RoleSelectionPage: React.FC = () => {
             whileHover={{ y: -5, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => navigate('/onboarding')}
-            className="group relative bg-white p-10 rounded-[32px] border-2 border-slate-100 hover:border-emerald-400 shadow-xl shadow-slate-200/50 text-left transition-all overflow-hidden flex flex-col h-full"
+            className="group relative bg-white p-6 md:p-10 rounded-[32px] border-2 border-slate-100 hover:border-emerald-400 shadow-xl shadow-slate-200/50 text-left transition-all overflow-hidden flex flex-col h-full"
           >
             <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0">
               <ArrowRight className="w-6 h-6 text-emerald-500" />
             </div>
             
-            <div className="w-20 h-20 bg-emerald-50 rounded-2xl flex items-center justify-center mb-8 border border-emerald-100 group-hover:bg-emerald-500 transition-colors duration-300">
-              <User className="w-10 h-10 text-emerald-500 group-hover:text-white transition-colors duration-300" />
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-emerald-50 rounded-2xl flex items-center justify-center mb-6 md:mb-8 border border-emerald-100 group-hover:bg-emerald-500 transition-colors duration-300">
+              <User className="w-8 h-8 md:w-10 md:h-10 text-emerald-500 group-hover:text-white transition-colors duration-300" />
             </div>
             
-            <h2 className="text-3xl font-black text-slate-900 mb-4">I am a Patient</h2>
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-4">I am a Patient</h2>
             <p className="text-slate-500 text-lg font-medium leading-relaxed mb-8 flex-grow">
               Take our AI-powered 2-minute vision test to discover your unique color profile and fix hard-to-read websites instantly.
             </p>
@@ -71,17 +71,17 @@ export const RoleSelectionPage: React.FC = () => {
             whileHover={{ y: -5, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => navigate('/register?role=doctor')}
-            className="group relative bg-white p-10 rounded-[32px] border-2 border-slate-100 hover:border-blue-400 shadow-xl shadow-slate-200/50 text-left transition-all overflow-hidden flex flex-col h-full"
+            className="group relative bg-white p-6 md:p-10 rounded-[32px] border-2 border-slate-100 hover:border-blue-400 shadow-xl shadow-slate-200/50 text-left transition-all overflow-hidden flex flex-col h-full"
           >
             <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0">
               <ArrowRight className="w-6 h-6 text-blue-500" />
             </div>
             
-            <div className="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center mb-8 border border-blue-100 group-hover:bg-blue-500 transition-colors duration-300">
-              <Stethoscope className="w-10 h-10 text-blue-500 group-hover:text-white transition-colors duration-300" />
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 md:mb-8 border border-blue-100 group-hover:bg-blue-500 transition-colors duration-300">
+              <Stethoscope className="w-8 h-8 md:w-10 md:h-10 text-blue-500 group-hover:text-white transition-colors duration-300" />
             </div>
             
-            <h2 className="text-3xl font-black text-slate-900 mb-4">I am a Doctor</h2>
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-4">I am a Doctor</h2>
             <p className="text-slate-500 text-lg font-medium leading-relaxed mb-8 flex-grow">
               Access the clinical dashboard to manage patient reports, track vision therapy progress, and analyze mass data.
             </p>
