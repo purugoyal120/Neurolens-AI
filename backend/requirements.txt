@@ -11,3 +11,4 @@ passlib[bcrypt]
 bcrypt==3.2.0
 PyJWT
 python-multipart
+openai>=1.12.0
