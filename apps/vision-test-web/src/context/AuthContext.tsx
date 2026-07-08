@@ -98,7 +98,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.warn("Backend unavailable. Using mock user for demo.");
       // MOCK FALLBACK for Vercel Demo on refresh
       if (authToken === 'mock_jwt_token_123') {
-        setUser({ name: 'Demo User', email: 'demo@google.com' });
+        const mockName = localStorage.getItem('mock_user_name') || 'Demo User';
+        const mockEmail = localStorage.getItem('mock_user_email') || 'demo@google.com';
+        setUser({ name: mockName, email: mockEmail });
         // Can't reliably know role on refresh without local storage, default to patient
       }
     }
@@ -161,7 +163,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       // Guest Login logic (no password)
       if (email === 'demo@google.com' || !password) {
-        setUser({ name: name || 'Guest User', email });
+        const finalName = name || 'Guest User';
+        setUser({ name: finalName, email });
+        localStorage.setItem('mock_user_name', finalName);
+        localStorage.setItem('mock_user_email', email);
         setRole(userRole || 'patient');
         applyProfile(profile);
         setIsLoading(false);
@@ -192,7 +197,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (err: any) {
       console.warn("Backend unavailable. Using mock login for demo.");
       // MOCK FALLBACK for Vercel Demo
-      setUser({ name: name || 'Demo User', email });
+      const finalName = name || 'Demo User';
+      setUser({ name: finalName, email });
+      localStorage.setItem('mock_user_name', finalName);
+      localStorage.setItem('mock_user_email', email);
       setRole(userRole || 'patient');
       setToken('mock_jwt_token_123'); // Fake token so the app thinks we are logged in
       applyProfile(profile);
@@ -216,6 +224,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setToken(null);
     setUser(null);
     setRole('patient');
+    localStorage.removeItem('mock_user_name');
+    localStorage.removeItem('mock_user_email');
   };
 
   return (
