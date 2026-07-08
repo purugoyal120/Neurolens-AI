@@ -1,6 +1,7 @@
 import React from 'react';
 import { HeroSection } from '../components/landing/HeroSection';
 import { ProblemSection } from '../components/landing/ProblemSection';
+import { FeaturesSection } from '../components/landing/FeaturesSection';
 import { WorkflowDemo } from '../components/landing/WorkflowDemo';
 import { Link } from 'react-router-dom';
 
@@ -33,6 +34,7 @@ export const LandingPage: React.FC = () => {
       <main>
         <HeroSection />
         <ProblemSection />
+        <FeaturesSection />
         <WorkflowDemo />
       </main>
 
