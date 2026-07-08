@@ -44,7 +44,7 @@ export const TeamPage: React.FC = () => {
   return (
     <div className="flex flex-col h-full relative overflow-hidden pb-8">
       {/* Background Glow */}
-      <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-emerald-400/5 blur-[100px] rounded-full pointer-events-none -z-10 animate-pulse"></div>
+      <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-blue-400/5 blur-[100px] rounded-full pointer-events-none -z-10 animate-pulse"></div>
       
       <TopNav />
       
@@ -91,11 +91,11 @@ export const TeamPage: React.FC = () => {
                         <div className="relative">
                           <img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-xl shadow-sm group-hover:scale-105 transition-transform" />
                           {member.status === 'Active' && (
-                            <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-emerald-500 border border-white rounded-full"></div>
+                            <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-blue-500 border border-white rounded-full"></div>
                           )}
                         </div>
                         <div>
-                          <div className="text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">{member.name}</div>
+                          <div className="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors">{member.name}</div>
                           <div className="text-[11px] text-slate-500 font-medium flex items-center gap-1 mt-0.5">
                             <Mail className="w-3 h-3" /> {member.email}
                           </div>
@@ -106,20 +106,20 @@ export const TeamPage: React.FC = () => {
                       <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wide ${
                         member.role === 'Admin' ? 'bg-slate-900 text-white shadow-sm' : 'bg-slate-100 text-slate-600'
                       }`}>
-                        {member.role === 'Admin' && <Shield className="w-3 h-3 text-emerald-400" />}
+                        {member.role === 'Admin' && <Shield className="w-3 h-3 text-blue-400" />}
                         {member.role}
                       </span>
                     </td>
                     <td className="py-4">
                       <span className={`text-xs font-bold px-2.5 py-1 rounded-lg inline-block ${
-                        member.profile !== 'Standard' ? 'text-emerald-700 bg-emerald-50 border border-emerald-100' : 'text-slate-500 bg-slate-50 border border-slate-100'
+                        member.profile !== 'Standard' ? 'text-blue-700 bg-blue-50 border border-blue-100' : 'text-slate-500 bg-slate-50 border border-slate-100'
                       }`}>
                         {member.profile}
                       </span>
                     </td>
                     <td className="py-4">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700">
-                        <div className={`w-2 h-2 rounded-full ${member.status === 'Active' ? 'bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.5)] animate-pulse' : 'bg-slate-300'}`}></div>
+                        <div className={`w-2 h-2 rounded-full ${member.status === 'Active' ? 'bg-blue-500 shadow-[0_0_5px_rgba(16,185,129,0.5)] animate-pulse' : 'bg-slate-300'}`}></div>
                         {member.status}
                       </div>
                     </td>

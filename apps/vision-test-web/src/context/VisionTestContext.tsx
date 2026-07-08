@@ -137,7 +137,7 @@ export const VisionTestProvider: React.FC<{ children: ReactNode }> = ({ children
           {
             id: "q7", index: 6, axis: "mixed", difficulty: "intermediate",
             prompt: "This mixed shade sits between green and blue. What does it look like to you?", stimulus_hex: "#16A085",
-            options: [{ id: "q7_a", label: "Blue", hex: "#2980B9" }, { id: "q7_b", label: "Teal/Green", hex: "#16A085" }, { id: "q7_c", label: "Purple", hex: "#8E44AD" }, { id: "q7_d", label: "Gray", hex: "#7F8C8D" }],
+            options: [{ id: "q7_a", label: "Blue", hex: "#2980B9" }, { id: "q7_b", label: "indigo/Green", hex: "#16A085" }, { id: "q7_c", label: "Purple", hex: "#8E44AD" }, { id: "q7_d", label: "Gray", hex: "#7F8C8D" }],
             correct_option_id: "q7_b"
           }
         ]

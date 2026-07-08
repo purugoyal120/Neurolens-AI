@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 
 type ThemeMode = 'light' | 'dark' | 'system';
-type AccentColor = 'emerald' | 'blue' | 'purple' | 'orange';
+type AccentColor = 'blue' | 'blue' | 'purple' | 'orange';
 
 interface ThemeContextType {
   mode: ThemeMode;
@@ -15,7 +15,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [mode, setMode] = useState<ThemeMode>('light');
-  const [accent, setAccent] = useState<AccentColor>('emerald');
+  const [accent, setAccent] = useState<AccentColor>('blue');
 
   useEffect(() => {
     if (mode === 'dark') {

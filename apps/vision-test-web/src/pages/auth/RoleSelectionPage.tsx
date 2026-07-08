@@ -9,12 +9,12 @@ export const RoleSelectionPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans">
       {/* Background Glows */}
-      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-emerald-400/20 blur-[120px] rounded-full pointer-events-none"></div>
+      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-400/20 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-400/20 blur-[120px] rounded-full pointer-events-none"></div>
 
       {/* Header - Hidden on mobile to save space */}
       <Link to="/" className="absolute top-8 left-8 hidden md:flex items-center gap-3 group z-20">
-        <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+        <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
           <span className="text-white font-extrabold text-xl">N</span>
         </div>
         <span className="text-xl font-extrabold text-slate-900 tracking-tight">Neurolens AI</span>
@@ -27,7 +27,7 @@ export const RoleSelectionPage: React.FC = () => {
           className="text-center mb-8 md:mb-16"
         >
           <h1 className="text-3xl md:text-5xl font-black text-slate-900 mb-3 md:mb-4 tracking-tight">
-            How would you like to use <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">Neurolens</span>?
+            How would you like to use <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-500">Neurolens</span>?
           </h1>
           <p className="text-base md:text-xl text-slate-500 font-medium px-4">
             Select your role to get a personalized experience.
@@ -43,15 +43,15 @@ export const RoleSelectionPage: React.FC = () => {
             whileHover={{ y: -5, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => navigate('/onboarding')}
-            className="group relative bg-white p-5 md:p-10 rounded-2xl md:rounded-[32px] border-2 border-slate-100 hover:border-emerald-400 shadow-xl shadow-slate-200/50 text-left transition-all overflow-hidden flex flex-col h-full"
+            className="group relative bg-white p-5 md:p-10 rounded-2xl md:rounded-[32px] border-2 border-slate-100 hover:border-blue-400 shadow-xl shadow-slate-200/50 text-left transition-all overflow-hidden flex flex-col h-full"
           >
             <div className="absolute top-0 right-0 p-4 md:p-6 opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0">
-              <ArrowRight className="w-5 h-5 md:w-6 md:h-6 text-emerald-500" />
+              <ArrowRight className="w-5 h-5 md:w-6 md:h-6 text-blue-500" />
             </div>
             
             <div className="flex items-center gap-4 mb-3 md:mb-8 md:block">
-              <div className="w-12 h-12 md:w-20 md:h-20 shrink-0 bg-emerald-50 rounded-xl md:rounded-2xl flex items-center justify-center border border-emerald-100 group-hover:bg-emerald-500 transition-colors duration-300">
-                <User className="w-6 h-6 md:w-10 md:h-10 text-emerald-500 group-hover:text-white transition-colors duration-300" />
+              <div className="w-12 h-12 md:w-20 md:h-20 shrink-0 bg-blue-50 rounded-xl md:rounded-2xl flex items-center justify-center border border-blue-100 group-hover:bg-blue-500 transition-colors duration-300">
+                <User className="w-6 h-6 md:w-10 md:h-10 text-blue-500 group-hover:text-white transition-colors duration-300" />
               </div>
               <h2 className="text-xl md:text-3xl font-black text-slate-900 md:mb-4">I am a Patient</h2>
             </div>
@@ -60,7 +60,7 @@ export const RoleSelectionPage: React.FC = () => {
               Take our AI-powered 2-minute vision test to discover your unique color profile and fix hard-to-read websites instantly.
             </p>
             
-            <div className="text-emerald-600 font-bold text-sm md:text-base flex items-center gap-2">
+            <div className="text-blue-600 font-bold text-sm md:text-base flex items-center gap-2">
               Start Free Vision Test <ArrowRight className="w-4 h-4" />
             </div>
           </motion.button>

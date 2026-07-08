@@ -35,7 +35,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const getIcon = (type: ToastType) => {
     switch (type) {
-      case 'success': return <CheckCircle2 className="w-5 h-5 text-emerald-500" />;
+      case 'success': return <CheckCircle2 className="w-5 h-5 text-blue-500" />;
       case 'error': return <XCircle className="w-5 h-5 text-red-500" />;
       case 'warning': return <AlertCircle className="w-5 h-5 text-amber-500" />;
       case 'info': return <Info className="w-5 h-5 text-blue-500" />;

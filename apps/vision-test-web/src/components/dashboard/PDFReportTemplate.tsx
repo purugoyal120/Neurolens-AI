@@ -28,7 +28,7 @@ export const PDFReportTemplate: React.FC<PDFReportTemplateProps> = ({ report }) 
         {/* Header */}
         <div className="flex justify-between items-start border-b-2 border-slate-100 pb-6 mb-8">
           <div>
-            <div className="text-3xl font-extrabold text-emerald-600 tracking-tight flex items-center gap-2">
+            <div className="text-3xl font-extrabold text-blue-600 tracking-tight flex items-center gap-2">
               <ShieldCheck className="w-8 h-8" />
               Neurolens AI
             </div>
@@ -55,16 +55,16 @@ export const PDFReportTemplate: React.FC<PDFReportTemplateProps> = ({ report }) 
             <div className="text-xl font-bold text-slate-800">Guest User</div>
             <div className="text-sm font-medium text-slate-500 mt-1">ID: NL-{report.id?.substring(0, 8) || 'N/A'}</div>
           </div>
-          <div className="bg-emerald-50 p-5 rounded-2xl border border-emerald-100">
-            <div className="text-xs font-bold text-emerald-600/70 uppercase tracking-wider mb-2 flex items-center gap-1">
+          <div className="bg-blue-50 p-5 rounded-2xl border border-blue-100">
+            <div className="text-xs font-bold text-blue-600/70 uppercase tracking-wider mb-2 flex items-center gap-1">
               <Activity className="w-4 h-4" /> Primary Diagnosis
             </div>
-            <div className="text-xl font-bold text-emerald-800">{report.profile}</div>
+            <div className="text-xl font-bold text-blue-800">{report.profile}</div>
             <div className="flex gap-3 mt-2">
-              <span className="bg-white px-3 py-1 rounded-full text-xs font-bold text-emerald-700 shadow-sm">
+              <span className="bg-white px-3 py-1 rounded-full text-xs font-bold text-blue-700 shadow-sm">
                 Severity: {report.severity}
               </span>
-              <span className="bg-white px-3 py-1 rounded-full text-xs font-bold text-emerald-700 shadow-sm">
+              <span className="bg-white px-3 py-1 rounded-full text-xs font-bold text-blue-700 shadow-sm">
                 Accuracy: {report.accuracy !== undefined ? report.accuracy : 100}%
               </span>
             </div>
@@ -82,8 +82,8 @@ export const PDFReportTemplate: React.FC<PDFReportTemplateProps> = ({ report }) 
         {/* Technical Specs: Daltonization Matrix */}
         <div className="mb-10">
           <h3 className="text-lg font-bold text-slate-800 border-b border-slate-100 pb-2 mb-4">Calculated Daltonization Matrix</h3>
-          <div className="bg-slate-900 rounded-2xl p-6 text-emerald-400 font-mono text-sm shadow-inner relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-bl-full pointer-events-none"></div>
+          <div className="bg-slate-900 rounded-2xl p-6 text-blue-400 font-mono text-sm shadow-inner relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-full pointer-events-none"></div>
             <div className="mb-2 text-slate-400 text-xs">// SVG feColorMatrix Values</div>
             {matrixLines.map((line, idx) => (
               <div key={idx} className="mb-1">{line}</div>

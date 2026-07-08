@@ -15,21 +15,21 @@ export const WorkflowDemo: React.FC = () => {
             
             <ul className="space-y-6 mb-10">
               <li className="flex items-start">
-                <CheckCircle2 className="w-6 h-6 text-emerald-500 mt-0.5 mr-4 flex-shrink-0" />
+                <CheckCircle2 className="w-6 h-6 text-blue-500 mt-0.5 mr-4 flex-shrink-0" />
                 <div>
                   <h4 className="text-lg font-bold text-slate-900">Take the Diagnostic Test</h4>
                   <p className="text-slate-500">A quick 2-minute vision test calibrates our AI to your exact perception needs.</p>
                 </div>
               </li>
               <li className="flex items-start">
-                <CheckCircle2 className="w-6 h-6 text-emerald-500 mt-0.5 mr-4 flex-shrink-0" />
+                <CheckCircle2 className="w-6 h-6 text-blue-500 mt-0.5 mr-4 flex-shrink-0" />
                 <div>
                   <h4 className="text-lg font-bold text-slate-900">Install the Extension</h4>
                   <p className="text-slate-500">One-click install connects your vision profile to every website you visit.</p>
                 </div>
               </li>
               <li className="flex items-start">
-                <CheckCircle2 className="w-6 h-6 text-emerald-500 mt-0.5 mr-4 flex-shrink-0" />
+                <CheckCircle2 className="w-6 h-6 text-blue-500 mt-0.5 mr-4 flex-shrink-0" />
                 <div>
                   <h4 className="text-lg font-bold text-slate-900">Browse Unhindered</h4>
                   <p className="text-slate-500">Charts, interfaces, and text are automatically recolored for perfect contrast.</p>
@@ -37,7 +37,7 @@ export const WorkflowDemo: React.FC = () => {
               </li>
             </ul>
 
-            <Link to="/register" className="inline-flex items-center gap-2 font-bold text-emerald-600 hover:text-emerald-700 transition-colors">
+            <Link to="/register" className="inline-flex items-center gap-2 font-bold text-blue-600 hover:text-blue-700 transition-colors">
               Try the Demo Now <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -48,7 +48,7 @@ export const WorkflowDemo: React.FC = () => {
                 <div className="flex gap-1.5">
                   <div className="w-3 h-3 rounded-full bg-red-400"></div>
                   <div className="w-3 h-3 rounded-full bg-amber-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
+                  <div className="w-3 h-3 rounded-full bg-blue-400"></div>
                 </div>
                 <div className="bg-white rounded px-3 text-xs text-slate-400 ml-4 font-mono w-64 text-left">Neurolens AI.ai/demo</div>
               </div>
@@ -56,18 +56,18 @@ export const WorkflowDemo: React.FC = () => {
                 {/* Mock UI Demo */}
                 <div className="w-full max-w-sm flex gap-4 mb-4">
                   <div className="w-1/2 h-32 bg-rose-500 rounded-xl flex items-center justify-center font-bold text-white shadow-sm">Sales</div>
-                  <div className="w-1/2 h-32 bg-emerald-500 rounded-xl flex items-center justify-center font-bold text-white shadow-sm">Growth</div>
+                  <div className="w-1/2 h-32 bg-blue-500 rounded-xl flex items-center justify-center font-bold text-white shadow-sm">Growth</div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 mix-blend-color animate-pulse pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 mix-blend-color animate-pulse pointer-events-none"></div>
                 
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-emerald-200 text-emerald-700 font-bold text-sm shadow-xl flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-blue-200 text-blue-700 font-bold text-sm shadow-xl flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                   Neurolens AI Active
                 </div>
               </div>
             </div>
             {/* Decorative background for the browser mockup */}
-            <div className="absolute -top-10 -right-10 w-64 h-64 bg-teal-400/10 blur-[80px] rounded-full -z-10"></div>
+            <div className="absolute -top-10 -right-10 w-64 h-64 bg-indigo-400/10 blur-[80px] rounded-full -z-10"></div>
           </div>
         </div>
       </div>

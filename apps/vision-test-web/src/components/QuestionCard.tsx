@@ -64,8 +64,8 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, onNext }) 
             className={`
               flex flex-col md:flex-row items-center justify-center md:justify-start p-3 md:p-5 rounded-2xl border-2 transition-all duration-300
               ${selectedOption === option.id 
-                ? 'border-emerald-500 bg-emerald-50/80 text-emerald-900 shadow-lg shadow-emerald-500/20' 
-                : 'border-slate-200 bg-white/80 hover:border-emerald-400 hover:bg-white text-slate-800 shadow-sm'}
+                ? 'border-blue-500 bg-blue-50/80 text-blue-900 shadow-lg shadow-blue-500/20' 
+                : 'border-slate-200 bg-white/80 hover:border-blue-400 hover:bg-white text-slate-800 shadow-sm'}
             `}
           >
             <div

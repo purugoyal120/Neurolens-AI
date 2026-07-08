@@ -43,7 +43,7 @@ const historyData = [
 
 const getIcon = (type: string) => {
   switch (type) {
-    case 'excel': return <FileSpreadsheet className="w-5 h-5 text-emerald-500" />;
+    case 'excel': return <FileSpreadsheet className="w-5 h-5 text-blue-500" />;
     case 'extension': return <Globe className="w-5 h-5 text-blue-500" />;
     case 'system': return <Activity className="w-5 h-5 text-purple-500" />;
     default: return <Clock className="w-5 h-5 text-slate-500" />;
@@ -52,7 +52,7 @@ const getIcon = (type: string) => {
 
 const getIconBg = (type: string) => {
   switch (type) {
-    case 'excel': return 'bg-emerald-500/10 border-emerald-500/20';
+    case 'excel': return 'bg-blue-500/10 border-blue-500/20';
     case 'extension': return 'bg-blue-500/10 border-blue-500/20';
     case 'system': return 'bg-purple-500/10 border-purple-500/20';
     default: return 'bg-slate-500/10 border-slate-500/20';
@@ -63,7 +63,7 @@ export const HistoryPage: React.FC = () => {
   return (
     <div className="w-full max-w-6xl mx-auto py-8 px-8 relative">
       {/* Glow Effect */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-emerald-400/10 blur-[100px] rounded-full pointer-events-none -z-10"></div>
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-400/10 blur-[100px] rounded-full pointer-events-none -z-10"></div>
       
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -72,7 +72,7 @@ export const HistoryPage: React.FC = () => {
       >
         <div>
           <h1 className="text-3xl font-extrabold text-slate-900 mb-2 flex items-center gap-3">
-            Admin Audit Log <ShieldCheck className="w-8 h-8 text-emerald-500" />
+            Admin Audit Log <ShieldCheck className="w-8 h-8 text-blue-500" />
           </h1>
           <p className="text-slate-500 font-medium">Real-time tracking of document processing and system events to ensure data safety.</p>
         </div>
@@ -111,8 +111,8 @@ export const HistoryPage: React.FC = () => {
               </div>
               
               <div className="flex flex-col items-end w-32">
-                <span className="text-sm font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mb-1 border border-emerald-100 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span className="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full mb-1 border border-blue-100 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
                   {item.status}
                 </span>
                 <span className="text-xs text-slate-400 font-medium">{item.timestamp}</span>

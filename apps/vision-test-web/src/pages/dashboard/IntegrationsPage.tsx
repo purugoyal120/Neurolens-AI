@@ -29,7 +29,7 @@ export const IntegrationsPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-full relative pb-6">
       {/* Subtle Background Glow */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-emerald-400/10 blur-[80px] rounded-full pointer-events-none -z-10 animate-pulse"></div>
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-400/10 blur-[80px] rounded-full pointer-events-none -z-10 animate-pulse"></div>
       
       <TopNav />
       
@@ -51,7 +51,7 @@ export const IntegrationsPage: React.FC = () => {
           </motion.div>
 
           {/* Excel Add-in */}
-          <motion.div variants={itemVariants} className="glass-panel p-6 rounded-2xl relative overflow-hidden shadow-lg shadow-teal-500/5">
+          <motion.div variants={itemVariants} className="glass-panel p-6 rounded-2xl relative overflow-hidden shadow-lg shadow-indigo-500/5">
             <div className="absolute -right-6 -bottom-6 w-32 h-32 bg-[#217346]/10 rounded-full blur-xl -z-10 pointer-events-none"></div>
             
             <div className="flex justify-between items-start mb-5">
@@ -110,7 +110,7 @@ export const IntegrationsPage: React.FC = () => {
               </code>
               <button 
                 onClick={handleCopy} 
-                className="p-2.5 bg-slate-900 rounded-lg hover:bg-emerald-500 text-white transition-colors shadow-md hover:shadow-emerald-500/30"
+                className="p-2.5 bg-slate-900 rounded-lg hover:bg-blue-500 text-white transition-colors shadow-md hover:shadow-blue-500/30"
                 title="Copy API Key"
               >
                 <Copy className="w-4 h-4" />

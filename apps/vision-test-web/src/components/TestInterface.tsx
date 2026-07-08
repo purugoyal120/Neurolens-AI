@@ -16,7 +16,7 @@ export const TestInterface: React.FC = () => {
         className="w-full max-w-2xl mx-auto dashboard-card rounded-[32px] p-6 md:p-12 text-center relative overflow-hidden shadow-2xl"
       >
         {/* Glow behind the icon */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-emerald-400/20 blur-[80px] rounded-full -z-10 animate-pulse pointer-events-none"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-blue-400/20 blur-[80px] rounded-full -z-10 animate-pulse pointer-events-none"></div>
         <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-blue-400/10 blur-[60px] rounded-full -z-10 pointer-events-none"></div>
         
         <div className="mb-10 relative z-10">
@@ -24,7 +24,7 @@ export const TestInterface: React.FC = () => {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", bounce: 0.5 }}
-            className="w-28 h-28 bg-emerald-500 shadow-2xl shadow-emerald-500/40 text-white rounded-3xl flex items-center justify-center mx-auto mb-8 border border-emerald-400"
+            className="w-28 h-28 bg-blue-500 shadow-2xl shadow-blue-500/40 text-white rounded-3xl flex items-center justify-center mx-auto mb-8 border border-blue-400"
           >
             <svg className="w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -56,8 +56,8 @@ export const TestInterface: React.FC = () => {
     return (
       <div className="flex flex-col justify-center items-center h-80 dashboard-card rounded-[32px] p-12 max-w-md mx-auto shadow-2xl">
         <div className="relative mb-8">
-          <div className="absolute inset-0 bg-emerald-500 blur-2xl opacity-40 rounded-full animate-pulse"></div>
-          <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-emerald-500 relative z-10"></div>
+          <div className="absolute inset-0 bg-blue-500 blur-2xl opacity-40 rounded-full animate-pulse"></div>
+          <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-blue-500 relative z-10"></div>
         </div>
         <div className="text-slate-800 text-xl font-extrabold tracking-wide">Calibrating Engine...</div>
       </div>
@@ -87,9 +87,9 @@ export const TestInterface: React.FC = () => {
     return (
       <div className="flex flex-col justify-center items-center h-80 dashboard-card rounded-[32px] p-12 max-w-md mx-auto shadow-2xl">
         <div className="animate-pulse flex space-x-4 mb-8">
-          <div className="w-5 h-5 bg-emerald-500 rounded-full shadow-lg shadow-emerald-500/50"></div>
-          <div className="w-5 h-5 bg-teal-500 rounded-full animate-bounce shadow-lg shadow-teal-500/50"></div>
-          <div className="w-5 h-5 bg-emerald-300 rounded-full shadow-lg shadow-emerald-300/50"></div>
+          <div className="w-5 h-5 bg-blue-500 rounded-full shadow-lg shadow-blue-500/50"></div>
+          <div className="w-5 h-5 bg-indigo-500 rounded-full animate-bounce shadow-lg shadow-indigo-500/50"></div>
+          <div className="w-5 h-5 bg-blue-300 rounded-full shadow-lg shadow-blue-300/50"></div>
         </div>
         <div className="text-slate-800 font-extrabold text-xl text-center leading-tight">
           Processing neural map<br/>via OpenAI...

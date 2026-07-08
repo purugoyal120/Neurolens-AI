@@ -214,7 +214,7 @@ export const SimulatorPage: React.FC = () => {
                 <span className="bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg">
                   Simulation (Colour-Blind View)
                 </span>
-                <span className="bg-emerald-500/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
+                <span className="bg-blue-500/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span> Neurolens AI Fix Applied
                 </span>
               </div>

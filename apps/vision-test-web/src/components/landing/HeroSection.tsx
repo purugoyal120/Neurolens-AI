@@ -7,17 +7,17 @@ export const HeroSection: React.FC = () => {
   return (
     <div className="relative overflow-hidden bg-slate-50 pt-28 md:pt-[140px] pb-20 md:pb-40">
       {/* Background decorations - Light Mode */}
-      <div className="absolute top-1/4 left-0 w-[600px] h-[600px] bg-emerald-400/20 blur-[120px] rounded-full pointer-events-none"></div>
-      <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-teal-400/20 blur-[150px] rounded-full pointer-events-none"></div>
+      <div className="absolute top-1/4 left-0 w-[600px] h-[600px] bg-blue-400/20 blur-[120px] rounded-full pointer-events-none"></div>
+      <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-indigo-400/20 blur-[150px] rounded-full pointer-events-none"></div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.03)_0%,transparent_100%)] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/60 backdrop-blur-md border border-emerald-100 text-emerald-600 font-bold text-sm mb-10 shadow-sm"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/60 backdrop-blur-md border border-blue-100 text-blue-600 font-bold text-sm mb-10 shadow-sm"
         >
-          <Sparkles className="w-4 h-4 text-emerald-500" />
+          <Sparkles className="w-4 h-4 text-blue-500" />
           The future of digital accessibility is here
         </motion.div>
 
@@ -27,7 +27,7 @@ export const HeroSection: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-4xl sm:text-6xl md:text-8xl font-extrabold text-slate-900 tracking-tight mb-6 md:mb-8 leading-tight max-w-5xl mx-auto"
         >
-          Beyond Colours, <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">Beyond Barriers.</span>
+          Beyond Colours, <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-500">Beyond Barriers.</span>
         </motion.h1>
 
         <motion.p 
@@ -45,7 +45,7 @@ export const HeroSection: React.FC = () => {
           transition={{ delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16 md:mb-20"
         >
-          <Link to="/select-role" className="w-full sm:w-auto justify-center px-6 py-4 md:px-10 md:py-5 bg-emerald-500 text-white rounded-full text-lg md:text-xl font-extrabold hover:bg-emerald-600 hover:scale-105 transition-all shadow-xl shadow-emerald-500/20 flex items-center gap-3">
+          <Link to="/select-role" className="w-full sm:w-auto justify-center px-6 py-4 md:px-10 md:py-5 bg-blue-500 text-white rounded-full text-lg md:text-xl font-extrabold hover:bg-blue-600 hover:scale-105 transition-all shadow-xl shadow-blue-500/20 flex items-center gap-3">
             Take Diagnostic Test <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
           </Link>
           <a href="#demo" className="w-full sm:w-auto justify-center px-6 py-4 md:px-10 md:py-5 bg-white text-slate-800 rounded-full text-lg md:text-xl font-bold hover:bg-slate-50 transition-all border border-slate-200 shadow-sm flex items-center gap-3">
@@ -72,9 +72,9 @@ export const HeroSection: React.FC = () => {
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
           {[
-            { icon: Eye, title: "Smart Contrast", desc: "Automatically detects tricky colours on charts or dashboards and shifts them to high-contrast shades.", color: "emerald" },
-            { icon: Zap, title: "Instant Meaning", desc: "We don't just change colours—we add explicit text tags like [Warning] so you never have to guess.", color: "teal" },
-            { icon: Shield, title: "Private & Fast", desc: "Runs directly in your browser without tracking your personal data or slowing down your computer.", color: "emerald" }
+            { icon: Eye, title: "Smart Contrast", desc: "Automatically detects tricky colours on charts or dashboards and shifts them to high-contrast shades.", color: "blue" },
+            { icon: Zap, title: "Instant Meaning", desc: "We don't just change colours—we add explicit text tags like [Warning] so you never have to guess.", color: "indigo" },
+            { icon: Shield, title: "Private & Fast", desc: "Runs directly in your browser without tracking your personal data or slowing down your computer.", color: "blue" }
           ].map((feat, idx) => (
             <motion.div 
               key={idx}
@@ -82,7 +82,7 @@ export const HeroSection: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 + (idx * 0.1) }}
               whileHover={{ y: -5 }}
-              className="bg-white/80 backdrop-blur-md p-6 md:p-10 rounded-[32px] border border-slate-100 hover:border-emerald-500/30 transition-colors shadow-xl shadow-slate-200/50"
+              className="bg-white/80 backdrop-blur-md p-6 md:p-10 rounded-[32px] border border-slate-100 hover:border-blue-500/30 transition-colors shadow-xl shadow-slate-200/50"
             >
               <div className={`w-12 h-12 md:w-16 md:h-16 bg-${feat.color}-50 rounded-2xl flex items-center justify-center mb-6 md:mb-8 border border-${feat.color}-100`}>
                 <feat.icon className={`w-6 h-6 md:w-8 md:h-8 text-${feat.color}-500`} />

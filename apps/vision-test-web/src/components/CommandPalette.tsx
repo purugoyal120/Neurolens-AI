@@ -77,9 +77,9 @@ export const CommandPalette: React.FC = () => {
                     setIsOpen(false);
                     setSearch('');
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-left rounded-xl hover:bg-slate-50 text-slate-700 hover:text-emerald-600 transition-colors group"
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left rounded-xl hover:bg-slate-50 text-slate-700 hover:text-blue-600 transition-colors group"
                 >
-                  <cmd.icon className="w-5 h-5 text-slate-400 group-hover:text-emerald-500" />
+                  <cmd.icon className="w-5 h-5 text-slate-400 group-hover:text-blue-500" />
                   <span className="font-semibold">{cmd.title}</span>
                 </button>
               ))}
