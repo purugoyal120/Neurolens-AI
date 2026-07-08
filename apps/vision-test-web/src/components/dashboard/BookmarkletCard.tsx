@@ -30,6 +30,13 @@ export const BookmarkletCard: React.FC = () => {
     if (confirmActivation) {
       localStorage.setItem('neurolens_extension_enabled', 'true');
       setIsActivated(true);
+      
+      // Trigger the Chrome Extension immediately via content script listener
+      window.postMessage({ 
+        type: 'NEUROLENS_PROFILE_SYNC', 
+        payload: activeReport ? activeReport.clinical_diagnosis : 'Protanopia Mode'
+      }, "*");
+      
       addToast('Neurolens System Activated! The Browser Extension will now apply your profile everywhere.', 'success');
     }
   };
