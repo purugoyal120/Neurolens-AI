@@ -40,7 +40,7 @@ export const AIAssistant: React.FC = () => {
       let botResponse = "";
       
       const contextStr = activeReport 
-        ? `The user's vision profile is ${activeProfile}. Their latest test showed severity: ${activeReport.severity}, accuracy: ${activeReport.accuracy}%. Diagnosis: ${activeReport.description}.`
+        ? `The user's vision profile is ${activeProfile}. Their latest test showed severity: ${activeReport.severity}, accuracy: ${activeReport.accuracy}%. Diagnosis: ${activeReport.clinical_diagnosis}.`
         : `The user has not taken a vision test yet.`;
 
       if (apiKey) {
