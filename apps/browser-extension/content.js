@@ -28,6 +28,7 @@ function processElement(el) {
     if (!originalStyles.has(el)) {
       originalStyles.set(el, {
         backgroundColor: el.style.backgroundColor,
+        backgroundImage: el.style.backgroundImage,
         color: el.style.color,
         borderColor: el.style.borderColor
       });
@@ -38,6 +39,8 @@ function processElement(el) {
     const newBg = window.NeuroLensColorTransformer.transform(bg, currentProfile);
     if (newBg && newBg !== bg) {
       el.style.setProperty('background-color', newBg, 'important');
+      // PATTERN DISAMBIGUATION: Solves the "Red->Blue vs Native Blue" collision problem
+      el.style.setProperty('background-image', 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.15) 10px, rgba(255,255,255,0.15) 20px)', 'important');
       elementsCount++;
     }
 
@@ -89,6 +92,11 @@ function processElement(el) {
       
       if (orig.borderColor) el.style.borderColor = orig.borderColor;
       else el.style.removeProperty('border-color');
+      
+      if (orig.backgroundImage !== undefined) {
+        if (orig.backgroundImage) el.style.backgroundImage = orig.backgroundImage;
+        else el.style.removeProperty('background-image');
+      }
       
       // Also clean up SVG inline overrides
       el.style.removeProperty('fill');
