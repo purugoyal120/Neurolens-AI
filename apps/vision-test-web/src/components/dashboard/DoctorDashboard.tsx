@@ -26,8 +26,8 @@ export const DoctorDashboard: React.FC = () => {
               <p className="text-sm font-medium text-slate-500 mb-1">Total Patients</p>
               <h3 className="text-3xl font-bold text-slate-800">124</h3>
             </div>
-            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
-              <Users className="w-6 h-6 text-blue-600" />
+            <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center">
+              <Users className="w-6 h-6 text-emerald-600" />
             </div>
           </div>
         </div>
@@ -64,11 +64,11 @@ export const DoctorDashboard: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <button 
               onClick={handleDownloadReport}
-              className="text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
+              className="text-sm font-medium text-emerald-600 hover:text-emerald-700 bg-emerald-50 px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               <FileText className="w-4 h-4" /> Export Report
             </button>
-            <button className="text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors w-full sm:w-auto text-center">
+            <button className="text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg transition-colors w-full sm:w-auto text-center">
               Invite Patient
             </button>
           </div>
@@ -93,7 +93,7 @@ export const DoctorDashboard: React.FC = () => {
                     <div className="text-sm text-slate-500">ID: PT-{patient.id.padStart(4, '0')}</div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
                       {patient.condition}
                     </span>
                   </td>
@@ -110,7 +110,7 @@ export const DoctorDashboard: React.FC = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button className="inline-flex items-center justify-center p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                    <button className="inline-flex items-center justify-center p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors">
                       <Download className="w-5 h-5" />
                     </button>
                   </td>

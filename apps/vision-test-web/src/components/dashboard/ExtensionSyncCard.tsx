@@ -58,21 +58,21 @@ export const ExtensionSyncCard: React.FC = () => {
 
   return (
     <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
       
       <div className="flex items-start justify-between mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Monitor className="w-5 h-5 text-blue-500" />
+            <Monitor className="w-5 h-5 text-emerald-500" />
             <h3 className="text-lg font-bold text-slate-800">Chrome Extension</h3>
           </div>
           <p className="text-sm font-medium text-slate-500">Connect Web Profile to your Browser</p>
         </div>
         
         {isExtensionInstalled ? (
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 rounded-full border border-blue-100">
-            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-            <span className="text-xs font-bold text-blue-700">Installed</span>
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 rounded-full border border-emerald-100">
+            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+            <span className="text-xs font-bold text-emerald-700">Installed</span>
           </div>
         ) : (
           <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-full border border-amber-100">
@@ -103,9 +103,9 @@ export const ExtensionSyncCard: React.FC = () => {
           !isExtensionInstalled
             ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
             : syncStatus === 'syncing'
-            ? 'bg-blue-50 text-blue-500 cursor-wait'
+            ? 'bg-emerald-50 text-emerald-500 cursor-wait'
             : syncStatus === 'success'
-            ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
+            ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
             : 'bg-slate-900 text-white hover:bg-slate-800 hover:shadow-lg'
         }`}
       >

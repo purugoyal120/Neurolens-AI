@@ -57,7 +57,7 @@ export const RegisterPage: React.FC = () => {
                 value="patient" 
                 checked={role === 'patient'} 
                 onChange={() => setRole('patient')} 
-                className="text-blue-500 focus:ring-blue-500"
+                className="text-emerald-500 focus:ring-emerald-500"
               />
               <span className="text-sm font-semibold text-slate-700">I am a Patient</span>
             </label>
@@ -68,7 +68,7 @@ export const RegisterPage: React.FC = () => {
                 value="doctor" 
                 checked={role === 'doctor'} 
                 onChange={() => setRole('doctor')} 
-                className="text-blue-500 focus:ring-blue-500"
+                className="text-emerald-500 focus:ring-emerald-500"
               />
               <span className="text-sm font-semibold text-slate-700">I am a Doctor/Clinic</span>
             </label>
@@ -83,7 +83,7 @@ export const RegisterPage: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-medium transition-colors"
+              className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm font-medium transition-colors"
               placeholder="Jane Doe"
             />
           </div>
@@ -97,7 +97,7 @@ export const RegisterPage: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-medium transition-colors"
+              className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm font-medium transition-colors"
               placeholder="you@example.com"
             />
           </div>
@@ -112,7 +112,7 @@ export const RegisterPage: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-medium transition-colors"
+              className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm font-medium transition-colors"
               placeholder="••••••••"
             />
           </div>
@@ -122,7 +122,7 @@ export const RegisterPage: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors disabled:opacity-50"
           >
             {isLoading ? 'Creating account...' : 'Create account'}
           </button>
@@ -131,7 +131,7 @@ export const RegisterPage: React.FC = () => {
 
       <p className="mt-8 text-center text-sm text-slate-600">
         Already have an account?{' '}
-        <Link to="/login" className="font-semibold text-blue-600 hover:text-blue-500">
+        <Link to="/login" className="font-semibold text-emerald-600 hover:text-emerald-500">
           Sign in
         </Link>
       </p>

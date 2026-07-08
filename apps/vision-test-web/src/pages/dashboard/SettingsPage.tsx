@@ -69,9 +69,9 @@ export const SettingsPage: React.FC = () => {
         <div className="space-y-6">
           
           {/* Premium Profile Card */}
-          <motion.div variants={itemVariants} className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-white shadow-xl shadow-blue-900/5 transition-all hover:shadow-2xl hover:shadow-blue-900/10">
+          <motion.div variants={itemVariants} className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-white shadow-xl shadow-emerald-900/5 transition-all hover:shadow-2xl hover:shadow-emerald-900/10">
             {/* Background Decorative Gradients */}
-            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-blue-600 via-indigo-500 to-blue-400"></div>
+            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-400"></div>
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
             
             <div className="px-8 pt-20 pb-8 relative z-10">
@@ -79,11 +79,11 @@ export const SettingsPage: React.FC = () => {
                 {/* Avatar with Ring */}
                 <div className="relative">
                   <div className="w-28 h-28 rounded-full bg-white p-1.5 shadow-lg">
-                    <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-100 to-indigo-50 flex items-center justify-center text-blue-600 border border-blue-100/50">
+                    <div className="w-full h-full rounded-full bg-gradient-to-br from-emerald-100 to-teal-50 flex items-center justify-center text-emerald-600 border border-emerald-100/50">
                       <span className="text-4xl font-extrabold tracking-tighter">{user?.name?.charAt(0) || 'U'}</span>
                     </div>
                   </div>
-                  <div className="absolute bottom-1 right-1 w-6 h-6 bg-blue-500 rounded-full border-4 border-white shadow-sm" title="Active"></div>
+                  <div className="absolute bottom-1 right-1 w-6 h-6 bg-emerald-500 rounded-full border-4 border-white shadow-sm" title="Active"></div>
                 </div>
 
                 <div className="flex-1 text-center sm:text-left">
@@ -91,12 +91,12 @@ export const SettingsPage: React.FC = () => {
                     <div>
                       <h2 className="text-3xl font-black text-slate-900 tracking-tight">{user?.name || 'Guest User'}</h2>
                       <div className="flex items-center justify-center sm:justify-start gap-2 text-slate-500 text-sm mt-1.5 font-medium">
-                        <Mail className="w-4 h-4 text-blue-500" /> {user?.email || 'user@neurolens.ai'}
+                        <Mail className="w-4 h-4 text-emerald-500" /> {user?.email || 'user@neurolens.ai'}
                       </div>
                     </div>
-                    <div className="flex items-center justify-center gap-2 bg-blue-50 border border-blue-200/60 px-4 py-2 rounded-2xl shadow-sm">
-                      <ShieldCheck className="w-4 h-4 text-blue-600" />
-                      <span className="text-blue-700 text-xs font-bold uppercase tracking-widest">
+                    <div className="flex items-center justify-center gap-2 bg-emerald-50 border border-emerald-200/60 px-4 py-2 rounded-2xl shadow-sm">
+                      <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                      <span className="text-emerald-700 text-xs font-bold uppercase tracking-widest">
                         {role === 'doctor' ? 'Clinician Pro' : 'Pro Plan Active'}
                       </span>
                     </div>
@@ -124,7 +124,7 @@ export const SettingsPage: React.FC = () => {
 
                 <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex flex-col justify-center items-center sm:items-start">
                   <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Simulation Accuracy</div>
-                  <div className="font-extrabold text-blue-600 text-lg">
+                  <div className="font-extrabold text-emerald-600 text-lg">
                     {activeReport?.accuracy ? `${activeReport.accuracy}%` : '100%'} Optimal
                   </div>
                 </div>
@@ -135,13 +135,13 @@ export const SettingsPage: React.FC = () => {
           <h3 className="text-lg font-bold text-slate-800 pt-4 pb-2 border-b border-slate-200">Account Settings</h3>
           
           {/* Security & Privacy Settings */}
-          <motion.div variants={itemVariants} className="dashboard-card p-0 overflow-hidden border border-blue-100 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_25px_rgba(16,185,129,0.2)] transition-shadow duration-300">
-            <div className="px-6 py-4 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-indigo-50 flex items-center justify-between">
+          <motion.div variants={itemVariants} className="dashboard-card p-0 overflow-hidden border border-emerald-100 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_25px_rgba(16,185,129,0.2)] transition-shadow duration-300">
+            <div className="px-6 py-4 border-b border-slate-100 bg-gradient-to-r from-emerald-50 to-teal-50 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <ShieldCheck className="w-5 h-5 text-blue-600" />
+                <ShieldCheck className="w-5 h-5 text-emerald-600" />
                 <h3 className="font-bold text-slate-800">Enterprise Security & Privacy</h3>
               </div>
-              <span className="flex items-center gap-1 text-[10px] font-bold text-blue-700 bg-blue-200/50 px-2.5 py-1 rounded-full">
+              <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-200/50 px-2.5 py-1 rounded-full">
                 <Lock className="w-3 h-3" /> HIGH SECURITY
               </span>
             </div>
@@ -155,7 +155,7 @@ export const SettingsPage: React.FC = () => {
                   </h4>
                   <p className="text-xs text-slate-500 font-medium">Vision profiles are AES-256 encrypted. Cannot be disabled.</p>
                 </div>
-                <button disabled className="relative inline-flex h-6 w-11 flex-shrink-0 rounded-full border-2 border-transparent bg-blue-500">
+                <button disabled className="relative inline-flex h-6 w-11 flex-shrink-0 rounded-full border-2 border-transparent bg-emerald-500">
                   <span className="inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 translate-x-5" />
                 </button>
               </div>
@@ -168,7 +168,7 @@ export const SettingsPage: React.FC = () => {
                 </div>
                 <button 
                   onClick={() => toggleSetting('hipaaMode')}
-                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${toggles.hipaaMode ? 'bg-blue-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]' : 'bg-slate-200'}`}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${toggles.hipaaMode ? 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]' : 'bg-slate-200'}`}
                 >
                   <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${toggles.hipaaMode ? 'translate-x-5' : 'translate-x-0'}`} />
                 </button>
@@ -182,7 +182,7 @@ export const SettingsPage: React.FC = () => {
                 </div>
                 <button 
                   onClick={() => toggleSetting('localProcessing')}
-                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${toggles.localProcessing ? 'bg-blue-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]' : 'bg-slate-200'}`}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${toggles.localProcessing ? 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]' : 'bg-slate-200'}`}
                 >
                   <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${toggles.localProcessing ? 'translate-x-5' : 'translate-x-0'}`} />
                 </button>
@@ -206,7 +206,7 @@ export const SettingsPage: React.FC = () => {
                 </div>
                 <button 
                   onClick={() => toggleSetting('autoAdapt')}
-                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${toggles.autoAdapt ? 'bg-blue-500' : 'bg-slate-200'}`}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${toggles.autoAdapt ? 'bg-emerald-500' : 'bg-slate-200'}`}
                 >
                   <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${toggles.autoAdapt ? 'translate-x-5' : 'translate-x-0'}`} />
                 </button>
@@ -220,7 +220,7 @@ export const SettingsPage: React.FC = () => {
                 </div>
                 <button 
                   onClick={() => toggleSetting('daltonizeImages')}
-                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${toggles.daltonizeImages ? 'bg-blue-500' : 'bg-slate-200'}`}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${toggles.daltonizeImages ? 'bg-emerald-500' : 'bg-slate-200'}`}
                 >
                   <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${toggles.daltonizeImages ? 'translate-x-5' : 'translate-x-0'}`} />
                 </button>
@@ -232,7 +232,7 @@ export const SettingsPage: React.FC = () => {
             <button 
               onClick={handleSave}
               disabled={isSaving}
-              className="bg-slate-900 hover:bg-blue-600 text-white font-bold px-8 py-4 rounded-xl flex items-center gap-2 text-sm transition-all duration-300 disabled:opacity-50 shadow-lg shadow-slate-900/20 hover:shadow-blue-500/30 hover:-translate-y-0.5"
+              className="bg-slate-900 hover:bg-emerald-600 text-white font-bold px-8 py-4 rounded-xl flex items-center gap-2 text-sm transition-all duration-300 disabled:opacity-50 shadow-lg shadow-slate-900/20 hover:shadow-emerald-500/30 hover:-translate-y-0.5"
             >
               {isSaving ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
               {isSaving ? 'Saving...' : 'Save Preferences'}

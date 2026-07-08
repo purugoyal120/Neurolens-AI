@@ -60,16 +60,16 @@ export const ReportsPage: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           {/* Metric 1 */}
-          <motion.div variants={itemVariants} className="glass-panel p-6 rounded-2xl relative overflow-hidden shadow-lg shadow-blue-500/5">
-            <div className="absolute -right-6 -top-6 w-24 h-24 bg-blue-500/10 rounded-full blur-xl -z-10"></div>
+          <motion.div variants={itemVariants} className="glass-panel p-6 rounded-2xl relative overflow-hidden shadow-lg shadow-emerald-500/5">
+            <div className="absolute -right-6 -top-6 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl -z-10"></div>
             <div className="flex justify-between items-start mb-4">
               <h3 className="text-slate-500 font-bold text-xs tracking-wide uppercase">Most Active Profile</h3>
-              <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center shadow-inner">
-                <Users className="w-4 h-4 text-blue-600" />
+              <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center shadow-inner">
+                <Users className="w-4 h-4 text-emerald-600" />
               </div>
             </div>
             <h2 className="text-2xl font-black text-slate-900 mb-1.5">Deuteranopia</h2>
-            <p className="text-blue-600 font-bold bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full text-[11px] inline-block shadow-sm">64% of total adaptations</p>
+            <p className="text-emerald-600 font-bold bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full text-[11px] inline-block shadow-sm">64% of total adaptations</p>
           </motion.div>
 
           {/* Metric 2 */}
@@ -82,7 +82,7 @@ export const ReportsPage: React.FC = () => {
               </div>
             </div>
             <h2 className="text-2xl font-black text-slate-900 mb-1.5">124,592</h2>
-            <p className="text-blue-600 font-bold text-[11px] flex items-center gap-1">
+            <p className="text-emerald-600 font-bold text-[11px] flex items-center gap-1">
               <TrendingUp className="w-3 h-3" /> 14% vs last month
             </p>
           </motion.div>
@@ -107,7 +107,7 @@ export const ReportsPage: React.FC = () => {
             <h3 className="text-slate-900 font-bold mb-6 text-base">Vision Profiles Distribution</h3>
             <div className="space-y-5">
               {[
-                { name: 'Deuteranopia (Green-Blind)', percent: 64, color: 'blue' },
+                { name: 'Deuteranopia (Green-Blind)', percent: 64, color: 'emerald' },
                 { name: 'Protanopia (Red-Blind)', percent: 22, color: 'rose' },
                 { name: 'Tritanopia (Blue-Blind)', percent: 10, color: 'blue' },
                 { name: 'Achromatopsia (Total)', percent: 4, color: 'slate' }
@@ -151,10 +151,10 @@ export const ReportsPage: React.FC = () => {
                   </tr>
                   <tr className="border-b border-slate-50 hover:bg-white/50 transition-colors">
                     <td className="py-3 pl-3 flex items-center gap-3 text-xs">
-                      <div className="w-6 h-6 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold shadow-sm">E</div>
+                      <div className="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shadow-sm">E</div>
                       excel.office.com
                     </td>
-                    <td className="py-3 pr-3 text-right text-blue-600 text-xs font-bold">32,940</td>
+                    <td className="py-3 pr-3 text-right text-emerald-600 text-xs font-bold">32,940</td>
                   </tr>
                   <tr className="border-b border-slate-50 hover:bg-white/50 transition-colors">
                     <td className="py-3 pl-3 flex items-center gap-3 text-xs">

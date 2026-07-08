@@ -84,7 +84,7 @@ export const MyReportsPage: React.FC = () => {
                       <div className="flex items-center gap-1">
                         <button 
                           onClick={() => handleDownloadPDF(report)}
-                          className="text-slate-400 hover:text-blue-500 hover:bg-blue-50 p-2 rounded-full transition-colors flex items-center gap-1 text-xs font-bold"
+                          className="text-slate-400 hover:text-emerald-500 hover:bg-emerald-50 p-2 rounded-full transition-colors flex items-center gap-1 text-xs font-bold"
                           title="Download PDF"
                         >
                           <Download className="w-4 h-4" />
@@ -99,20 +99,20 @@ export const MyReportsPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <h3 className="text-2xl font-extrabold text-blue-600 mb-2">{report.profile}</h3>
+                    <h3 className="text-2xl font-extrabold text-emerald-600 mb-2">{report.profile}</h3>
                     
                     <div className="flex gap-2 mb-6">
                       <span className={`text-xs font-bold px-3 py-1 rounded-full ${report.severity === 'None' ? 'bg-slate-100 text-slate-600' : 'bg-amber-100 text-amber-700'}`}>
                         Severity: {report.severity || 'Unknown'}
                       </span>
-                      <span className="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
+                      <span className="text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full">
                         Accuracy: {report.accuracy !== undefined ? report.accuracy : 100}%
                       </span>
                     </div>
 
                     <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
                       <div className="flex items-center gap-2 mb-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
-                        <ShieldCheck className="w-4 h-4 text-blue-500" /> Action Plan
+                        <ShieldCheck className="w-4 h-4 text-emerald-500" /> Action Plan
                       </div>
                       <p className="text-sm text-slate-600 font-medium leading-relaxed">
                         {report.description}

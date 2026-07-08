@@ -5,10 +5,10 @@ import { Smartphone, Camera, Mic, MapPin, Eye, Car, Coins, Pill } from 'lucide-r
 
 const features = [
   {
-    icon: <Camera className="w-6 h-6 text-blue-500" />,
+    icon: <Camera className="w-6 h-6 text-emerald-500" />,
     title: "AI Scene Understanding",
     desc: "Real-time environment description using advanced vision models.",
-    color: "blue"
+    color: "emerald"
   },
   {
     icon: <Mic className="w-6 h-6 text-blue-500" />,
@@ -57,7 +57,7 @@ export const FutureVisionPage: React.FC = () => {
     <div className="flex flex-col min-h-full pb-12">
       {/* Background Glow */}
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-400/10 blur-[120px] rounded-full pointer-events-none -z-10 animate-pulse"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-blue-400/10 blur-[100px] rounded-full pointer-events-none -z-10 animate-pulse" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-emerald-400/10 blur-[100px] rounded-full pointer-events-none -z-10 animate-pulse" style={{ animationDelay: '2s' }}></div>
 
       <TopNav />
 
@@ -68,12 +68,12 @@ export const FutureVisionPage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mt-8 mb-16 relative"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-bold mb-6 shadow-sm border border-blue-200">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 text-sm font-bold mb-6 shadow-sm border border-emerald-200">
             <Smartphone className="w-4 h-4" />
             Phase 2 Roadmap: The "Super App"
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-6">
-            Neurolens <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-600">Mobile & AR</span>
+            Neurolens <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-blue-600">Mobile & AR</span>
           </h1>
           <p className="text-slate-500 font-medium text-lg max-w-2xl mx-auto leading-relaxed">
             While our digital platform transforms the web, our upcoming Mobile and AR Glasses ecosystem will transform the physical world for 2.2 Billion people.
@@ -119,7 +119,7 @@ export const FutureVisionPage: React.FC = () => {
           
           <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             <div>
-              <div className="flex items-center gap-2 text-blue-600 font-bold mb-4 uppercase tracking-widest text-xs">
+              <div className="flex items-center gap-2 text-emerald-600 font-bold mb-4 uppercase tracking-widest text-xs">
                 <Eye className="w-4 h-4" /> Market Potential
               </div>
               <h2 className="text-3xl font-black text-slate-900 mb-4 leading-tight">
@@ -143,8 +143,8 @@ export const FutureVisionPage: React.FC = () => {
                    <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=600&auto=format&fit=crop')] bg-cover bg-center"></div>
                    
                    {/* Bounding Box Simulation */}
-                   <div className="absolute top-1/4 left-1/4 w-1/2 h-1/3 border-2 border-blue-500 bg-blue-500/10 rounded-lg">
-                      <div className="bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 absolute -top-5 left-[-2px] rounded-t">Traffic Signal: Green</div>
+                   <div className="absolute top-1/4 left-1/4 w-1/2 h-1/3 border-2 border-emerald-500 bg-emerald-500/10 rounded-lg">
+                      <div className="bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 absolute -top-5 left-[-2px] rounded-t">Traffic Signal: Green</div>
                    </div>
 
                    {/* Voice Assistant Wave */}
@@ -154,7 +154,7 @@ export const FutureVisionPage: React.FC = () => {
                           key={i}
                           animate={{ height: [8, 20, 8] }}
                           transition={{ repeat: Infinity, duration: 1, delay: i * 0.1 }}
-                          className="w-1 bg-blue-400 rounded-full"
+                          className="w-1 bg-emerald-400 rounded-full"
                         />
                       ))}
                    </div>

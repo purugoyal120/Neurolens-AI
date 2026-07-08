@@ -69,17 +69,17 @@ export const ImpactDashboard: React.FC = () => {
           <div className="flex justify-between items-start mb-10">
             <h3 className="text-slate-500 font-medium">Total Accessibility Score</h3>
             <span className="flex items-center gap-1.5 text-slate-600 text-[10px] font-bold bg-slate-50 px-3 py-1 rounded-full border border-slate-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> ACTIVE
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> ACTIVE
             </span>
           </div>
           <div className="mb-10">
             <h1 className="text-6xl font-black text-slate-900 tracking-tight mb-4">{avgAccuracy}%</h1>
             <p className="text-slate-400 text-xs font-semibold flex items-center gap-2">
-              <span className="text-blue-500 bg-blue-50 px-2 py-0.5 rounded flex items-center font-bold">Average</span> Accuracy from {totalTests} Tests
+              <span className="text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded flex items-center font-bold">Average</span> Accuracy from {totalTests} Tests
             </p>
           </div>
           <div className="flex gap-4">
-            <button onClick={handleSync} disabled={isSyncing} className="flex-1 bg-blue-200/50 text-blue-700 font-bold py-3 rounded-2xl flex items-center justify-center gap-2 text-sm transition-colors hover:bg-blue-200/70 disabled:opacity-50 hover:shadow-blue-500/20 hover:shadow-lg">
+            <button onClick={handleSync} disabled={isSyncing} className="flex-1 bg-emerald-200/50 text-emerald-700 font-bold py-3 rounded-2xl flex items-center justify-center gap-2 text-sm transition-colors hover:bg-emerald-200/70 disabled:opacity-50 hover:shadow-emerald-500/20 hover:shadow-lg">
               <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} /> {isSyncing ? 'Syncing...' : 'Sync Profile'}
             </button>
             <button className="flex-1 bg-white border border-slate-200 text-slate-700 font-bold py-3 rounded-2xl flex items-center justify-center gap-2 text-sm transition-all hover:bg-slate-50 hover:shadow-md">
@@ -91,16 +91,16 @@ export const ImpactDashboard: React.FC = () => {
         {/* 4 Square Cards */}
         <div className="xl:col-span-4 grid grid-cols-2 gap-6">
           {/* Elements Adapted */}
-          <motion.div variants={itemVariants} className="dashboard-card-green p-6 flex flex-col justify-between hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-1 transition-all duration-300">
+          <motion.div variants={itemVariants} className="dashboard-card-green p-6 flex flex-col justify-between hover:shadow-xl hover:shadow-emerald-500/30 hover:-translate-y-1 transition-all duration-300">
             <div className="flex justify-between items-start mb-6">
-              <h3 className="text-blue-50 font-medium text-sm">Elements Adapted</h3>
+              <h3 className="text-emerald-50 font-medium text-sm">Elements Adapted</h3>
               <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
                 <Activity className="w-4 h-4 text-white" />
               </div>
             </div>
             <div>
               <h2 className="text-3xl font-bold text-white mb-2">{totalTests > 0 ? totalTests * 14 : 0}</h2>
-              <p className="text-blue-100 text-[11px] font-semibold flex items-center gap-1">
+              <p className="text-emerald-100 text-[11px] font-semibold flex items-center gap-1">
                 <span className="font-bold">Total elements adjusted</span>
               </p>
             </div>
@@ -117,7 +117,7 @@ export const ImpactDashboard: React.FC = () => {
             <div>
               <h2 className="text-3xl font-bold text-slate-900 mb-2">{totalTests}</h2>
               <p className="text-slate-400 text-[11px] font-semibold flex items-center gap-1">
-                <span className="text-blue-500 font-bold">Tests taken</span>
+                <span className="text-emerald-500 font-bold">Tests taken</span>
               </p>
             </div>
           </motion.div>
@@ -133,7 +133,7 @@ export const ImpactDashboard: React.FC = () => {
             <div>
               <h2 className="text-3xl font-bold text-slate-900 mb-2">142</h2>
               <p className="text-slate-400 text-[11px] font-semibold flex items-center gap-1">
-                <span className="text-blue-500 font-bold">↑ 8%</span> This week
+                <span className="text-emerald-500 font-bold">↑ 8%</span> This week
               </p>
             </div>
           </motion.div>
@@ -149,7 +149,7 @@ export const ImpactDashboard: React.FC = () => {
             <div>
               <h2 className="text-3xl font-bold text-slate-900 mb-2">45,244</h2>
               <p className="text-slate-400 text-[11px] font-semibold flex items-center gap-1">
-                <span className="text-blue-500 font-bold">↑ 4%</span> This week
+                <span className="text-emerald-500 font-bold">↑ 4%</span> This week
               </p>
             </div>
           </motion.div>
@@ -164,7 +164,7 @@ export const ImpactDashboard: React.FC = () => {
             </div>
           </div>
           <div className="flex justify-end gap-4 mb-8">
-            <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2 h-2 rounded-full bg-blue-300"></span> Extension</span>
+            <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2 h-2 rounded-full bg-emerald-300"></span> Extension</span>
             <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2 h-2 rounded-full bg-slate-900"></span> Excel</span>
           </div>
 
@@ -184,7 +184,7 @@ export const ImpactDashboard: React.FC = () => {
                 <div className="w-full bg-transparent flex flex-col justify-end items-center gap-1 h-32">
                   <motion.div 
                     initial={{ height: 0 }} animate={{ height: col.h1 }} transition={{ duration: 0.8, delay: i * 0.1 }}
-                    className="w-4 bg-blue-300 rounded-sm"
+                    className="w-4 bg-emerald-300 rounded-sm"
                   ></motion.div>
                   <motion.div 
                     initial={{ height: 0 }} animate={{ height: col.h2 }} transition={{ duration: 0.8, delay: i * 0.1 + 0.1 }}
@@ -206,7 +206,7 @@ export const ImpactDashboard: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div className="relative w-full sm:w-auto">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input type="text" placeholder="Search logs" className="pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm outline-none focus:border-blue-400 w-full sm:w-64 focus:ring-2 focus:ring-blue-500/20 transition-all" />
+              <input type="text" placeholder="Search logs" className="pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm outline-none focus:border-emerald-400 w-full sm:w-64 focus:ring-2 focus:ring-emerald-500/20 transition-all" />
             </div>
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <button 
@@ -230,7 +230,7 @@ export const ImpactDashboard: React.FC = () => {
           <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-slate-100">
-              <th className="py-4 pl-4 w-12"><input type="checkbox" className="rounded border-slate-300 text-blue-500 focus:ring-blue-500 cursor-pointer" /></th>
+              <th className="py-4 pl-4 w-12"><input type="checkbox" className="rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer" /></th>
               <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">LOG ID</th>
               <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">SOURCE ENGINE</th>
               <th className="py-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">TARGET DETAIL</th>
@@ -242,14 +242,14 @@ export const ImpactDashboard: React.FC = () => {
           <tbody>
             {recentActivities.length > 0 ? recentActivities.map((act: any) => (
               <tr key={act.id} className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
-                <td className="py-4 pl-4"><input type="checkbox" className="rounded border-slate-300 text-blue-500 focus:ring-blue-500 cursor-pointer" /></td>
+                <td className="py-4 pl-4"><input type="checkbox" className="rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer" /></td>
                 <td className="py-4 text-sm font-semibold text-slate-700">{act.id}</td>
                 <td className="py-4 text-sm font-bold text-slate-900 flex items-center gap-2">
                   <div className="w-6 h-6 rounded-md bg-blue-100 flex items-center justify-center"><Activity className="w-3 h-3 text-blue-500" /></div>
                   Diagnostic Test
                 </td>
                 <td className="py-4 text-sm text-slate-500">{act.title} - {act.desc}</td>
-                <td className="py-4"><span className="flex items-center gap-1.5 text-xs font-bold text-slate-700"><span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Completed</span></td>
+                <td className="py-4"><span className="flex items-center gap-1.5 text-xs font-bold text-slate-700"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Completed</span></td>
                 <td className="py-4 text-sm font-medium text-slate-400">{act.date}</td>
                 <td className="py-4 text-slate-400">...</td>
               </tr>

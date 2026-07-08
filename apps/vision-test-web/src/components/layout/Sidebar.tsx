@@ -25,7 +25,7 @@ export const Sidebar: React.FC = () => {
       {/* --- DESKTOP SIDEBAR --- */}
       <aside className="hidden md:flex w-[80px] h-full bg-[#f4f6f8] flex-col items-center py-6 border-r border-slate-200/50 relative z-50 shrink-0">
         {/* Brand Icon */}
-        <Link to="/" className="w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center mb-10 shadow-lg shadow-blue-500/30 hover:scale-105 transition-transform cursor-pointer" title="Go to Landing Page">
+        <Link to="/" className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center mb-10 shadow-lg shadow-emerald-500/30 hover:scale-105 transition-transform cursor-pointer" title="Go to Landing Page">
           <Eye className="w-6 h-6 text-white" />
         </Link>
 
@@ -76,24 +76,24 @@ export const Sidebar: React.FC = () => {
 
       {/* --- MOBILE BOTTOM NAVIGATION --- */}
       <div className="md:hidden fixed bottom-0 left-0 w-full h-16 bg-white/80 backdrop-blur-md border-t border-slate-200/50 z-[100] flex justify-around items-center px-2 pb-safe">
-        <NavLink to="/dashboard" end className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-blue-600 bg-blue-50/50' : 'text-slate-500'}`}>
+        <NavLink to="/dashboard" end className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-emerald-600 bg-emerald-50/50' : 'text-slate-500'}`}>
           <Home className="w-6 h-6" />
         </NavLink>
         
         {/* Mobile FAB */}
         <div className="relative -top-5">
-          <Link to="/" className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center shadow-lg border-4 border-white" title="Go to Landing Page">
+          <Link to="/" className="w-14 h-14 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg border-4 border-white" title="Go to Landing Page">
             <Eye className="w-6 h-6 text-white" />
           </Link>
         </div>
 
-        <NavLink to="/reports" className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-blue-600 bg-blue-50' : 'text-slate-500'}`}>
+        <NavLink to="/reports" className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500'}`}>
           <FileText className="w-6 h-6" />
         </NavLink>
-        <NavLink to="/simulator" className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-blue-600 bg-blue-50' : 'text-slate-500'}`}>
+        <NavLink to="/simulator" className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500'}`}>
           <SplitSquareHorizontal className="w-6 h-6" />
         </NavLink>
-        <NavLink to="/settings" className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-blue-600 bg-blue-50' : 'text-slate-500'}`}>
+        <NavLink to="/settings" className={({ isActive }) => `p-3 rounded-xl transition-colors ${isActive ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500'}`}>
           <Settings className="w-6 h-6" />
         </NavLink>
       </div>

@@ -36,7 +36,7 @@ export const ResultScreen: React.FC = () => {
 
   const getSeverityColor = (sev: string) => {
     switch(sev.toLowerCase()) {
-      case 'none': return 'text-blue-700 bg-blue-100 border-blue-200';
+      case 'none': return 'text-emerald-700 bg-emerald-100 border-emerald-200';
       case 'mild': return 'text-amber-700 bg-amber-100 border-amber-200';
       case 'moderate': return 'text-orange-700 bg-orange-100 border-orange-200';
       case 'severe': return 'text-rose-700 bg-rose-100 border-rose-200';
@@ -59,11 +59,11 @@ export const ResultScreen: React.FC = () => {
       <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white p-8 md:p-12 relative overflow-hidden">
         {/* Subtle premium background glow */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
         
         <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div>
-            <div className="flex items-center gap-2 text-blue-400 font-bold mb-3 uppercase tracking-widest text-xs">
+            <div className="flex items-center gap-2 text-emerald-400 font-bold mb-3 uppercase tracking-widest text-xs">
               <ShieldCheck className="w-4 h-4" /> Clinical Diagnostic Report
             </div>
             <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">Neurolens Matrix</h1>
@@ -108,7 +108,7 @@ export const ResultScreen: React.FC = () => {
             <div className="text-indigo-300 text-xs font-bold mb-2 uppercase tracking-wider flex items-center gap-2">
               <Fingerprint className="w-4 h-4" /> Profile Status
             </div>
-            <div className="text-2xl font-bold text-blue-400 flex items-center gap-2 drop-shadow-[0_0_8px_rgba(52,211,153,0.3)]">
+            <div className="text-2xl font-bold text-emerald-400 flex items-center gap-2 drop-shadow-[0_0_8px_rgba(52,211,153,0.3)]">
               Active & Calibrated
             </div>
           </div>
@@ -135,7 +135,7 @@ export const ResultScreen: React.FC = () => {
           {/* 3. Systematic Treatment Plan */}
           <div className="mb-14">
             <h2 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3 tracking-tight">
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 shadow-sm">
                 <FileText className="w-5 h-5" />
               </div>
               Adaptation Matrix (Treatment Plan)
@@ -209,7 +209,7 @@ export const ResultScreen: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {meaningBasedTransformations.slice(0, 3).map((t: any, idx: number) => {
                         const isGreen = t.original_color_name.toLowerCase().includes('green');
-                        const defaultBg = isGreen ? 'bg-blue-500' : 'bg-rose-500';
+                        const defaultBg = isGreen ? 'bg-emerald-500' : 'bg-rose-500';
                         const defaultLabel = isGreen ? 'Normal: Green' : 'Normal: Red';
                         
                         return (
@@ -268,7 +268,7 @@ export const ResultScreen: React.FC = () => {
             
             <button
               onClick={() => navigate('/register?role=patient')}
-              className="flex items-center justify-center gap-2 px-8 py-4 bg-blue-500 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all shadow-[0_4px_20px_rgba(16,185,129,0.3)] hover:shadow-[0_4px_25px_rgba(16,185,129,0.4)] hover:-translate-y-0.5 w-full sm:w-auto"
+              className="flex items-center justify-center gap-2 px-8 py-4 bg-emerald-500 text-white rounded-2xl font-bold hover:bg-emerald-600 transition-all shadow-[0_4px_20px_rgba(16,185,129,0.3)] hover:shadow-[0_4px_25px_rgba(16,185,129,0.4)] hover:-translate-y-0.5 w-full sm:w-auto"
             >
               <ShieldCheck className="w-5 h-5" /> Save Profile
             </button>

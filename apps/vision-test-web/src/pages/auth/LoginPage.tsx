@@ -42,7 +42,7 @@ export const LoginPage: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-medium transition-colors"
+              className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm font-medium transition-colors"
               placeholder="you@example.com"
             />
           </div>
@@ -56,7 +56,7 @@ export const LoginPage: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-medium transition-colors"
+              className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm font-medium transition-colors"
               placeholder="••••••••"
             />
           </div>
@@ -67,14 +67,14 @@ export const LoginPage: React.FC = () => {
             <input
               id="remember-me"
               type="checkbox"
-              className="h-4 w-4 text-blue-500 focus:ring-blue-500 border-slate-300 rounded"
+              className="h-4 w-4 text-emerald-500 focus:ring-emerald-500 border-slate-300 rounded"
             />
             <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-600">
               Remember me
             </label>
           </div>
           <div className="text-sm">
-            <a href="#" className="font-semibold text-blue-600 hover:text-blue-500">
+            <a href="#" className="font-semibold text-emerald-600 hover:text-emerald-500">
               Forgot password?
             </a>
           </div>
@@ -84,7 +84,7 @@ export const LoginPage: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors disabled:opacity-50"
           >
             {isLoading ? 'Signing in...' : 'Sign in'}
           </button>
@@ -112,7 +112,7 @@ export const LoginPage: React.FC = () => {
       
       <p className="mt-8 text-center text-sm text-slate-600">
         Don't have an account?{' '}
-        <Link to="/register" className="font-semibold text-blue-600 hover:text-blue-500">
+        <Link to="/register" className="font-semibold text-emerald-600 hover:text-emerald-500">
           Sign up
         </Link>
       </p>
