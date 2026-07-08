@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, Send, X, Bot, Sparkles, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 
 interface Message {
   id: string;
@@ -36,7 +35,7 @@ export const AIAssistant: React.FC = () => {
     setIsTyping(true);
 
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
       
       let botResponse = "";
       
@@ -45,17 +44,34 @@ export const AIAssistant: React.FC = () => {
         : `The user has not taken a vision test yet.`;
 
       if (apiKey) {
-        // Real Gemini API Call
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const prompt = `
-          You are Neurolens AI, a highly empathetic and expert AI assistant for a color vision deficiency (color blindness) platform.
-          ${contextStr}
-          Keep your answers concise, empathetic, encouraging, and under 3 sentences. Answer the following user message:
-          User: ${userMessage.content}
-        `;
-        const result = await model.generateContent(prompt);
-        botResponse = result.response.text();
+        // Real OpenAI API Call
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [
+              {
+                role: "system",
+                content: `You are Neurolens AI, a highly empathetic and expert AI assistant for a color vision deficiency platform. ${contextStr} Keep your answers concise, empathetic, encouraging, and under 3 sentences.`
+              },
+              ...messages.map(m => ({ role: m.type === 'bot' ? 'assistant' : 'user', content: m.content })),
+              { role: "user", content: userMessage.content }
+            ],
+            temperature: 0.7,
+            max_tokens: 150
+          })
+        });
+
+        const data = await response.json();
+        if (data.choices && data.choices.length > 0) {
+          botResponse = data.choices[0].message.content;
+        } else {
+          throw new Error("Invalid response from OpenAI");
+        }
       } else {
         // Smart Mock Fallback for Demo
         await new Promise(resolve => setTimeout(resolve, 1500)); // simulate network latency
