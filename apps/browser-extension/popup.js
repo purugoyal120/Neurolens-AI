@@ -23,12 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
           func: () => {
             const reportStr = window.localStorage.getItem('neurolens_active_report');
             const profileStr = window.localStorage.getItem('neurolens_active_profile');
-            return { reportStr, profileStr };
+            const enabledStr = window.localStorage.getItem('neurolens_extension_enabled');
+            return { reportStr, profileStr, enabledStr };
           }
         });
 
         if (results && results[0] && results[0].result && results[0].result.reportStr) {
-          const { reportStr, profileStr } = results[0].result;
+          const { reportStr, profileStr, enabledStr } = results[0].result;
           const report = JSON.parse(reportStr);
           const dynamicProfile = {
             deficiency_type: "dynamic",
@@ -37,7 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
             percent_accuracy: report.accuracy || 100
           };
           
-          await chrome.storage.local.set({ visionProfile: dynamicProfile });
+          const isEnabledByDashboard = enabledStr === 'true';
+          
+          await chrome.storage.local.set({ visionProfile: dynamicProfile, enabled: isEnabledByDashboard });
           if (syncBtn) syncBtn.textContent = "🔄 Refresh / Check For Profile";
           if (manualRefreshBtn) manualRefreshBtn.textContent = "🔄 Re-sync Report from Web";
           return dynamicProfile;

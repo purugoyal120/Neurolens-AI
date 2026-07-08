@@ -1,96 +1,102 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { MousePointerClick, ShieldCheck, HelpCircle } from 'lucide-react';
+import { Power, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
-import { calculateColorMatrix } from '../../utils/visionCore';
 
 export const BookmarkletCard: React.FC = () => {
   const { activeReport } = useAuth();
   const { addToast } = useToast();
-  const [showHelp, setShowHelp] = useState(false);
+  const [isActivated, setIsActivated] = useState(false);
 
-  // Generate the Bookmarklet Code dynamically based on user's exact diagnostic report
-  const getBookmarkletCode = () => {
-    const matrix = calculateColorMatrix(activeReport);
-    const profileName = activeReport ? activeReport.clinical_diagnosis : "Standard Mode";
+  useEffect(() => {
+    // Check if previously activated
+    const activated = localStorage.getItem('neurolens_extension_enabled') === 'true';
+    setIsActivated(activated);
+  }, []);
 
-    const rawJs = `javascript:(function(){var s=document.getElementById('nl-style');if(s){s.remove();alert('Neurolens Filter Removed');return;}var svg='<svg xmlns="http://www.w3.org/2000/svg"><filter id="f"><feColorMatrix type="matrix" values="${matrix}"/></filter></svg>';var css='html{-webkit-filter:url("data:image/svg+xml;utf8,'+encodeURIComponent(svg)+'#f")!important;filter:url("data:image/svg+xml;utf8,'+encodeURIComponent(svg)+'#f")!important;}';var sty=document.createElement('style');sty.id='nl-style';sty.innerHTML=css;document.head.appendChild(sty);alert('Neurolens Active: ${profileName}');})()`;
-    return encodeURI(rawJs.replace(/\n/g, '').trim());
-  };
+  const handleActivate = () => {
+    if (isActivated) {
+      // Deactivate
+      localStorage.removeItem('neurolens_extension_enabled');
+      setIsActivated(false);
+      addToast('Neurolens System Deactivated.', 'info');
+      return;
+    }
 
-  const handleCopyCode = () => {
-    navigator.clipboard.writeText(getBookmarkletCode());
-    addToast('Bookmarklet code copied! You can manually paste it into a new bookmark URL.', 'success');
+    const confirmActivation = window.confirm(
+      "Do you want to grant Neurolens permission to automatically adapt colors on all websites you visit?"
+    );
+    
+    if (confirmActivation) {
+      localStorage.setItem('neurolens_extension_enabled', 'true');
+      setIsActivated(true);
+      addToast('Neurolens System Activated! The Browser Extension will now apply your profile everywhere.', 'success');
+    }
   };
 
   const profileDisplay = activeReport ? activeReport.clinical_diagnosis : "No Profile (Standard)";
 
   return (
-    <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group h-full flex flex-col">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
+    <div className={`rounded-3xl p-6 border shadow-xl shadow-slate-200/50 relative overflow-hidden group h-full flex flex-col transition-colors duration-500 ${isActivated ? 'bg-emerald-50 border-emerald-200' : 'bg-white border-slate-100'}`}>
+      <div className={`absolute top-0 right-0 w-32 h-32 rounded-bl-full -z-10 transition-transform duration-700 ${isActivated ? 'bg-emerald-500/10 scale-150' : 'bg-emerald-500/5 group-hover:scale-110'}`}></div>
       
       <div className="flex items-start justify-between mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <MousePointerClick className="w-5 h-5 text-emerald-500" />
-            <h3 className="text-lg font-bold text-slate-800">Browser Bookmarklet</h3>
+            <Power className={`w-5 h-5 ${isActivated ? 'text-emerald-600' : 'text-slate-400'}`} />
+            <h3 className="text-lg font-bold text-slate-800">System Activation</h3>
           </div>
-          <p className="text-sm font-medium text-slate-500">Apply your vision profile to ANY website</p>
+          <p className="text-sm font-medium text-slate-500">Apply your vision profile to ALL websites</p>
         </div>
-        
-        <button 
-          onClick={() => setShowHelp(!showHelp)}
-          className="p-2 bg-slate-50 rounded-full hover:bg-slate-100 transition-colors text-slate-400 hover:text-slate-600"
-          title="How to install"
-        >
-          <HelpCircle className="w-5 h-5" />
-        </button>
       </div>
 
-      <div className="bg-slate-50 rounded-2xl p-4 mb-6 border border-slate-100 flex items-center justify-between">
+      <div className={`rounded-2xl p-4 mb-6 border flex items-center justify-between transition-colors ${isActivated ? 'bg-emerald-100/50 border-emerald-200' : 'bg-slate-50 border-slate-100'}`}>
         <div>
           <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Diagnostic Profile</div>
-          <div className="font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 inline-block">
+          <div className={`font-bold px-3 py-1.5 rounded-xl border inline-block ${isActivated ? 'text-emerald-700 bg-white border-emerald-300 shadow-sm' : 'text-slate-600 bg-white border-slate-200'}`}>
             {profileDisplay}
           </div>
         </div>
         <div className="h-8 w-[1px] bg-slate-200 mx-2 hidden sm:block"></div>
         <div className="text-right flex items-center gap-2 hidden sm:flex">
-          <ShieldCheck className="w-4 h-4 text-emerald-500" />
+          <ShieldCheck className={`w-4 h-4 ${isActivated ? 'text-emerald-500' : 'text-slate-400'}`} />
           <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Custom Matrix</span>
         </div>
       </div>
 
       <div className="flex-1 flex flex-col justify-center items-center py-4">
-        {showHelp ? (
-          <div className="text-sm text-slate-600 bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 animate-in fade-in zoom-in duration-300 w-full">
-            <ol className="list-decimal pl-5 space-y-2 font-medium">
-              <li>Click the green button below to copy the code.</li>
-              <li>Right-click your Bookmarks Bar and select "Add Page".</li>
-              <li>Name it "Neurolens AI" and paste the copied code into the URL field.</li>
-              <li>Open any website (like Wikipedia), and click your new bookmark!</li>
-            </ol>
+        <div className="text-center animate-in fade-in duration-300">
+          <div className="mb-4 text-sm font-medium text-slate-500">
+            {isActivated ? "System is actively filtering your web." : "1-Click to activate Neurolens globally."}
           </div>
-        ) : (
-          <div className="text-center animate-in fade-in duration-300">
-            <div className="mb-4 text-sm font-medium text-slate-500">Click this button to copy the extension code ⬇️</div>
-            <button
-              className="inline-flex items-center gap-2 px-8 py-4 bg-emerald-500 text-white rounded-full font-extrabold text-lg shadow-xl shadow-emerald-500/30 hover:scale-105 transition-transform hover:bg-emerald-400 border-2 border-white"
-              onClick={handleCopyCode}
-              title="Click to copy code!"
-            >
-              <MousePointerClick className="w-5 h-5" />
-              Copy Neurolens Code
-            </button>
-          </div>
-        )}
+          <button
+            className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-extrabold text-lg shadow-xl transition-all duration-300 border-2 border-white ${
+              isActivated 
+                ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200 shadow-emerald-500/10' 
+                : 'bg-emerald-500 text-white hover:scale-105 hover:bg-emerald-400 shadow-emerald-500/30'
+            }`}
+            onClick={handleActivate}
+          >
+            {isActivated ? (
+              <>
+                <CheckCircle2 className="w-5 h-5" />
+                System Activated
+              </>
+            ) : (
+              <>
+                <Power className="w-5 h-5" />
+                Activate Neurolens
+              </>
+            )}
+          </button>
+        </div>
       </div>
       
       <div className="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
-        <span className="text-slate-400 font-medium">Auto-synced with test results</span>
-        <button onClick={handleCopyCode} className="text-emerald-600 font-bold hover:text-emerald-700 underline">
-          Copy Manual Code
-        </button>
+        <span className="text-slate-400 font-medium">Auto-syncs with Chrome Extension</span>
+        <span className={`font-bold ${isActivated ? 'text-emerald-600' : 'text-slate-400'}`}>
+          {isActivated ? 'Live Connection Active' : 'Disconnected'}
+        </span>
       </div>
     </div>
   );
