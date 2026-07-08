@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 export const HeroSection: React.FC = () => {
   return (
-    <div className="relative overflow-hidden bg-slate-50 pt-[140px] pb-40">
+    <div className="relative overflow-hidden bg-slate-50 pt-28 md:pt-[140px] pb-20 md:pb-40">
       {/* Background decorations - Light Mode */}
       <div className="absolute top-1/4 left-0 w-[600px] h-[600px] bg-emerald-400/20 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-teal-400/20 blur-[150px] rounded-full pointer-events-none"></div>
@@ -25,7 +25,7 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-6xl md:text-8xl font-extrabold text-slate-900 tracking-tight mb-8 leading-tight max-w-5xl mx-auto"
+          className="text-4xl sm:text-6xl md:text-8xl font-extrabold text-slate-900 tracking-tight mb-6 md:mb-8 leading-tight max-w-5xl mx-auto"
         >
           Beyond Colours, <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">Beyond Barriers.</span>
         </motion.h1>
@@ -34,7 +34,7 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-xl md:text-2xl text-slate-500 mb-12 max-w-3xl mx-auto font-medium leading-relaxed"
+          className="text-lg sm:text-xl md:text-2xl text-slate-500 mb-10 md:mb-12 max-w-3xl mx-auto font-medium leading-relaxed"
         >
           Neurolens is an intelligent browser engine that instantly translates confusing colours on websites and dashboards into clear, high-contrast visuals tailored to your exact eyes.
         </motion.p>
@@ -43,12 +43,12 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16 md:mb-20"
         >
-          <Link to="/select-role" className="px-10 py-5 bg-emerald-500 text-white rounded-full text-xl font-extrabold hover:bg-emerald-600 hover:scale-105 transition-all shadow-xl shadow-emerald-500/20 flex items-center gap-3">
-            Take Diagnostic Test <ArrowRight className="w-6 h-6" />
+          <Link to="/select-role" className="w-full sm:w-auto justify-center px-6 py-4 md:px-10 md:py-5 bg-emerald-500 text-white rounded-full text-lg md:text-xl font-extrabold hover:bg-emerald-600 hover:scale-105 transition-all shadow-xl shadow-emerald-500/20 flex items-center gap-3">
+            Take Diagnostic Test <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
           </Link>
-          <a href="#demo" className="px-10 py-5 bg-white text-slate-800 rounded-full text-xl font-bold hover:bg-slate-50 transition-all border border-slate-200 shadow-sm flex items-center gap-3">
+          <a href="#demo" className="w-full sm:w-auto justify-center px-6 py-4 md:px-10 md:py-5 bg-white text-slate-800 rounded-full text-lg md:text-xl font-bold hover:bg-slate-50 transition-all border border-slate-200 shadow-sm flex items-center gap-3">
             See How It Works
           </a>
         </motion.div>
@@ -57,7 +57,7 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mb-32 flex flex-col items-center justify-center gap-3 text-slate-500 text-sm font-medium"
+          className="mb-20 md:mb-32 flex flex-col items-center justify-center gap-3 text-slate-500 text-sm font-medium"
         >
           <div className="flex -space-x-3 shadow-sm">
             {[1, 2, 3, 4, 5].map((i) => (
@@ -82,13 +82,13 @@ export const HeroSection: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 + (idx * 0.1) }}
               whileHover={{ y: -5 }}
-              className="bg-white/80 backdrop-blur-md p-10 rounded-[32px] border border-slate-100 hover:border-emerald-500/30 transition-colors shadow-xl shadow-slate-200/50"
+              className="bg-white/80 backdrop-blur-md p-6 md:p-10 rounded-[32px] border border-slate-100 hover:border-emerald-500/30 transition-colors shadow-xl shadow-slate-200/50"
             >
-              <div className={`w-16 h-16 bg-${feat.color}-50 rounded-2xl flex items-center justify-center mb-8 border border-${feat.color}-100`}>
-                <feat.icon className={`w-8 h-8 text-${feat.color}-500`} />
+              <div className={`w-12 h-12 md:w-16 md:h-16 bg-${feat.color}-50 rounded-2xl flex items-center justify-center mb-6 md:mb-8 border border-${feat.color}-100`}>
+                <feat.icon className={`w-6 h-6 md:w-8 md:h-8 text-${feat.color}-500`} />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">{feat.title}</h3>
-              <p className="text-slate-500 font-medium leading-relaxed text-lg">{feat.desc}</p>
+              <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-3 md:mb-4">{feat.title}</h3>
+              <p className="text-slate-500 font-medium leading-relaxed text-base md:text-lg">{feat.desc}</p>
             </motion.div>
           ))}
         </div>

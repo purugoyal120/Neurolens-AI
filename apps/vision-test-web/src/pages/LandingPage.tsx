@@ -9,21 +9,21 @@ export const LandingPage: React.FC = () => {
     <div className="min-h-screen bg-white font-sans selection:bg-emerald-100 selection:text-emerald-900">
       {/* Simple Top Nav for Landing */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 md:h-24 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
-              <span className="text-white font-extrabold text-2xl">N</span>
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+              <span className="text-white font-extrabold text-xl md:text-2xl">N</span>
             </div>
-            <span className="text-2xl font-extrabold text-slate-900 tracking-tight">Neurolens AI</span>
+            <span className="text-xl md:text-2xl font-extrabold text-slate-900 tracking-tight hidden sm:block">Neurolens AI</span>
           </div>
           <div className="hidden md:flex items-center gap-10">
             <a href="#demo" className="text-base font-semibold text-slate-600 hover:text-emerald-600 transition-colors">How it Works</a>
             <a href="#features" className="text-base font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Features</a>
             <Link to="/pricing" className="text-base font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Pricing</Link>
           </div>
-          <div className="flex items-center gap-6">
-            <Link to="/login" className="text-base font-bold text-slate-700 hover:text-slate-900 transition-colors">Sign In</Link>
-            <Link to="/select-role" className="px-6 py-3 bg-slate-900 text-white rounded-full text-sm font-bold hover:bg-slate-800 transition-colors shadow-md">
+          <div className="flex items-center gap-3 md:gap-6">
+            <Link to="/login" className="text-sm md:text-base font-bold text-slate-700 hover:text-slate-900 transition-colors">Sign In</Link>
+            <Link to="/select-role" className="px-4 py-2 md:px-6 md:py-3 bg-slate-900 text-white rounded-full text-xs md:text-sm font-bold hover:bg-slate-800 transition-colors shadow-md">
               Get Started
             </Link>
           </div>
