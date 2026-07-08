@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Bell, Info, ChevronDown, LogOut, User, Sun, Moon } from 'lucide-react';
+import { Search, Bell, Info, ChevronDown, LogOut, User, Sun, Moon, ArrowLeft } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -48,8 +48,18 @@ export const TopNav: React.FC = () => {
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-between w-full mb-8 pt-4 gap-4 relative z-50">
-      {/* Left Navigation Pill */}
-      <div className="bg-white rounded-full px-1.5 py-1.5 flex items-center shadow-sm overflow-x-auto no-scrollbar w-full md:w-auto">
+      <div className="flex items-center gap-3 w-full md:w-auto">
+        {/* Back Button */}
+        <button 
+          onClick={() => navigate(-1)}
+          className="bg-white p-3 rounded-full shadow-sm text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 transition-all"
+          title="Go Back"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+
+        {/* Left Navigation Pill */}
+        <div className="bg-white rounded-full px-1.5 py-1.5 flex items-center shadow-sm overflow-x-auto no-scrollbar w-full md:w-auto">
         {links.map((link) => {
           const path = link === 'Overview' ? '/dashboard' : `/${link.toLowerCase()}`;
           const isActive = location.pathname === path;
@@ -67,6 +77,7 @@ export const TopNav: React.FC = () => {
             </Link>
           );
         })}
+        </div>
       </div>
 
       {/* Right Actions */}
