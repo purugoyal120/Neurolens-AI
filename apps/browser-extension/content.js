@@ -180,15 +180,16 @@ window.addEventListener('message', (event) => {
     console.log("NeuroLens Extension: Received profile sync from Dashboard ->", newProfile);
     
     // Map web profile name to extension profile structure
-    let deficiency_type = "red-green";
+    let deficiency_type = "red-green"; // default for Deutan/Protanomaly
+    const pLower = newProfile.toLowerCase();
     
-    if (newProfile === 'Protanopia Mode') {
+    if (pLower.includes('protan')) {
       deficiency_type = "red-blind";
-    } else if (newProfile === 'Tritanopia Mode') {
+    } else if (pLower.includes('tritan') || pLower.includes('blue')) {
       deficiency_type = "blue-blind";
-    } else if (newProfile === 'Monochromacy Mode') {
+    } else if (pLower.includes('mono') || pLower.includes('achromat')) {
       deficiency_type = "monochromacy";
-    } else if (newProfile === 'Standard Mode') {
+    } else if (pLower.includes('standard') || pLower.includes('none')) {
       deficiency_type = "none";
     }
 
