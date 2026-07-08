@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, Send, X, Bot, Sparkles } from 'lucide-react';
+import { MessageSquare, Send, X, Bot, Sparkles, Loader2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 interface Message {
   id: string;
@@ -8,10 +10,12 @@ interface Message {
 }
 
 export const AIAssistant: React.FC = () => {
+  const { activeReport, activeProfile } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { id: '1', type: 'bot', content: 'Hello! I am Neurolens AI AI. I can help you analyze website accessibility or run diagnostic tests. How can I assist you today?' }
+    { id: '1', type: 'bot', content: 'Hello! I am Neurolens AI. I can help explain your vision test results or answer any accessibility questions. How can I assist you today?' }
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -23,25 +27,60 @@ export const AIAssistant: React.FC = () => {
     scrollToBottom();
   }, [messages, isOpen]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!inputMessage.trim()) return;
 
     const userMessage: Message = { id: Date.now().toString(), type: 'user', content: inputMessage };
     setMessages(prev => [...prev, userMessage]);
     setInputMessage('');
+    setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      let botResponse = "I can definitely help with that. By analyzing your vision profile, I can automatically adjust the CSS contrast ratios.";
+    try {
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
       
-      if (inputMessage.toLowerCase().includes('color blind') || inputMessage.toLowerCase().includes('protanopia')) {
-        botResponse = "I see you're asking about color blindness. Our Protanopia filter shifts problematic reds and greens into a safer blue/yellow spectrum, ensuring you never miss critical information on charts.";
-      } else if (inputMessage.toLowerCase().includes('hello') || inputMessage.toLowerCase().includes('hi')) {
-        botResponse = "Hello! Ready to make the web more accessible?";
+      let botResponse = "";
+      
+      const contextStr = activeReport 
+        ? `The user's vision profile is ${activeProfile}. Their latest test showed severity: ${activeReport.severity}, accuracy: ${activeReport.accuracy}%. Diagnosis: ${activeReport.description}.`
+        : `The user has not taken a vision test yet.`;
+
+      if (apiKey) {
+        // Real Gemini API Call
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const prompt = `
+          You are Neurolens AI, a highly empathetic and expert AI assistant for a color vision deficiency (color blindness) platform.
+          ${contextStr}
+          Keep your answers concise, empathetic, encouraging, and under 3 sentences. Answer the following user message:
+          User: ${userMessage.content}
+        `;
+        const result = await model.generateContent(prompt);
+        botResponse = result.response.text();
+      } else {
+        // Smart Mock Fallback for Demo
+        await new Promise(resolve => setTimeout(resolve, 1500)); // simulate network latency
+        
+        const msg = userMessage.content.toLowerCase();
+        if (msg.includes('color blind') || msg.includes('result') || msg.includes('test')) {
+          botResponse = activeReport 
+            ? `Based on your test, you have a ${activeReport.severity.toLowerCase()} case of ${activeProfile}. Don't worry! Our extension will automatically shift problematic colors on websites so you can see perfectly.`
+            : `I see you're asking about color blindness. I recommend taking our 2-minute diagnostic test first so I can give you personalized advice!`;
+        } else if (msg.includes('design') || msg.includes('work') || msg.includes('job')) {
+          botResponse = `Being color blind shouldn't stop you from doing great work! Neurolens acts as your digital glasses, adjusting charts and designs in real-time so you never miss critical information.`;
+        } else if (msg.includes('hello') || msg.includes('hi')) {
+          botResponse = `Hello there! I'm here to help you understand your vision profile and make the web more accessible for you. What's on your mind?`;
+        } else {
+          botResponse = `That's a great question! As Neurolens AI, my goal is to ensure the web adapts to your eyes, not the other way around. Is there anything specific about your vision profile you'd like me to explain?`;
+        }
       }
 
       setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), type: 'bot', content: botResponse }]);
-    }, 1000);
+    } catch (error) {
+      console.error("AI Error:", error);
+      setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), type: 'bot', content: "I'm having a little trouble connecting right now, but I'm still here to help! Please try again in a moment." }]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   return (
@@ -64,8 +103,8 @@ export const AIAssistant: React.FC = () => {
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="font-bold text-sm">Neurolens AI AI</h3>
-                <p className="text-xs text-emerald-100">Accessibility Copilot</p>
+                <h3 className="font-bold text-sm">Neurolens AI</h3>
+                <p className="text-xs text-emerald-100">Your Accessibility Copilot</p>
               </div>
             </div>
             <button onClick={() => setIsOpen(false)} className="text-emerald-100 hover:text-white transition-colors">
@@ -90,6 +129,17 @@ export const AIAssistant: React.FC = () => {
                 </div>
               </div>
             ))}
+            {isTyping && (
+              <div className="flex gap-2 justify-start">
+                <div className="w-7 h-7 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-1">
+                  <Bot className="w-4 h-4 text-emerald-600" />
+                </div>
+                <div className="p-3 rounded-2xl text-sm bg-white border border-slate-200 text-slate-700 rounded-tl-sm shadow-sm flex items-center gap-1">
+                  <Loader2 className="w-4 h-4 animate-spin text-emerald-500" />
+                  <span className="text-slate-400 italic">Thinking...</span>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
