@@ -80,9 +80,19 @@ function processElement(el) {
     // Revert to original
     if (originalStyles.has(el)) {
       const orig = originalStyles.get(el);
-      el.style.backgroundColor = orig.backgroundColor;
-      el.style.color = orig.color;
-      el.style.borderColor = orig.borderColor;
+      
+      if (orig.backgroundColor) el.style.backgroundColor = orig.backgroundColor;
+      else el.style.removeProperty('background-color');
+      
+      if (orig.color) el.style.color = orig.color;
+      else el.style.removeProperty('color');
+      
+      if (orig.borderColor) el.style.borderColor = orig.borderColor;
+      else el.style.removeProperty('border-color');
+      
+      // Also clean up SVG inline overrides
+      el.style.removeProperty('fill');
+      el.style.removeProperty('stroke');
     }
     // Remove icons
     if (el.hasAttribute('data-neurolens-icon')) {

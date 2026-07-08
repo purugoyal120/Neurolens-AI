@@ -19,6 +19,13 @@ export const BookmarkletCard: React.FC = () => {
       // Deactivate
       localStorage.removeItem('neurolens_extension_enabled');
       setIsActivated(false);
+      
+      // Trigger extension to turn off immediately
+      window.postMessage({ 
+        type: 'NEUROLENS_SYNC_PROFILE', 
+        profile: 'Standard Mode'
+      }, "*");
+      
       addToast('Neurolens System Deactivated.', 'info');
       return;
     }
