@@ -201,14 +201,14 @@ export const ImpactDashboard: React.FC = () => {
 
       {/* Recent Activities */}
       <motion.div variants={itemVariants} className="dashboard-card p-6 mt-2 hover:shadow-xl transition-all duration-300">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
           <h3 className="text-slate-900 font-bold text-lg">Recent Activities</h3>
-          <div className="flex gap-3">
-            <div className="relative">
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <div className="relative w-full sm:w-auto">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input type="text" placeholder="Search logs" className="pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm outline-none focus:border-emerald-400 w-64 focus:ring-2 focus:ring-emerald-500/20 transition-all" />
+              <input type="text" placeholder="Search logs" className="pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm outline-none focus:border-emerald-400 w-full sm:w-64 focus:ring-2 focus:ring-emerald-500/20 transition-all" />
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
               <button 
                 onClick={() => addToast('Date filter opened (Demo)', 'info')}
                 className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors shadow-sm"
@@ -226,7 +226,8 @@ export const ImpactDashboard: React.FC = () => {
           </div>
         </div>
 
-        <table className="w-full text-left border-collapse">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-slate-100">
               <th className="py-4 pl-4 w-12"><input type="checkbox" className="rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer" /></th>
@@ -259,6 +260,7 @@ export const ImpactDashboard: React.FC = () => {
             )}
           </tbody>
         </table>
+        </div>
       </motion.div>
 
     </motion.div>

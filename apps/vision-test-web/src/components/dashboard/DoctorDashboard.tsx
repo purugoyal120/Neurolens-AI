@@ -59,16 +59,16 @@ export const DoctorDashboard: React.FC = () => {
 
       {/* Patient List */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-slate-200 flex justify-between items-center">
+        <div className="p-6 border-b border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <h2 className="text-xl font-bold text-slate-800">Recent Patient Reports</h2>
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <button 
               onClick={handleDownloadReport}
-              className="text-sm font-medium text-emerald-600 hover:text-emerald-700 bg-emerald-50 px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+              className="text-sm font-medium text-emerald-600 hover:text-emerald-700 bg-emerald-50 px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               <FileText className="w-4 h-4" /> Export Report
             </button>
-            <button className="text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg transition-colors">
+            <button className="text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg transition-colors w-full sm:w-auto text-center">
               Invite Patient
             </button>
           </div>
