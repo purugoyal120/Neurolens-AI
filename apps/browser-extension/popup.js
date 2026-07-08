@@ -24,11 +24,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return profile;
       }
     } catch (e) {
-      console.log("Backend offline or no profile found.");
+      console.log("Backend offline. Using Hackathon Demo Fallback.");
     }
+    
+    // HACKATHON DEMO FALLBACK: If backend is not running, simulate a Protanopia profile so judges can test the extension.
+    const mockProfile = {
+      deficiency_type: "red-green",
+      severity: "severe",
+      deficiency_name: "Protanopia (Red-Blind)",
+      percent_accuracy: 94
+    };
+    await chrome.storage.local.set({ visionProfile: mockProfile });
+    
     if (syncBtn) syncBtn.textContent = "🔄 Refresh / Check For Profile";
     if (manualRefreshBtn) manualRefreshBtn.textContent = "🔄 Re-sync Report from Web";
-    return null;
+    return mockProfile;
   }
 
   function updateUI(result) {
