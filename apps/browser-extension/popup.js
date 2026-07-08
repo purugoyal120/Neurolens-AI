@@ -11,9 +11,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function checkBackendForProfile() {
     try {
-      if (syncBtn) syncBtn.textContent = "🔄 Checking Web Dashboard...";
+      if (syncBtn) syncBtn.textContent = "🔄 Syncing with Web Dashboard...";
       if (manualRefreshBtn) manualRefreshBtn.textContent = "🔄 Syncing...";
       
+      // 1. Try to fetch directly from any open Neurolens Web App tab (Hackathon Magic)
+      const tabs = await chrome.tabs.query({ url: ["http://localhost:5173/*", "http://localhost:4173/*", "*://*.vercel.app/*"] });
+      
+      if (tabs && tabs.length > 0) {
+        const results = await chrome.scripting.executeScript({
+          target: { tabId: tabs[0].id },
+          func: () => {
+            const reportStr = window.localStorage.getItem('neurolens_active_report');
+            const profileStr = window.localStorage.getItem('neurolens_active_profile');
+            return { reportStr, profileStr };
+          }
+        });
+
+        if (results && results[0] && results[0].result && results[0].result.reportStr) {
+          const { reportStr, profileStr } = results[0].result;
+          const report = JSON.parse(reportStr);
+          const dynamicProfile = {
+            deficiency_type: "dynamic",
+            severity: report.severity || "severe",
+            deficiency_name: profileStr || "Custom Profile",
+            percent_accuracy: report.accuracy || 100
+          };
+          
+          await chrome.storage.local.set({ visionProfile: dynamicProfile });
+          if (syncBtn) syncBtn.textContent = "🔄 Refresh / Check For Profile";
+          if (manualRefreshBtn) manualRefreshBtn.textContent = "🔄 Re-sync Report from Web";
+          return dynamicProfile;
+        }
+      }
+
+      // 2. Fallback to API if no tab is open
       const res = await fetch("http://localhost:8000/api/vision-profile/hackathon_demo_user");
       if (res.ok) {
         const profile = await res.json();
@@ -24,10 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return profile;
       }
     } catch (e) {
-      console.log("Backend offline. Using Hackathon Demo Fallback.");
+      console.log("Web App not found or backend offline. Using Fallback.");
     }
     
-    // HACKATHON DEMO FALLBACK: If backend is not running, simulate a Protanopia profile so judges can test the extension.
+    // HACKATHON DEMO FALLBACK: Only if absolutely nothing works.
     const mockProfile = {
       deficiency_type: "red-green",
       severity: "severe",
