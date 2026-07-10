@@ -3,6 +3,9 @@ import base64
 from io import BytesIO
 from PIL import Image
 import math
+import json
+from app.core.config import settings
+from openai import OpenAI
 
 router = APIRouter(tags=["camera"])
 
@@ -54,6 +57,57 @@ def detect_color(payload: dict = Body(...)):
         if "," in b64_str:
             b64_str = b64_str.split(",")[1]
             
+        # If OpenAI is configured, use it for perfect accuracy
+        if settings.openai_api_key:
+            try:
+                client = OpenAI(api_key=settings.openai_api_key)
+                response = client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": "Analyze this image and return ONLY a valid JSON object like {\"color\": \"red\"}. Pick the primary color from this list if it matches: red, green, blue, yellow, orange, purple, pink, black, white, gray, brown. If none match well, pick the closest base color name in lowercase. Do not include markdown formatting."},
+                                {
+                                    "type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/jpeg;base64,{b64_str}",
+                                        "detail": "low"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    max_tokens=20,
+                    temperature=0.0
+                )
+                
+                content = response.choices[0].message.content.strip()
+                if content.startswith("```json"):
+                    content = content.replace("```json", "").replace("```", "").strip()
+                elif content.startswith("```"):
+                    content = content.replace("```", "").strip()
+                    
+                data = json.loads(content)
+                detected_color = data.get("color", "unknown").lower()
+                
+                # Sanitize response
+                if detected_color not in PALETTE:
+                    # GPT might return "navy blue" instead of "blue", handle basics
+                    for base in PALETTE:
+                        if base in detected_color:
+                            detected_color = base
+                            break
+                            
+                return {"color": detected_color, "rgb": [128, 128, 128]}
+            except Exception as e:
+                print(f"OpenAI Vision failed, falling back to math heuristic. Error: {e}")
+                # Fallthrough to heuristic
+                pass
+
+        # ---------------------------------------------
+        # FALLBACK HEURISTIC (If offline or API fails)
+        # ---------------------------------------------
         img_data = base64.b64decode(b64_str)
         image = Image.open(BytesIO(img_data)).convert('RGB')
         
