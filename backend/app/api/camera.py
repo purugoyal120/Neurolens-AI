@@ -197,3 +197,61 @@ def detect_food(payload: dict = Body(...)):
     except Exception as e:
         print(f"Error processing food image: {e}")
         return {"item": "Unknown", "status": "Error", "color": "Unknown"}
+
+
+@router.post("/camera/detect-medicine")
+def detect_medicine(payload: dict = Body(...)):
+    """
+    Receives a base64 encoded image and detects medicine details.
+    Requires OpenAI API key.
+    """
+    try:
+        b64_str = payload.get("image", "")
+        if "," in b64_str:
+            b64_str = b64_str.split(",")[1]
+            
+        if settings.openai_api_key:
+            try:
+                client = OpenAI(api_key=settings.openai_api_key)
+                response = client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": "Read the text on this medicine packaging. Identify the medicine name and dosage if visible. Return ONLY a valid JSON object with keys: 'name' (e.g. 'Paracetamol 500mg', string), 'type' (e.g. 'Painkiller', string), 'instructions' (e.g. 'Take with water' or any visible instruction, string). Do not include markdown formatting or backticks."},
+                                {
+                                    "type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/jpeg;base64,{b64_str}",
+                                        "detail": "high"
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    max_tokens=100,
+                    temperature=0.0
+                )
+                
+                content = response.choices[0].message.content.strip()
+                if content.startswith("```json"):
+                    content = content.replace("```json", "").replace("```", "").strip()
+                elif content.startswith("```"):
+                    content = content.replace("```", "").strip()
+                    
+                data = json.loads(content)
+                name = data.get("name", "Unknown Medicine")
+                med_type = data.get("type", "Unknown Type")
+                instructions = data.get("instructions", "No instructions detected")
+                
+                return {"name": name, "type": med_type, "instructions": instructions}
+            except Exception as e:
+                print(f"OpenAI Vision failed for medicine detection. Error: {e}")
+                return {"name": "Analysis Failed", "type": "Error", "instructions": "Please try again"}
+        else:
+            return {"name": "API Key Required", "type": "Offline", "instructions": "N/A"}
+
+    except Exception as e:
+        print(f"Error processing medicine image: {e}")
+        return {"name": "Error", "type": "Error", "instructions": "Error processing image"}
