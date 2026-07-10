@@ -24,5 +24,5 @@ def get_db():
 
 def init_db() -> None:
     """Create tables. Fine for SQLite/dev; use Alembic migrations for Postgres later."""
-    from app.models import simple_vision_profile, vision_profile, user  # noqa: F401
+    from app.models import simple_vision_profile, vision_profile, user, scan_history  # noqa: F401
     Base.metadata.create_all(bind=engine)

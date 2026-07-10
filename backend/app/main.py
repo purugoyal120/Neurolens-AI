@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import profile, vision_test, transform, ml_transform, camera, ai_assistant, auth
+from app.api import profile, vision_test, transform, ml_transform, camera, ai_assistant, auth, history
 
 from app.core.config import settings
 
@@ -25,6 +25,7 @@ app.include_router(transform.router, prefix="/api")
 app.include_router(ml_transform.router, prefix="/api")
 app.include_router(camera.router, prefix="/api")
 app.include_router(ai_assistant.router, prefix="/api")
+app.include_router(history.router, prefix="/api")
 
 
 @app.get("/health")
