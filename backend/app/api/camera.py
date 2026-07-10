@@ -2,8 +2,33 @@ from fastapi import APIRouter, Body
 import base64
 from io import BytesIO
 from PIL import Image
+import math
 
 router = APIRouter(tags=["camera"])
+
+PALETTE = {
+    "red": (220, 38, 38),
+    "green": (16, 185, 129),
+    "blue": (37, 99, 235),
+    "yellow": (245, 158, 11),
+    "orange": (249, 115, 22),
+    "purple": (147, 51, 234),
+    "pink": (236, 72, 153),
+    "black": (20, 20, 20),
+    "white": (240, 240, 240),
+    "gray": (156, 163, 175),
+    "brown": (139, 69, 19)
+}
+
+def closest_color(r, g, b):
+    min_dist = float('inf')
+    best_color = "unknown"
+    for name, (pr, pg, pb) in PALETTE.items():
+        dist = math.sqrt((r - pr)**2 + (g - pg)**2 + (b - pb)**2)
+        if dist < min_dist:
+            min_dist = dist
+            best_color = name
+    return best_color
 
 @router.post("/camera/detect-color")
 def detect_color(payload: dict = Body(...)):
@@ -40,16 +65,8 @@ def detect_color(payload: dict = Body(...)):
         avg_g = g_total / count
         avg_b = b_total / count
 
-        # Extremely simple heuristics for hackathon demo
-        color_detected = "unknown"
-        if avg_r > 150 and avg_g < 100 and avg_b < 100:
-            color_detected = "red"
-        elif avg_g > 120 and avg_r < 100 and avg_b < 100:
-            color_detected = "green"
-        elif avg_b > 120 and avg_r < 100 and avg_g < 150:
-            color_detected = "blue"
-        elif avg_r > 150 and avg_g > 150 and avg_b < 100:
-            color_detected = "yellow"
+        # Use euclidean distance to find the closest color
+        color_detected = closest_color(avg_r, avg_g, avg_b)
             
         return {"color": color_detected, "rgb": [avg_r, avg_g, avg_b]}
     except Exception as e:
