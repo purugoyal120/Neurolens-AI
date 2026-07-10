@@ -127,15 +127,16 @@ function applyNeuroLens() {
       `Website [${siteHost}]: Linked active report (${currentProfile.deficiency_name || 'Deuteranomaly (Green-Weak)'}).`,
       `Website [${siteHost}]: Applied safe palette & meaning labels to ${elementsCount} elements.`
     ];
-    fetch("http://localhost:8000/api/extension/log-transform", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    
+    // Send message to background script for telemetry to bypass CSP
+    chrome.runtime.sendMessage({
+      type: "LOG_TRANSFORM",
+      payload: {
         elements_transformed: elementsCount,
         url: siteHost,
         details: details
-      })
-    }).catch(e => console.log("Telemetry push silent fallback", e));
+      }
+    });
   }
 }
 
