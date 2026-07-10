@@ -2,6 +2,9 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import json
+import base64
+import os
+import tempfile
 from openai import OpenAI
 
 router = APIRouter(prefix="/ai", tags=["ai"])
@@ -10,6 +13,9 @@ class AIRequest(BaseModel):
     prompt: str
     vision_profile: Dict[str, Any]
     context: Optional[str] = None
+
+class VoiceRequest(BaseModel):
+    audio_base64: str
 
 @router.post("/chat")
 def ai_copilot_chat(req: AIRequest) -> dict:
@@ -67,3 +73,58 @@ I have analyzed your **{diag}** profile in the context of your request: *"{req.p
 *NeuroLens AI Engine active and ready. Standing by to adapt your digital world.*
 """
         return {"status": "success", "reply": fallback_msg}
+
+@router.post("/voice")
+def ai_voice_assistant(req: VoiceRequest) -> dict:
+    try:
+        api_key = os.environ.get("OPENAI_API_KEY")
+        if not api_key:
+            return {"status": "error", "reply": "OpenAI API key missing."}
+            
+        client = OpenAI(api_key=api_key)
+        
+        # 1. Decode base64 audio
+        audio_data = base64.b64decode(req.audio_base64)
+        
+        # 2. Write to temp file (must have extension for whisper)
+        temp_dir = tempfile.gettempdir()
+        temp_file_path = os.path.join(temp_dir, "temp_recording.m4a")
+        
+        with open(temp_file_path, "wb") as f:
+            f.write(audio_data)
+            
+        # 3. Transcribe audio using Whisper
+        with open(temp_file_path, "rb") as audio_file:
+            transcription = client.audio.transcriptions.create(
+                model="whisper-1", 
+                file=audio_file
+            )
+        
+        user_text = transcription.text
+        
+        # 4. Generate AI response
+        system_msg = "You are Neurolens, a friendly, helpful AI voice assistant for a visually impaired user. Keep your answers brief, supportive, and conversational. Do not use markdown."
+        
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": system_msg},
+                {"role": "user", "content": user_text}
+            ],
+            temperature=0.7,
+            max_tokens=150
+        )
+        
+        ai_reply = response.choices[0].message.content
+        
+        # Clean up temp file
+        try:
+            os.remove(temp_file_path)
+        except Exception:
+            pass
+            
+        return {"status": "success", "transcription": user_text, "reply": ai_reply}
+        
+    except Exception as e:
+        print("VOICE ASSISTANT FAILED:", e)
+        return {"status": "error", "reply": "Sorry, I couldn't understand that. Please try again."}
