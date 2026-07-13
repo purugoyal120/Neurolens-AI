@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Eye, Shield, Zap, Sparkles } from 'lucide-react';
+import { ArrowRight, Eye, Shield, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const HeroSection: React.FC = () => {
@@ -18,7 +18,7 @@ export const HeroSection: React.FC = () => {
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/60 backdrop-blur-md border border-emerald-100 text-emerald-600 font-bold text-sm mb-10 shadow-sm"
         >
           <Sparkles className="w-4 h-4 text-emerald-500" />
-          The future of digital accessibility is here
+          Empowering visual independence, everywhere.
         </motion.div>
 
         <motion.h1 
@@ -27,7 +27,7 @@ export const HeroSection: React.FC = () => {
           transition={{ delay: 0.1 }}
           className="text-4xl sm:text-6xl md:text-8xl font-extrabold text-slate-900 tracking-tight mb-6 md:mb-8 leading-tight max-w-5xl mx-auto"
         >
-          Beyond Colours, <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">Beyond Barriers.</span>
+          See the World in a <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">Whole New Light.</span>
         </motion.h1>
 
         <motion.p 
@@ -36,7 +36,7 @@ export const HeroSection: React.FC = () => {
           transition={{ delay: 0.2 }}
           className="text-lg sm:text-xl md:text-2xl text-slate-500 mb-10 md:mb-12 max-w-3xl mx-auto font-medium leading-relaxed"
         >
-          Neurolens is an intelligent browser engine that instantly translates confusing colours on websites and dashboards into clear, high-contrast visuals tailored to your exact eyes.
+          Neurolens bridges the gap between vision and reality. Whether you're navigating the grocery store with our mobile app, or analyzing data with our web extension, experience true visual freedom.
         </motion.p>
 
         <motion.div 
@@ -45,12 +45,13 @@ export const HeroSection: React.FC = () => {
           transition={{ delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16 md:mb-20"
         >
-          <Link to="/select-role" className="w-full sm:w-auto justify-center px-6 py-4 md:px-10 md:py-5 bg-emerald-500 text-white rounded-full text-lg md:text-xl font-extrabold hover:bg-emerald-600 hover:scale-105 transition-all shadow-xl shadow-emerald-500/20 flex items-center gap-3">
-            Take Diagnostic Test <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
-          </Link>
-          <a href="#demo" className="w-full sm:w-auto justify-center px-6 py-4 md:px-10 md:py-5 bg-white text-slate-800 rounded-full text-lg md:text-xl font-bold hover:bg-slate-50 transition-all border border-slate-200 shadow-sm flex items-center gap-3">
-            See How It Works
+          <a href="#download" onClick={(e) => { e.preventDefault(); alert("Mobile App APK downloading will be available soon!"); }} className="w-full sm:w-auto justify-center px-6 py-4 md:px-10 md:py-5 bg-slate-900 text-white rounded-full text-lg md:text-xl font-extrabold hover:bg-slate-800 hover:scale-105 transition-all shadow-xl shadow-slate-900/20 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 md:w-6 md:h-6"><path d="M5 12h14"/><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+            Download Mobile App
           </a>
+          <Link to="/select-role" className="w-full sm:w-auto justify-center px-6 py-4 md:px-10 md:py-5 bg-emerald-500 text-white rounded-full text-lg md:text-xl font-extrabold hover:bg-emerald-600 hover:scale-105 transition-all shadow-xl shadow-emerald-500/20 flex items-center gap-3">
+            Get Web Extension <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
+          </Link>
         </motion.div>
 
         <motion.div
@@ -69,12 +70,11 @@ export const HeroSection: React.FC = () => {
           <p className="text-base text-slate-500">Join 10,000+ professionals browsing with complete clarity.</p>
         </motion.div>
 
-        {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
           {[
-            { icon: Eye, title: "Smart Contrast", desc: "Automatically detects tricky colours on charts or dashboards and shifts them to high-contrast shades.", color: "emerald" },
-            { icon: Zap, title: "Instant Meaning", desc: "We don't just change colours—we add explicit text tags like [Warning] so you never have to guess.", color: "teal" },
-            { icon: Shield, title: "Private & Fast", desc: "Runs directly in your browser without tracking your personal data or slowing down your computer.", color: "emerald" }
+            { icon: Sparkles, title: "Your Digital Guide Dog", desc: "Unsure if that apple is ripe? Just point your phone. Our AI instantly recognizes everyday objects and reads their details aloud.", color: "emerald" },
+            { icon: Eye, title: "Browse with Confidence", desc: "No more guessing games on websites. We automatically shift confusing colours into high-contrast shades tailored to your eyes.", color: "teal" },
+            { icon: Shield, title: "Connected Care", desc: "Your daily visual struggles shouldn't be a secret from your doctor. We securely sync your data directly to their clinic dashboard.", color: "emerald" }
           ].map((feat, idx) => (
             <motion.div 
               key={idx}

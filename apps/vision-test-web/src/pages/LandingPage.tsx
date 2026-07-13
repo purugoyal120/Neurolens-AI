@@ -3,6 +3,8 @@ import { HeroSection } from '../components/landing/HeroSection';
 import { ProblemSection } from '../components/landing/ProblemSection';
 import { FeaturesSection } from '../components/landing/FeaturesSection';
 import { WorkflowDemo } from '../components/landing/WorkflowDemo';
+import { BlogSection } from '../components/landing/BlogSection';
+import { ContactSection } from '../components/landing/ContactSection';
 import { Link } from 'react-router-dom';
 
 export const LandingPage: React.FC = () => {
@@ -20,9 +22,14 @@ export const LandingPage: React.FC = () => {
           <div className="hidden md:flex items-center gap-10">
             <a href="#demo" className="text-base font-semibold text-slate-600 hover:text-emerald-600 transition-colors">How it Works</a>
             <a href="#features" className="text-base font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Features</a>
-            <Link to="/pricing" className="text-base font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Pricing</Link>
+            <a href="#blogs" className="text-base font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Blog</a>
+            <a href="#contact" className="text-base font-semibold text-slate-600 hover:text-emerald-600 transition-colors">Contact</a>
           </div>
           <div className="flex items-center gap-3 md:gap-6">
+            <a href="#download" onClick={(e) => { e.preventDefault(); alert("Mobile App APK downloading will be available soon!"); }} className="hidden sm:flex items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+              Get App
+            </a>
             <Link to="/login" className="text-sm md:text-base font-bold text-slate-700 hover:text-slate-900 transition-colors">Sign In</Link>
             <Link to="/select-role" className="px-4 py-2 md:px-6 md:py-3 bg-slate-900 text-white rounded-full text-xs md:text-sm font-bold hover:bg-slate-800 transition-colors shadow-md">
               Get Started
@@ -36,6 +43,8 @@ export const LandingPage: React.FC = () => {
         <ProblemSection />
         <FeaturesSection />
         <WorkflowDemo />
+        <BlogSection />
+        <ContactSection />
       </main>
 
       {/* Footer */}

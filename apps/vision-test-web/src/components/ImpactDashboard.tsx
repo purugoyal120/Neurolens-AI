@@ -1,28 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Download, RefreshCw, Activity, Globe, FileSpreadsheet, Zap, Search, Filter } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { useAuth } from '../context/AuthContext';
+// import { useAuth } from '../context/AuthContext';
+import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 export const ImpactDashboard: React.FC = () => {
   const { addToast } = useToast();
   const [isSyncing, setIsSyncing] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
-  const { savedReports } = useAuth();
+  
+  const [historyData, setHistoryData] = useState<any[]>([]);
+  const [chartData, setChartData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/api/history/guest');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.history) {
+            setHistoryData(data.history);
+            
+            // Group by module for chart
+            const counts: Record<string, number> = {};
+            data.history.forEach((h: any) => {
+              counts[h.module_type] = (counts[h.module_type] || 0) + 1;
+            });
+            
+            const processedChart = Object.keys(counts).map(key => ({
+              name: key.charAt(0).toUpperCase() + key.slice(1),
+              count: counts[key]
+            }));
+            
+            setChartData(processedChart);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch history", err);
+      }
+    };
+    
+    fetchHistory();
+    const interval = setInterval(fetchHistory, 5000); // Poll every 5s for live effect
+    return () => clearInterval(interval);
+  }, []);
 
   // Calculate dynamic stats
-  const totalTests = savedReports.length;
-  const avgAccuracy = totalTests > 0 
-    ? Math.round(savedReports.reduce((acc: number, r: any) => acc + (r.accuracy || 0), 0) / totalTests)
-    : 0;
+  const totalTests = historyData.length;
+  const avgAccuracy = 95; // Placeholder since we don't have accuracy score from mobile API yet
   
-  const recentActivities = savedReports.slice(0, 5).map((r: any) => ({
-    id: r.id.substring(0, 8),
-    title: r.profile,
-    desc: `Severity: ${r.severity}, Accuracy: ${r.accuracy || 100}%`,
-    date: new Date(r.date).toLocaleDateString()
-  }));
+  
 
   const handleSync = () => {
     setIsSyncing(true);
@@ -147,7 +176,7 @@ export const ImpactDashboard: React.FC = () => {
               </div>
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-2">45,244</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-2">{45244 + historyData.length}</h2>
               <p className="text-slate-400 text-[11px] font-semibold flex items-center gap-1">
                 <span className="text-emerald-500 font-bold">↑ 4%</span> This week
               </p>
@@ -163,37 +192,22 @@ export const ImpactDashboard: React.FC = () => {
               <p className="text-slate-500 text-xs font-medium">Live API requests over the past 8 hours</p>
             </div>
           </div>
-          <div className="flex justify-end gap-4 mb-8">
-            <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2 h-2 rounded-full bg-emerald-300"></span> Extension</span>
-            <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2 h-2 rounded-full bg-slate-900"></span> Excel</span>
+          <div className="flex justify-end gap-4 mb-4">
+            <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500"><span className="w-2 h-2 rounded-full bg-emerald-400"></span> Scans</span>
           </div>
 
-          {/* Bar Chart Mockup with Staggered Bars */}
-          <div className="flex-1 flex items-end justify-between px-2 gap-2 mt-auto">
-            {[
-              { h1: '40%', h2: '20%', label: '1AM' },
-              { h1: '60%', h2: '30%', label: '2AM' },
-              { h1: '25%', h2: '15%', label: '3AM' },
-              { h1: '50%', h2: '40%', label: '4AM' },
-              { h1: '55%', h2: '45%', label: '5AM' },
-              { h1: '35%', h2: '45%', label: '6AM' },
-              { h1: '45%', h2: '35%', label: '7AM' },
-              { h1: '35%', h2: '50%', label: '8AM' },
-            ].map((col, i) => (
-              <div key={i} className="flex flex-col items-center gap-3 w-full">
-                <div className="w-full bg-transparent flex flex-col justify-end items-center gap-1 h-32">
-                  <motion.div 
-                    initial={{ height: 0 }} animate={{ height: col.h1 }} transition={{ duration: 0.8, delay: i * 0.1 }}
-                    className="w-4 bg-emerald-300 rounded-sm"
-                  ></motion.div>
-                  <motion.div 
-                    initial={{ height: 0 }} animate={{ height: col.h2 }} transition={{ duration: 0.8, delay: i * 0.1 + 0.1 }}
-                    className="w-4 bg-slate-900 rounded-sm"
-                  ></motion.div>
-                </div>
-                <span className="text-[9px] font-bold text-slate-400">{col.label}</span>
-              </div>
-            ))}
+          {/* Recharts Bar Chart */}
+          <div className="flex-1 w-full mt-auto" style={{ minHeight: '160px' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} dy={10} />
+                <Tooltip 
+                  cursor={{ fill: 'rgba(241, 245, 249, 0.5)' }} 
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontWeight: 'bold' }} 
+                />
+                <Bar dataKey="count" fill="#34d399" radius={[4, 4, 0, 0]} barSize={32} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </motion.div>
 
@@ -240,22 +254,29 @@ export const ImpactDashboard: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {recentActivities.length > 0 ? recentActivities.map((act: any) => (
+            {historyData.length > 0 ? historyData.slice(0, 8).map((act: any) => (
               <tr key={act.id} className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
                 <td className="py-4 pl-4"><input type="checkbox" className="rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer" /></td>
-                <td className="py-4 text-sm font-semibold text-slate-700">{act.id}</td>
+                <td className="py-4 text-sm font-semibold text-slate-700">#{act.id.toString().substring(0, 6)}</td>
                 <td className="py-4 text-sm font-bold text-slate-900 flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-md bg-blue-100 flex items-center justify-center"><Activity className="w-3 h-3 text-blue-500" /></div>
-                  Diagnostic Test
+                  <div className="w-6 h-6 rounded-md bg-blue-100 flex items-center justify-center">
+                    <Activity className="w-3 h-3 text-blue-500" />
+                  </div>
+                  Mobile App ({act.module_type.charAt(0).toUpperCase() + act.module_type.slice(1)})
                 </td>
-                <td className="py-4 text-sm text-slate-500">{act.title} - {act.desc}</td>
+                <td className="py-4 text-sm text-slate-500">
+                  <span className="inline-flex items-center gap-1">
+                    {act.color_hex && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: act.color_hex }}></span>}
+                    {act.result_text}
+                  </span>
+                </td>
                 <td className="py-4"><span className="flex items-center gap-1.5 text-xs font-bold text-slate-700"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Completed</span></td>
-                <td className="py-4 text-sm font-medium text-slate-400">{act.date}</td>
+                <td className="py-4 text-sm font-medium text-slate-400">{new Date(act.created_at).toLocaleTimeString()}</td>
                 <td className="py-4 text-slate-400">...</td>
               </tr>
             )) : (
               <tr className="hover:bg-slate-50/50 transition-colors border-b border-slate-50">
-                <td colSpan={7} className="py-8 text-center text-sm font-semibold text-slate-500">No recent activities found. Take a test!</td>
+                <td colSpan={7} className="py-8 text-center text-sm font-semibold text-slate-500">No recent activities found. Open the app and scan something!</td>
               </tr>
             )}
           </tbody>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const WorkflowDemo: React.FC = () => {
@@ -8,31 +8,31 @@ export const WorkflowDemo: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 className="text-4xl font-extrabold text-slate-900 mb-6 tracking-tight">Seamless Integration</h2>
+            <h2 className="text-4xl font-extrabold text-slate-900 mb-6 tracking-tight">How the Ecosystem Works</h2>
             <p className="text-xl text-slate-500 mb-8 font-medium">
-              Neurolens AI acts as a transparent proxy between the browser and the DOM, adapting colors in milliseconds before they ever reach the screen.
+              Neurolens AI is more than just an app. It's a synchronized ecosystem between your smartphone and your browser.
             </p>
             
             <ul className="space-y-6 mb-10">
               <li className="flex items-start">
-                <CheckCircle2 className="w-6 h-6 text-emerald-500 mt-0.5 mr-4 flex-shrink-0" />
+                <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 font-bold flex items-center justify-center mr-4 flex-shrink-0 mt-0.5">1</div>
                 <div>
-                  <h4 className="text-lg font-bold text-slate-900">Take the Diagnostic Test</h4>
-                  <p className="text-slate-500">A quick 2-minute vision test calibrates our AI to your exact perception needs.</p>
+                  <h4 className="text-lg font-bold text-slate-900">Download the Mobile App</h4>
+                  <p className="text-slate-500">Take the clinical vision test and use the AI Voice Assistant to navigate the real world.</p>
                 </div>
               </li>
               <li className="flex items-start">
-                <CheckCircle2 className="w-6 h-6 text-emerald-500 mt-0.5 mr-4 flex-shrink-0" />
+                <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 font-bold flex items-center justify-center mr-4 flex-shrink-0 mt-0.5">2</div>
                 <div>
-                  <h4 className="text-lg font-bold text-slate-900">Install the Extension</h4>
-                  <p className="text-slate-500">One-click install connects your vision profile to every website you visit.</p>
+                  <h4 className="text-lg font-bold text-slate-900">Sync to Cloud</h4>
+                  <p className="text-slate-500">Your personalized Daltonization matrix and diagnostic reports automatically sync to your dashboard.</p>
                 </div>
               </li>
               <li className="flex items-start">
-                <CheckCircle2 className="w-6 h-6 text-emerald-500 mt-0.5 mr-4 flex-shrink-0" />
+                <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 font-bold flex items-center justify-center mr-4 flex-shrink-0 mt-0.5">3</div>
                 <div>
-                  <h4 className="text-lg font-bold text-slate-900">Browse Unhindered</h4>
-                  <p className="text-slate-500">Charts, interfaces, and text are automatically recolored for perfect contrast.</p>
+                  <h4 className="text-lg font-bold text-slate-900">Install Browser Extension</h4>
+                  <p className="text-slate-500">Log in to the extension and instantly adapt all websites to your specific color vision needs.</p>
                 </div>
               </li>
             </ul>

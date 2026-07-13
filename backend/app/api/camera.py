@@ -67,7 +67,7 @@ def detect_color(payload: dict = Body(...)):
                         {
                             "role": "user",
                             "content": [
-                                {"type": "text", "text": "Analyze this image and return ONLY a valid JSON object like {\"color\": \"red\"}. Pick the primary color from this list if it matches: red, green, blue, yellow, orange, purple, pink, black, white, gray, brown. If none match well, pick the closest base color name in lowercase. Do not include markdown formatting."},
+                                {"type": "text", "text": "Analyze the central object in this image. 1. Identify its precise and specific color name (e.g. 'Navy Blue', 'Crimson Red'). 2. Provide the closest HEX code for this exact color. 3. Classify it into a basic category ('red', 'green', 'yellow', 'orange', 'blue', 'black', 'white', 'purple', etc). Return ONLY a valid JSON object like: {\"color\": \"basic category in lowercase\", \"specific_color\": \"Precise Name\", \"hex\": \"#HEXCODE\"}. Do not include markdown formatting."},
                                 {
                                     "type": "image_url",
                                     "image_url": {
@@ -78,7 +78,7 @@ def detect_color(payload: dict = Body(...)):
                             ]
                         }
                     ],
-                    max_tokens=20,
+                    max_tokens=50,
                     temperature=0.0
                 )
                 
@@ -90,16 +90,10 @@ def detect_color(payload: dict = Body(...)):
                     
                 data = json.loads(content)
                 detected_color = data.get("color", "unknown").lower()
+                specific_color = data.get("specific_color", "Unknown Color")
+                hex_code = data.get("hex", "#808080")
                 
-                # Sanitize response
-                if detected_color not in PALETTE:
-                    # GPT might return "navy blue" instead of "blue", handle basics
-                    for base in PALETTE:
-                        if base in detected_color:
-                            detected_color = base
-                            break
-                            
-                return {"color": detected_color, "rgb": [128, 128, 128]}
+                return {"color": detected_color, "specific_color": specific_color, "hex": hex_code, "rgb": [128, 128, 128]}
             except Exception as e:
                 print(f"OpenAI Vision failed, falling back to math heuristic. Error: {e}")
                 # Fallthrough to heuristic
@@ -161,7 +155,7 @@ def detect_food(payload: dict = Body(...)):
                         {
                             "role": "user",
                             "content": [
-                                {"type": "text", "text": "Identify the main food or fruit in this image. Evaluate its freshness and ripeness strictly based on its visual color and appearance. Return ONLY a valid JSON object with keys: 'item' (name of fruit/food, string), 'status' (e.g. 'Ripe', 'Unripe', 'Spoiled', 'Fresh', 'Cooked', string), 'color' (e.g. 'Yellow', string). Do not include markdown formatting or backticks."},
+                                {"type": "text", "text": "Identify the EXACT specific name of the food, fruit, or vegetable in this image (e.g., 'Apple', 'Mango', 'Broccoli', NOT just 'Fruit' or 'Vegetable'). Evaluate its freshness and ripeness strictly based on its visual color and appearance. Return ONLY a valid JSON object with keys: 'item' (exact specific name of the food, string), 'status' (e.g. 'Ripe', 'Unripe', 'Spoiled', 'Fresh', 'Cooked', string), 'color' (e.g. 'Yellow', string). Do not include markdown formatting or backticks."},
                                 {
                                     "type": "image_url",
                                     "image_url": {
@@ -219,7 +213,7 @@ def detect_medicine(payload: dict = Body(...)):
                         {
                             "role": "user",
                             "content": [
-                                {"type": "text", "text": "Read the text on this medicine packaging. Identify the medicine name and dosage if visible. Return ONLY a valid JSON object with keys: 'name' (e.g. 'Paracetamol 500mg', string), 'type' (e.g. 'Painkiller', string), 'instructions' (e.g. 'Take with water' or any visible instruction, string). Do not include markdown formatting or backticks."},
+                                {"type": "text", "text": "Read the text on this medicine packaging. Identify the exact medicine name. Also, based on your medical knowledge, briefly state what this medicine is used for (its primary purpose/usage). Return ONLY a valid JSON object with keys: 'name' (e.g. 'Paracetamol 500mg', string), 'type' (e.g. 'Painkiller', string), 'instructions' (e.g. 'Used for fever and mild pain', string). Do not include markdown formatting or backticks."},
                                 {
                                     "type": "image_url",
                                     "image_url": {

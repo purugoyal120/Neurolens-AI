@@ -4,19 +4,19 @@ import { motion } from 'framer-motion';
 
 const features = [
   {
-    icon: <Eye className="w-6 h-6 text-emerald-500" />,
-    title: 'Precise Vision Diagnosis',
-    description: 'Our AI engine conducts a highly accurate, interactive test to detect the exact type and severity of your color vision deficiency.'
+    icon: <Sparkles className="w-6 h-6 text-emerald-500" />,
+    title: 'Real-time Voice Guidance',
+    description: 'Point your camera at everyday objects, fruits, or medicines. Our AI instantly recognizes them and reads the details aloud, giving you independence.'
   },
   {
-    icon: <Brain className="w-6 h-6 text-emerald-500" />,
-    title: 'Personalized Matrix Generation',
-    description: 'We don\'t use generic filters. The AI generates a custom mathematical Daltonization matrix perfectly tuned to your eyes.'
+    icon: <Eye className="w-6 h-6 text-emerald-500" />,
+    title: 'Clinical-Grade Vision Test',
+    description: 'Take a highly accurate, interactive test to detect the exact type and severity of your color vision deficiency from anywhere.'
   },
   {
     icon: <Zap className="w-6 h-6 text-emerald-500" />,
-    title: 'Instant Browser Sync',
-    description: 'One click instantly beams your personalized vision profile directly to our Chrome extension for real-time web adaptation.'
+    title: 'Seamless Digital Sync',
+    description: 'One click instantly beams your personalized vision profile directly to our Chrome extension, adapting the entire web for you.'
   },
   {
     icon: <Palette className="w-6 h-6 text-emerald-500" />,
@@ -29,9 +29,9 @@ const features = [
     description: 'Optometrists can track patient reports, tweak clinical prescriptions, and generate official PDF diagnoses directly from the dashboard.'
   },
   {
-    icon: <Sparkles className="w-6 h-6 text-emerald-500" />,
-    title: 'Zero Latency Performance',
-    description: 'The extension processes DOM nodes locally at 60fps using CSS SVG filters, meaning websites load fast without any lag.'
+    icon: <Brain className="w-6 h-6 text-emerald-500" />,
+    title: 'Medical Context AI',
+    description: 'Scanning a medicine box doesn\'t just read the name—it explains the primary use case and dosage based on clinical data.'
   }
 ];
 
@@ -48,16 +48,15 @@ export const FeaturesSection: React.FC = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 text-emerald-800 font-bold text-sm mb-6"
           >
             <Sparkles className="w-4 h-4" />
-            Cutting-Edge Technology
+            Built for Independence
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight"
           >
-            Everything you need to <span className="text-emerald-600">see the web clearly.</span>
+            A complete ecosystem for <span className="text-emerald-600">visual freedom.</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
